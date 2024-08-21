@@ -16,3 +16,9 @@ class Label(db.Model):
         secondary=postlabel,
         back_populates='labels'
     )
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name
+        }
