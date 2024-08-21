@@ -20,6 +20,6 @@ class Like(db.Model):
             'id': self.id,
             'post_id': self.post_id,
             'user_id':self.user_id,
-            'user': self.user,
-            'post': self.post
+            # 'user': self.user.to_dict() if self.user else None,
+            # 'post': self.post.to_dict() if self.post else None
         }
