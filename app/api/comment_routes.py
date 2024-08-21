@@ -55,7 +55,7 @@ def comment(comment_id):
            if form.validate_on_submit():
                  comment.text = data.get('text', comment.text)
                  db.session.commit()
-                 return comment.to_dict(),200
+                 return jsonify(comment.to_dict()),200
            return {'errors':form.errors}, 400
      elif request.method == 'DELETE':
            db.session.delete(comment)
