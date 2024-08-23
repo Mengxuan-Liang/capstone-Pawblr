@@ -5,6 +5,7 @@ import Layout from './Layout';
 import HomePage from '../components/HomePage/HomePage';
 import Blog from '../components/BlogPage/Blog';
 import Comment from '../components/CommentPage/CommentPage';
+import MainPage from '../components/SignupLoginPage/MainPage';
 
 export const router = createBrowserRouter([
   {
@@ -12,6 +13,10 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
+        element: <MainPage/>
+      },
+      {
+        path: "/home",
         element: <HomePage/>
       },
       {
