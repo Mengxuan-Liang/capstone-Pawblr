@@ -17,9 +17,8 @@ def posts():
         
         if form.validate_on_submit():
             new_post = Post(
-                title = form.data['title'],
-                text = form.data['text'],
-                user_id = current_user.id
+                text=form.data['text'],
+                user_id=current_user.id
             )
             db.session.add(new_post)
             db.session.commit()
@@ -30,10 +29,13 @@ def posts():
                 errors[field] = field_errors
             return jsonify(errors), 400
     else:
-        posts = Post.query.all()
-        if posts is None:
-             return {'message':'No Post Found'}, 404
+        
+        posts = Post.query.order_by(Post.updated_at.desc(), Post.created_at.desc()).all()
+        
+        if not posts:
+            return {'message': 'No Post Found'}, 404
         return [post.to_dict() for post in posts], 200
+
 # PUT/DELETE
 @post_routes.route('/<int:post_id>', methods=['PUT','DELETE'])
 def post(post_id):
@@ -50,8 +52,8 @@ def post(post_id):
          form["csrf_token"].data = request.cookies["csrf_token"]
          data = request.json
          if form.validate_on_submit():
-              post.title = data.get('title', post.title)
-              post.text = data.get('text', post.title)
+            #   post.title = data.get('title', post.title)
+              post.text = data.get('text', post.text)
 
               db.session.commit()
               return post.to_dict(), 200

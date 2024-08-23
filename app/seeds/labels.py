@@ -3,19 +3,47 @@ from sqlalchemy.sql import text
 
 def seed_labels():
     label1 = Label(
-        name = 'label 1'
+        name = 'Love'
     )
     label2 = Label(
-        name = 'label 2'
+        name = 'Death'
     )
     label3 = Label(
-        name = 'label 3'
+        name = 'Nature'
+    )
+    label4 = Label(
+        name = 'Time'
+    )
+    label5 = Label(
+        name = 'Identity and Self'
+    )
+    label6 = Label(
+        name = 'Society and Social Issues'
+    )
+    label7 = Label(
+        name = 'Isolation and Loneliness'
+    )
+    label8 = Label(
+        name = 'Hope and Despair'
+    )
+    label9 = Label(
+        name = 'Journey and Exploration'
+    )
+    label10 = Label(
+        name = 'Power and Corruption'
     )
 
     db.session.add_all([
         label1,
         label2,
-        label3
+        label3,
+        label4,
+        label5,
+        label6,
+        label7,
+        label8,
+        label9,
+        label10
     ])
     db.session.commit()
 

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { thunkGetPosts, thunkDeletePost } from '../../redux/postReducer';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { thunkDeletePost, thunkGetPosts } from '../../redux/postReducer';
+import { Link, NavLink } from 'react-router-dom';
 import CreateBlogButton from '../CreateBlog/CreateBlogButton';
 import UpdateBlogButton from '../UpdataBlog/UpdateBlogButton';
-import { thunkAddComments, thunkDeleteComment, thunkGetComments } from '../../redux/commentReducer';
-import './HomePage.css';
+import { thunkGetComments, thunkAddComments,thunkDeleteComment } from '../../redux/commentReducer';
+import '../HomePage/HomePage';
 
-export default function HomePage() {
+export default function Blog() {
   const dispatch = useDispatch();
   // const username = useSelector(state => state.session.user.username)
   // const userId = useSelector(state => state.session.user.id)
@@ -27,8 +27,8 @@ export default function HomePage() {
     fetchData();
   }, [dispatch, isloaded]);
 
-  // const posts = useSelector(state => state.post.post?.filter(el => el.user_id == userId));
-  const posts = useSelector(state => state.post.post);
+  const posts = useSelector(state => state.post.post?.filter(el => el.user_id == userId));
+  // const posts = useSelector(state => state.post.post);
   // console.log('shake post', posts)
 
 
@@ -183,12 +183,10 @@ export default function HomePage() {
         </section>
 
         <aside className="right-column">
-          <h3>Suggested Blogs</h3>
+          <h3>{user}</h3>
           <ul>
-            <li><a href="#">Blog 1</a></li>
-            <li><a href="#">Blog 2</a></li>
-            <li><a href="#">Blog 3</a></li>
-            <li><a href="#">Blog 4</a></li>
+            <li><a href="#">Follower</a></li>
+            <li><a href="#">Activity</a></li>
           </ul>
         </aside>
       </div>

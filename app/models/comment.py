@@ -31,6 +31,10 @@ class Comment(db.Model):
     post = db.relationship("Post", back_populates="comments")
 
     def to_dict(self):
+        def format_date(date):
+            if date:
+                return date.strftime("%b %d")
+            return None
         return {
             "id": self.id,
             "text": self.text,
@@ -48,13 +52,14 @@ class Comment(db.Model):
             "post": (
                 {
                     "id": self.post.id,
-                    "title": self.post.title,
+                    'username': self.post.user.username,
+                    "text": self.post.text,
                 }
                 if self.post
                 else None
             ),
-            "created_at": self.created_at.isoformat(),
-            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+            "created_at": format_date(self.created_at),
+            "updated_at": format_date(self.updated_at) if self.updated_at else None,
         }
     
     
