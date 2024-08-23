@@ -32,7 +32,7 @@ export default function UpdateBlogModal({ el }) {
 
         if (!serverResponse.errors) {
             closeModal();
-            navigate('/blog');
+            navigate('/');
         } else {
             setErrors(serverResponse);
         }
@@ -54,7 +54,7 @@ export default function UpdateBlogModal({ el }) {
                         required
                     />
                 </label>
-                {errors?.errors?.errors.text && <p style={{ color: 'red' }}>{errors.errors.errors.text}</p>}
+                {errors?.errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.errors?.text}</p>}
 
                
                 <button type="submit">Update</button>

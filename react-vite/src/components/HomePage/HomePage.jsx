@@ -1,54 +1,60 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { thunkGetPosts } from '../../redux/postReducer';
+import { thunkGetPosts, thunkDeletePost } from '../../redux/postReducer';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import './HomePage.css';
 import CreateBlogButton from '../CreateBlog/CreateBlogButton';
+import UpdateBlogButton from '../UpdataBlog/UpdateBlogButton';
 import { thunkAddComments, thunkDeleteComment, thunkGetComments } from '../../redux/commentReducer';
+import './HomePage.css';
 
 export default function HomePage() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const username = useSelector(state => state.session.user.username)
+  // const userId = useSelector(state => state.session.user.id)
   const userInfo = useSelector(state => state.session.user)
   const user = userInfo.username;
   const userId = userInfo.id;
-  // console.log(userId)
-  const posts = useSelector(state => state.post.post);
   const commments = useSelector(state => state.comment.comment)
   const [isloaded, setIsloaded] = useState(false)
-
   const [text, setText] = useState('')
   const [errors, setErrors] = useState({})
-  
 
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(thunkGetPosts());
       await dispatch(thunkGetComments());
-  
     };
     fetchData();
-  }, [dispatch,isloaded]);
+  }, [dispatch, isloaded]);
 
+  // const posts = useSelector(state => state.post.post?.filter(el => el.user_id == userId));
+  const posts = useSelector(state => state.post.post);
+  // console.log('shake post', posts)
+
+
+
+  const handleDeletePost = async (id) => {
+    await dispatch(thunkDeletePost(id))
+  }
   const handleSubmit = async (e, post_id) => {
     e.preventDefault();
     const response = await dispatch(thunkAddComments({
       post_id,
       text
     }));
-    if(response.errors){
+    if (response.errors) {
       setErrors(response)
-    }else {
-      navigate('/')
+    } else {
+      // navigate('/')
       setIsloaded(!isloaded)
     }
   }
 
   const handleDelete = async (id) => {
     const res = await dispatch(thunkDeleteComment(id))
-    if(res.errors){
+    if (res.errors) {
       setErrors(res.errors)
-    }else {
+    } else {
       setIsloaded(!isloaded)
     }
     // console.log('delete error',errors)
@@ -69,7 +75,6 @@ export default function HomePage() {
       ? `${commentCount} notes`
       : 'close notes';
   };
-
   return (
     <div>
       <header className="header">
@@ -102,44 +107,44 @@ export default function HomePage() {
         </aside>
 
         <section className="feed">
-          {posts?.map(post => (
-            <article className="post" key={post.id}>
-              <div className="post-header">
-                <h3>{post.user.username}{' '}<Link>Follow</Link></h3>
-                <span>{post.created_at}</span>
-              </div>
-              <div className="post-content">
-                <img src="https://via.placeholder.com/600x300" alt="Post" />
-                <p style={{ marginTop: '20px' }}>{post.text}</p>
-                <br />
-                {post.labels?.map(label => (
-                  <span key={label.id} style={{ color: 'gray' }}>
-                    #{label.name} {' '}
-                  </span>
-                ))}
-              </div>
-              <br />
-              <hr style={{ color: 'grey' }} />
+          {posts?.map(post => {
 
-              <div className='comment-reply-like'>
+            return (
+              <article className="post" key={post.id}>
+                <div className="post-header">
+                  <h3>{post.user.username}{' '}<Link>Follow</Link></h3>
+                  <span>{post.created_at}</span>
+                </div>
+                <div className="post-content">
+                  <img src="https://via.placeholder.com/600x300" alt="Post" />
+                  <p style={{ marginTop: '20px' }}>{post.text}</p>
+                  <br />
+                  {post.labels?.map(label => (
+                    <span key={label.id} style={{ color: 'gray' }}>
+                      #{label.name} {' '}
+                    </span>
+                  ))}
+                </div>
+                <br />
+                <hr style={{ color: 'grey' }} />
                 <span className="comments-section">
                   <h4 className='clickable-h4' onClick={toggleComments}>
                     {post.comments ? post.comments?.length : 0} notes
                   </h4>
                   <ul className='comment-container hidden' data-comment-count={post.comments?.length}>
-                    <form onSubmit={(e)=>handleSubmit(e, post.id)}>
+                    <form onSubmit={(e) => handleSubmit(e, post.id)}>
                       <label>
-                    <input
-                    type='text'
-                      value={text}
-                      onChange={e=>setText(e.target.value)}
-                      placeholder={`Reply as @${user}`}
-                      required
-                    />
+                        <input
+                          type='text'
+                          value={text}
+                          onChange={e => setText(e.target.value)}
+                          placeholder={`Reply as @${user}`}
+                          required
+                        />
 
                       </label>
-                     {errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.text}</p>}
-                     <button type="submit">send</button>
+                      {errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.text}</p>}
+                      <button type="submit">send</button>
 
                     </form>
 
@@ -149,25 +154,32 @@ export default function HomePage() {
                         <div key={comment.id}>{comment.text}</div>
                         <button >reply</button>
                         {
-                          userId === comment.user_id && <button onClick={()=> handleDelete(comment.id)}>delete</button> 
+                          userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>delete</button>
                         }
-                     
-                     
                       </div>
                     ))}
                   </ul>
-                  <span className="comments-row-container">
-                  </span>
+                 
                 </span>
-                <div className="reply-like-container ">
-                  {/* <span style={{border:'red 1px solid'}}className="reply" onClick={toggleComments} >reply</span> */}
-                  <span >like</span>
+
+                <div className="comments-row-container">
+                 
+                  <div className="reply-like-container">
+                    <span>reply</span>
+                    <span>like</span>
+                    {
+                      post.user_id === userId && <>
+                      <span><UpdateBlogButton el={post} /></span>
+                      <span><button onClick={() => handleDeletePost(post.id)}>delete</button></span>
+                      </> 
+                    }
+                   
+                  </div>
                 </div>
-              </div>
-
-
-            </article>
-          ))}
+              
+              </article>
+            );
+          })}
         </section>
 
         <aside className="right-column">
