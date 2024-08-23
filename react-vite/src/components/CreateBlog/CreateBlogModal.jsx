@@ -41,7 +41,7 @@ export default function CreateBlogModal() {
         if (!serverResponse.errors) {
             // setIsloaded(!isloaded)
             closeModal();
-            navigate('/');
+            navigate('/blog');
         } else {
             setErrors(serverResponse);
         }

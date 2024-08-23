@@ -1,5 +1,6 @@
 const GET_COMMENT = 'comments/getcomments';
-const ADD_COMMENT = 'comments/addcomments'
+const ADD_COMMENT = 'comments/addcomments';
+const DELETE_COMMENT = 'comments/deletecomments'
 
 const getComments = (comment) => ({
     type: GET_COMMENT,
@@ -9,6 +10,11 @@ const getComments = (comment) => ({
 const addComments = (comment) => ({
     type: ADD_COMMENT,
     payload: comment
+})
+
+const deleteComment = (id) => ({
+    type: DELETE_COMMENT,
+    payload:id
 })
 
 export const thunkGetComments = () => async(dispatch) => {
@@ -41,6 +47,19 @@ export const thunkAddComments = (comment) => async(dispatch) => {
     }
 }
 
+export const thunkDeleteComment = (id) => async(dispatch) => {
+    const res = await fetch(`/api/comments/${id}`,{
+        method:'DELETE'
+    });
+    if(res.ok){
+        dispatch(deleteComment(id))
+        return await res.json()
+    }else {
+        const errorData = await res.json()
+        return {deleteErrors: errorData}
+    }
+}
+
 const initalState = {}
 export default function commentReducer(state=initalState, action){
     switch (action.type) {
@@ -53,6 +72,12 @@ export default function commentReducer(state=initalState, action){
                 comment:[...state.comment, action.payload]
             }
           
+        }
+        case DELETE_COMMENT: {
+            let newState = {...state}
+            delete newState[action.id]
+            newState.comment = state.comment.filter(el => el.id !== action.payload)
+            return newState;
         }
         default:
             return state

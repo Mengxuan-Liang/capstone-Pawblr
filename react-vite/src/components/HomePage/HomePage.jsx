@@ -4,18 +4,22 @@ import { thunkGetPosts } from '../../redux/postReducer';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import './HomePage.css';
 import CreateBlogButton from '../CreateBlog/CreateBlogButton';
-import { thunkAddComments, thunkGetComments } from '../../redux/commentReducer';
+import { thunkAddComments, thunkDeleteComment, thunkGetComments } from '../../redux/commentReducer';
 
 export default function HomePage() {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
-  const user = useSelector(state => state.session.user.username)
+  const navigate = useNavigate();
+  const userInfo = useSelector(state => state.session.user)
+  const user = userInfo.username;
+  const userId = userInfo.id;
+  // console.log(userId)
   const posts = useSelector(state => state.post.post);
   const commments = useSelector(state => state.comment.comment)
   const [isloaded, setIsloaded] = useState(false)
 
   const [text, setText] = useState('')
   const [errors, setErrors] = useState({})
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,6 +44,16 @@ export default function HomePage() {
     }
   }
 
+  const handleDelete = async (id) => {
+    const res = await dispatch(thunkDeleteComment(id))
+    if(res.errors){
+      setErrors(res.errors)
+    }else {
+      setIsloaded(!isloaded)
+    }
+    // console.log('delete error',errors)
+  }
+
 
   const toggleComments = (event) => {
     const commentsSection = event.target.closest('.comments-section');
@@ -49,7 +63,7 @@ export default function HomePage() {
     if (!commentContainer || !notesHeader) return;
 
     const isHidden = commentContainer.classList.toggle('hidden');
-    const commentCount = commentContainer.dataset.commentCount || 'data-comment-count';
+    const commentCount = commentContainer.dataset.commentCount || '0';
 
     notesHeader.textContent = isHidden
       ? `${commentCount} notes`
@@ -134,6 +148,11 @@ export default function HomePage() {
                         <span>{comment.user?.username}</span>{' '}<span>{comment.created_at}</span>
                         <div key={comment.id}>{comment.text}</div>
                         <button >reply</button>
+                        {
+                          userId === comment.user_id && <button onClick={()=> handleDelete(comment.id)}>delete</button> 
+                        }
+                     
+                     
                       </div>
                     ))}
                   </ul>

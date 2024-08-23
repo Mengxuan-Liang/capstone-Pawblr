@@ -52,7 +52,7 @@ def comment(comment_id):
      if comment is None:
           return {'message':'No Comment Found'}, 404
      if comment.user_id != current_user.id:
-            return {"error": "Forbidden"}, 403
+            return {"error": "Forbidden,you are not the owner of this comment"}, 403
      if request.method == 'PUT':
            form = CommentForm()
            form["csrf_token"].data = request.cookies["csrf_token"]
