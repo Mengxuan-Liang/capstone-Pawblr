@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { thunkCreatePost } from "../../redux/postReducer";
+import { thunkCreatePost, thunkGetPosts } from "../../redux/postReducer";
 import { useNavigate } from "react-router-dom";
+import { thunkGetComments } from "../../redux/commentReducer";
 
 export default function CreateBlogModal() {
    
@@ -12,10 +13,19 @@ export default function CreateBlogModal() {
     const [text, setText] = useState("");
     const [tag, setTag] = useState('')
     const [image, setImage] = useState("");
+    // const [isloaded, setIsloaded] = useState(false)
     const [errors, setErrors] = useState({});
     const { closeModal } = useModal();
 
     const navigate = useNavigate()
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //       await dispatch(thunkGetPosts());
+    //       await dispatch(thunkGetComments());
+      
+    //     };
+    //     fetchData();
+    //   }, [dispatch,isloaded]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,8 +39,9 @@ export default function CreateBlogModal() {
 
     
         if (!serverResponse.errors) {
+            // setIsloaded(!isloaded)
             closeModal();
-            navigate('/')
+            navigate('/');
         } else {
             setErrors(serverResponse);
         }

@@ -1,27 +1,59 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { thunkGetPosts } from '../../redux/postReducer';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import './HomePage.css';
 import CreateBlogButton from '../CreateBlog/CreateBlogButton';
+import { thunkAddComments, thunkGetComments } from '../../redux/commentReducer';
 
 export default function HomePage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const user = useSelector(state => state.session.user.username)
+  const posts = useSelector(state => state.post.post);
+  const commments = useSelector(state => state.comment.comment)
+  const [isloaded, setIsloaded] = useState(false)
+
+  const [text, setText] = useState('')
+  const [errors, setErrors] = useState({})
 
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(thunkGetPosts());
+      await dispatch(thunkGetComments());
+  
     };
     fetchData();
-  }, [dispatch]);
+  }, [dispatch,isloaded]);
 
-  const posts = useSelector(state => state.post.post);
+  const handleSubmit = async (e, post_id) => {
+    e.preventDefault();
+    const response = await dispatch(thunkAddComments({
+      post_id,
+      text
+    }));
+    if(response.errors){
+      setErrors(response)
+    }else {
+      navigate('/')
+      setIsloaded(!isloaded)
+    }
+  }
+
 
   const toggleComments = (event) => {
-    const commentContainer = event.target.nextElementSibling;
-    if (commentContainer) {
-      commentContainer.classList.toggle('hidden');
-    }
+    const commentsSection = event.target.closest('.comments-section');
+    const commentContainer = commentsSection.querySelector('.comment-container');
+    const notesHeader = commentsSection.querySelector('.clickable-h4');
+
+    if (!commentContainer || !notesHeader) return;
+
+    const isHidden = commentContainer.classList.toggle('hidden');
+    const commentCount = commentContainer.dataset.commentCount || 'data-comment-count';
+
+    notesHeader.textContent = isHidden
+      ? `${commentCount} notes`
+      : 'close notes';
   };
 
   return (
@@ -74,30 +106,47 @@ export default function HomePage() {
               </div>
               <br />
               <hr style={{ color: 'grey' }} />
-           <div className='comment-reply-like'>
 
-              <span className="comments-section">
-                <h4 className='clickable-h4' onClick={toggleComments}>
-                  {post.comments ? post.comments.length : 0} notes
-                </h4>
-                <ul className='comment-container hidden'>
-                  {post.comments?.map(comment => (
-                    <div className='comment-details-container'>
-                      <span>{comment.user?.username}</span>{' '}<span>{comment.created_at}</span>
-                      <div key={comment.id}>{comment.text}</div>
-                      <button>reply</button>
-                    </div>
-                  ))}
-                </ul>
-              </span>
-              <span className="comments-row-container">
-                <div className="reply-like-container">
-                  <span>reply</span>
-                  <span>like</span>
+              <div className='comment-reply-like'>
+                <span className="comments-section">
+                  <h4 className='clickable-h4' onClick={toggleComments}>
+                    {post.comments ? post.comments?.length : 0} notes
+                  </h4>
+                  <ul className='comment-container hidden' data-comment-count={post.comments?.length}>
+                    <form onSubmit={(e)=>handleSubmit(e, post.id)}>
+                      <label>
+                    <input
+                    type='text'
+                      value={text}
+                      onChange={e=>setText(e.target.value)}
+                      placeholder={`Reply as @${user}`}
+                      required
+                    />
+
+                      </label>
+                     {errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.text}</p>}
+                     <button type="submit">send</button>
+
+                    </form>
+
+                    {post.comments?.map(comment => (
+                      <div className='comment-details-container' key={comment.id}>
+                        <span>{comment.user?.username}</span>{' '}<span>{comment.created_at}</span>
+                        <div key={comment.id}>{comment.text}</div>
+                        <button >reply</button>
+                      </div>
+                    ))}
+                  </ul>
+                  <span className="comments-row-container">
+                  </span>
+                </span>
+                <div className="reply-like-container ">
+                  {/* <span style={{border:'red 1px solid'}}className="reply" onClick={toggleComments} >reply</span> */}
+                  <span >like</span>
                 </div>
-              </span>
+              </div>
 
-           </div>
+
             </article>
           ))}
         </section>
