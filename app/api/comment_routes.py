@@ -12,14 +12,19 @@ def comments():
     if comments is None:
         return {'message':'No Comment Found'}, 404
     return [comment.to_dict() for comment in comments], 200
-# POST comment by post id
-@comment_routes.route('/<int:post_id>', methods=['POST'])
+# POST/GET comment by post id
+@comment_routes.route('/<int:post_id>', methods=['GET','POST'])
 def new_comment(post_id):
     if not current_user.is_authenticated:
             return {"error": "User not authenticated"}, 401
     post = Post.query.get(post_id)
     if post is None:
          return {'message':'No Post Found'}, 404
+    if request.method == 'GET':
+          comments = Comment.query.filter_by(post_id=post_id).all()
+          if comments is None:
+                return {'message':'No Comment Found'}, 404
+          return [comment.to_dict() for comment in comments], 200
     form = CommentForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
 

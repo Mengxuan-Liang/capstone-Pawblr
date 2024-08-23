@@ -10,7 +10,7 @@ class Post(db.Model):
         __table_args__ = {"schema": SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(255), nullable=True)
+    # title = db.Column(db.String(255), nullable=True)
     text = db.Column(db.String(2555), nullable=True)
     img = db.Column(db.String(2555))
     user_id = db.Column(
@@ -34,9 +34,14 @@ class Post(db.Model):
     labels = db.relationship("Label", secondary=postlabel, back_populates="posts")
 
     def to_dict(self):
+        def format_date(date):
+            if date:
+                return date.strftime("%b %d")
+            return None
+
         return {
             "id": self.id,
-            "title": self.title,
+            # "title": self.title,
             "text": self.text,
             "img": self.img,
             "user_id": self.user_id,
@@ -48,10 +53,15 @@ class Post(db.Model):
                 if self.user
                 else None
             ),
-            "comments": [comment.to_dict() for comment in self.comments] if self.comments else None,
+            "comments": (
+                [comment.to_dict() for comment in self.comments]
+                if self.comments
+                else None
+            ),
             "likes": [like.to_dict() for like in self.likes] if self.likes else None,
-            "labels": [label.to_dict() for label in self.labels] if self.labels else None,
-            "created_at": self.created_at.isoformat(),
-            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+            "labels": (
+                [label.to_dict() for label in self.labels] if self.labels else None
+            ),
+            "created_at": format_date(self.created_at),
+            "updated_at": format_date(self.updated_at) if self.updated_at else None,
         }
-    
