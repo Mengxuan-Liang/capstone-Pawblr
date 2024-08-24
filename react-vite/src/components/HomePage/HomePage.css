@@ -168,7 +168,33 @@ body {
   text-align: center;
   padding: 10px 0;
   z-index: 1000;
+  height: fit-content;
+  padding: 25px;
 }
 
 
+.tumblr-button {
+  margin: 25px;
+  background-color:rgb(172, 157, 192); /* Tumblr dark blue background */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px 50px; /* Padding for button size */
+  font-size: 16px; /* Font size */
+  font-weight: bold; /* Bold text */
+  border: none; /* No border */
+  cursor: pointer; /* Pointer on hover */
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
 
+.tumblr-button:hover {
+  background-color: rgb(220, 203, 243); /* Slightly lighter shade for hover */
+}
+
+ul {
+  list-style: none;
+  /* padding: 0; */
+  /* margin: 0; */
+}
+
+li {
+  list-style: none;
+}

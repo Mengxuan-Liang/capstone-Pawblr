@@ -12,15 +12,9 @@ import HomePage from "../HomePage/HomePage";
 
 
 export default function ModelButton() {
-  // const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const user = useSelector((store) => store.session.user);
   const ulRef = useRef();
-
-  // const toggleMenu = (e) => {
-  //   e.stopPropagation();
-  //   setShowMenu(!showMenu);
-  // };
 
   useEffect(() => {
     if (!showMenu) return;
@@ -39,29 +33,21 @@ export default function ModelButton() {
   const closeMenu = () => setShowMenu(false);
 
   return (
-
     <nav id="container-user-navigation" style={{ position: "relative" }}>
       {user ? (
         <>
-        <HomePage/>
-          {/* <button style={{ border: "none", backgroundColor: "transparent" }}>
-            <OpenModalMenuItem
-              itemText="Sign up or Log in"
-              onItemClick={closeMenu}
-              modalComponent={<ModalPage />}
-            />
-          </button> */}
+          <HomePage />
         </>
       ) : (
         <>
-          <button style={{ border: "none", backgroundColor: "transparent" }}>
+          <button className="tumblr-button">
             <OpenModalMenuItem
               itemText="Log In"
               onItemClick={closeMenu}
               modalComponent={<LoginFormModal />}
             />
           </button>
-          <button style={{ border: "none", backgroundColor: "transparent" }}>
+          <button className="tumblr-button">
             <OpenModalMenuItem
               itemText="Sign Up"
               onItemClick={closeMenu}
@@ -73,5 +59,6 @@ export default function ModelButton() {
     </nav>
   );
 }
+
 
 

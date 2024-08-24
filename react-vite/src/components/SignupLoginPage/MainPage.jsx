@@ -108,10 +108,17 @@ export default function MainPage() {
                 <aside className="right-column">
                     <h3>Trending Blogs</h3>
                     <ul>
-                        <li><a href="#">Blog 1</a></li>
-                        <li><a href="#">Blog 2</a></li>
-                        <li><a href="#">Blog 3</a></li>
-                        <li><a href="#">Blog 4</a></li>
+                       {
+                        posts?.map(el => {
+                            return (
+                            <div>
+                                <span>{el.user.username}</span> {' '}
+                                <NavLink>Follow</NavLink>
+                            </div>
+
+                            )
+                        })
+                       }
                     </ul>
                 </aside>
             </div>
