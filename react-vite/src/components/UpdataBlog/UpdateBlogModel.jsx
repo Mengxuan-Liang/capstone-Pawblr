@@ -32,7 +32,7 @@ export default function UpdateBlogModal({ el }) {
 
         if (!serverResponse.errors) {
             closeModal();
-            navigate('/');
+            navigate('/home');
         } else {
             setErrors(serverResponse);
         }

@@ -13,8 +13,8 @@ body {
 }
 
 .header {
-  /* background-color: #001935; */
-  /* color: white; */
+  background-color: #001935;
+  color: white;
   padding: 10px 20px;
   display: flex;
   justify-content: space-between;
@@ -27,7 +27,7 @@ body {
 }
 
 .navigation a {
-  /* color: white; */
+  color: white;
   margin: 0 15px;
   text-decoration: none;
 }
@@ -125,7 +125,11 @@ body {
   display: flex;
   justify-content: space-between;
 }
-
+.comment-like-reply-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
 .right-column {
   width: 20%;
   padding: 10px;
@@ -154,6 +158,43 @@ body {
   display: none;
 }
 
+.sticky-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgb(101, 55, 157);
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  z-index: 1000;
+  height: fit-content;
+  padding: 25px;
+}
 
 
+.tumblr-button {
+  margin: 25px;
+  background-color:rgb(172, 157, 192); /* Tumblr dark blue background */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px 50px; /* Padding for button size */
+  font-size: 16px; /* Font size */
+  font-weight: bold; /* Bold text */
+  border: none; /* No border */
+  cursor: pointer; /* Pointer on hover */
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
 
+.tumblr-button:hover {
+  background-color: rgb(220, 203, 243); /* Slightly lighter shade for hover */
+}
+
+ul {
+  list-style: none;
+  /* padding: 0; */
+  /* margin: 0; */
+}
+
+li {
+  list-style: none;
+}

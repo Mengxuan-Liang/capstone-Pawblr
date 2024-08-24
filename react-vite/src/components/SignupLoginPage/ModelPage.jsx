@@ -5,7 +5,7 @@ import { thunkCreatePost, thunkGetPosts } from "../../redux/postReducer";
 import { useNavigate } from "react-router-dom";
 import { thunkGetComments } from "../../redux/commentReducer";
 
-export default function CreateBlogModal() {
+export default function ModelPage() {
    
     const userId = useSelector(state => state.session.user.id)
 

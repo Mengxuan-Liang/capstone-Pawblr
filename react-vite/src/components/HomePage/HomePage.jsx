@@ -6,14 +6,21 @@ import CreateBlogButton from '../CreateBlog/CreateBlogButton';
 import UpdateBlogButton from '../UpdataBlog/UpdateBlogButton';
 import { thunkAddComments, thunkDeleteComment, thunkGetComments } from '../../redux/commentReducer';
 import './HomePage.css';
+import ProfileButton from '../Navigation/ProfileButton';
 
 export default function HomePage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   // const username = useSelector(state => state.session.user.username)
   // const userId = useSelector(state => state.session.user.id)
   const userInfo = useSelector(state => state.session.user)
-  const user = userInfo.username;
-  const userId = userInfo.id;
+  useEffect(() => {
+    if (!userInfo) {
+        navigate('/');
+    }
+}, [userInfo, navigate]);
+  const user = userInfo?.username;
+  const userId = userInfo?.id;
   const commments = useSelector(state => state.comment.comment)
   const [isloaded, setIsloaded] = useState(false)
   const [text, setText] = useState('')
@@ -46,6 +53,7 @@ export default function HomePage() {
       setErrors(response)
     } else {
       // navigate('/')
+      setText('')
       setIsloaded(!isloaded)
     }
   }
@@ -55,6 +63,7 @@ export default function HomePage() {
     if (res.errors) {
       setErrors(res.errors)
     } else {
+    
       setIsloaded(!isloaded)
     }
     // console.log('delete error',errors)
@@ -100,7 +109,7 @@ export default function HomePage() {
               <li><a href="#">Activity</a></li>
               <li><a href="#">Messages</a></li>
               <li><a href="#">Settings</a></li>
-              <li><a href="#">Log out</a></li>
+              <ProfileButton/>
             </ul>
             <div><CreateBlogButton /></div>
           </div>
