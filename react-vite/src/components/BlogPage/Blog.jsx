@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { thunkDeletePost, thunkGetPosts } from '../../redux/postReducer';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, Form, useNavigate } from 'react-router-dom';
 import CreateBlogButton from '../CreateBlog/CreateBlogButton';
 import UpdateBlogButton from '../UpdataBlog/UpdateBlogButton';
-import { thunkGetComments, thunkAddComments,thunkDeleteComment } from '../../redux/commentReducer';
+import { thunkGetComments, thunkAddComments, thunkDeleteComment } from '../../redux/commentReducer';
 import '../HomePage/HomePage';
+import { createImage } from '../../redux/imageReducer';
+
 
 export default function Blog() {
   const dispatch = useDispatch();
   // const username = useSelector(state => state.session.user.username)
   // const userId = useSelector(state => state.session.user.id)
   const userInfo = useSelector(state => state.session.user)
-  const user = userInfo.username;
+  const user = userInfo?.username;
   const userId = userInfo.id;
   const commments = useSelector(state => state.comment.comment)
   const [isloaded, setIsloaded] = useState(false)
@@ -75,6 +77,30 @@ export default function Blog() {
       ? `${commentCount} notes`
       : 'close notes';
   };
+  // --------------aws
+  const navigate = useNavigate() // so that you can redirect after the image upload is successful
+  const [image, setImage] = useState(null);
+  const [imageLoading, setImageLoading] = useState(false);
+  // const images = useSelector(state=> state.image?.img[0])
+
+
+  const handleSubmitImg = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("image", image);
+    console.log('FORMDATA',image)
+    console.log('FORMDATA',formData)
+
+    // aws uploads can be a bit slow—displaying
+    // some sort of loading message is a good idea
+    setImageLoading(true);
+    await dispatch(createImage(formData));
+    navigate("/blog");
+  }
+
+const imageUrl = useSelector(state=> state.image?.img?.image?.image)
+
+
   return (
     <div>
       <header className="header">
@@ -88,6 +114,25 @@ export default function Blog() {
           <input type="text" placeholder="Search..." />
         </div>
       </header>
+
+
+
+      <form
+        onSubmit={handleSubmitImg}
+        encType="multipart/form-data"
+      >
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => setImage(e.target.files[0])}
+        />
+        <button type="submit">Submit</button>
+        {(imageLoading) && <img style={{width:'10%'}}src={imageUrl}></img>}
+      </form>
+      
+
+
+
 
       <div className="main-content">
         <aside className="sidebar">
@@ -159,24 +204,24 @@ export default function Blog() {
                       </div>
                     ))}
                   </ul>
-                 
+
                 </span>
 
                 <div className="comments-row-container">
-                 
+
                   <div className="reply-like-container">
                     <span>reply</span>
                     <span>like</span>
                     {
                       post.user_id === userId && <>
-                      <span><UpdateBlogButton el={post} /></span>
-                      <span><button onClick={() => handleDeletePost(post.id)}>delete</button></span>
-                      </> 
+                        <span><UpdateBlogButton el={post} /></span>
+                        <span><button onClick={() => handleDeletePost(post.id)}>delete</button></span>
+                      </>
                     }
-                   
+
                   </div>
                 </div>
-              
+
               </article>
             );
           })}

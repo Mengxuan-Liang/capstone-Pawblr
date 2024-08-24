@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { thunkSignup } from "../../redux/session";
+import { createImage } from "../../redux/imageReducer";
 import "../LoginFormModal/LoginForm.css"; // Adjusted path to your CSS file
+
 
 function SignupFormModal() {
   const dispatch = useDispatch();
@@ -10,6 +12,9 @@ function SignupFormModal() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [image, setImage] = useState(null);
+  const [imageLoading, setImageLoading] = useState(false);
+  // const [profileImg, setProfileImg] = useState('')
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
@@ -28,6 +33,7 @@ function SignupFormModal() {
         email,
         username,
         password,
+        profileImage:imageUrl
       })
     );
 
@@ -38,9 +44,48 @@ function SignupFormModal() {
     }
   };
 
+  // --------------aws
+  const handleSubmitImg = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("image", image);
+    console.log('IMG', image)
+    console.log('FORMDATA', formData)
+
+    // aws uploads can be a bit slow—displaying
+    // some sort of loading message is a good idea
+    setImageLoading(true);
+    await dispatch(createImage(formData));
+    // navigate("/blog");
+  }
+
+  const imageUrl = useSelector(state => state.image?.img?.image?.image);
+
+  // const handleSetImg = ()=> {
+
+  // }
+
   return (
     <div className="modal-container">
       <h1>Sign Up</h1>
+
+      <p style={{ color: 'grey', fontSize: "15px" }}>Choose your profile image(optional)</p>
+      {(imageLoading) && <img style={{ width: '20%' }} src={imageUrl}></img>}
+      <form
+        onSubmit={handleSubmitImg}
+        encType="multipart/form-data"
+      >
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => setImage(e.target.files[0])}
+        />
+        <button type="submit">Preview</button>
+        {/* <button onClick={handleSetImg}>Set as profile image</button> */}
+
+      </form>
+
+
       {errors.server && <p>{errors.server}</p>}
       <form onSubmit={handleSubmit}>
         <label>

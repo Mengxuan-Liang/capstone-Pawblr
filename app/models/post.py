@@ -47,7 +47,7 @@ class Post(db.Model):
             "user_id": self.user_id,
             "user": (
                 {
-                    # "id": self.user.id,
+                    "profileImage": self.user.profileImage,
                     "username": self.user.username,
                 }
                 if self.user

@@ -4,8 +4,15 @@ from app.forms import LoginForm
 from app.forms import SignUpForm
 from flask_login import current_user, login_user, logout_user, login_required
 
+import boto3 
+import os
+from werkzeug.utils import secure_filename
+
 auth_routes = Blueprint('auth', __name__)
 
+# Configure AWS S3 client
+s3 = boto3.client('s3')
+BUCKET_NAME = os.getenv('S3_BUCKET')
 
 @auth_routes.route('/')
 def authenticate():
@@ -54,7 +61,8 @@ def sign_up():
         user = User(
             username=form.data['username'],
             email=form.data['email'],
-            password=form.data['password']
+            password=form.data['password'],
+            profileImage=form.data['profileImage']
         )
         db.session.add(user)
         db.session.commit()

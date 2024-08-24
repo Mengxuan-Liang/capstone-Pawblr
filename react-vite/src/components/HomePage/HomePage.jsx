@@ -21,6 +21,7 @@ export default function HomePage() {
 }, [userInfo, navigate]);
   const user = userInfo?.username;
   const userId = userInfo?.id;
+  const profileImage = userInfo.profileImage;
   const commments = useSelector(state => state.comment.comment)
   const [isloaded, setIsloaded] = useState(false)
   const [text, setText] = useState('')
@@ -121,6 +122,7 @@ export default function HomePage() {
             return (
               <article className="post" key={post.id}>
                 <div className="post-header">
+                  <img style={{width:'50px'}}src={post.user.profileImage}/>
                   <h3>{post.user.username}{' '}<Link>Follow</Link></h3>
                   <span>{post.created_at}</span>
                 </div>

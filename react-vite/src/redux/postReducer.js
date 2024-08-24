@@ -83,6 +83,7 @@ export const thunkDeletePost = (id) => async(dispatch) => {
     }
 }
 
+
 const initalState = {}
 export default function postReducer(state=initalState, action){
     switch (action.type) {
