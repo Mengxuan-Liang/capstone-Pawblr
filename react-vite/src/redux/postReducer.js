@@ -36,12 +36,13 @@ export const thunkGetPosts = () => async(dispatch) => {
 }
 
 export const thunkCreatePost = (post) => async(dispatch) => {
-    const {text} = post
+    const {text, img} = post
     const res = await fetch('/api/posts/', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-           text
+           text,
+           img
         })
     });
     if (res.ok) {
@@ -55,12 +56,13 @@ export const thunkCreatePost = (post) => async(dispatch) => {
 }
 
 export const thunkUpdatePost = (post) => async(dispatch) => {
-    const {text, post_id} = post
+    const {text, post_id, img} = post
     const res = await fetch(`/api/posts/${post_id}`, {
         method: 'PUT',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            text
+            text,
+            img
         })
     });
     if (res.ok) {

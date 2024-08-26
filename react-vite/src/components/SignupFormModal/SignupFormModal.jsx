@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { thunkSignup } from "../../redux/session";
 import { createImage } from "../../redux/imageReducer";
-import "../LoginFormModal/LoginForm.css"; // Adjusted path to your CSS file
+import './SignupForm.css'
+import "../LoginFormModal/LoginForm.css"; 
 
 
 function SignupFormModal() {
@@ -12,7 +13,7 @@ function SignupFormModal() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [image, setImage] = useState(null);
+  // const [image, setImage] = useState(null);
   const [imageLoading, setImageLoading] = useState(false);
   // const [profileImg, setProfileImg] = useState('')
   const [errors, setErrors] = useState({});
@@ -33,7 +34,7 @@ function SignupFormModal() {
         email,
         username,
         password,
-        profileImage:imageUrl
+        profileImage: imageURL
       })
     );
 
@@ -43,50 +44,84 @@ function SignupFormModal() {
       closeModal();
     }
   };
+  // ---------------aws------preview
+  const maxFileError = "Selected image exceeds the maximum file size of 5Mb";
+  const [optional, setOptional] = useState('')
+  const [imageURL, setImageURL] = useState('')
+  const [file, setFile] = useState('')
+  const [filename, setFilename] = useState('')
 
-  // --------------aws
+  const fileWrap = (e) => {
+    e.stopPropagation();
+
+    const tempFile = e.target.files[0];
+
+    // Check for max image size of 5Mb
+    if (tempFile?.size > 5000000) {
+      setFilename(maxFileError); // "Selected image exceeds the maximum file size of 5Mb"
+      return
+    }
+
+    const newImageURL = URL.createObjectURL(tempFile); // Generate a local URL to render the image file inside of the <img> tag.
+    setImageURL(newImageURL);
+    setFile(tempFile);
+    setFilename(tempFile.name);
+    setOptional("");
+  }
+  // --------------aws----posting
   const handleSubmitImg = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("image", image);
-    console.log('IMG', image)
-    console.log('FORMDATA', formData)
+    formData.append("image", file);
+    // console.log('IMG', image)
+    // console.log('FORMDATA', formData)
 
-    // aws uploads can be a bit slow—displaying
-    // some sort of loading message is a good idea
     setImageLoading(true);
     await dispatch(createImage(formData));
-    // navigate("/blog");
+ 
   }
 
-  const imageUrl = useSelector(state => state.image?.img?.image?.image);
+  // const imageUrl = useSelector(state => state.image?.img?.image?.image);
+  // console.log('IMAGE', image)
+  // console.log('FILE', file)
+  // console.log('imageURL', imageURL)
 
-  // const handleSetImg = ()=> {
-
-  // }
 
   return (
     <div className="modal-container">
       <h1>Sign Up</h1>
+<div>Choose profile image(optional)</div>
 
-      <p style={{ color: 'grey', fontSize: "15px" }}>Choose your profile image(optional)</p>
-      {(imageLoading) && <img style={{ width: '20%' }} src={imageUrl}></img>}
+      <div className="file-inputs-container" >
+        <div><img src={imageURL} style={{width:"70px"}} className="thumbnails"></img></div>
+        <div className="file-inputs-filename" style={{ color: filename === maxFileError ? "red" : "#B7BBBF" }}>{filename}</div>
+        <input type="file" accept="image/png, image/jpeg, image/jpg" id="post-image-input" onChange={fileWrap}></input>
+        <div className="file-inputs-optional">{optional}</div>
+        {/* <label htmlFor="post-image-input" className="file-input-labels">Choose File</label> */}
+      </div>
+
+
+
+      {/* <p style={{ color: 'grey', fontSize: "15px" }}>Choose your profile image(optional)</p>
+      {(imageLoading) && <img style={{ width: '20%' }} src={imageURL}></img>} */}
+      <div >
+
       <form
         onSubmit={handleSubmitImg}
         encType="multipart/form-data"
       >
-        <input
+        {/* <input
+         style={{visibility:'hidden'}}
           type="file"
           accept="image/*"
           onChange={(e) => setImage(e.target.files[0])}
-        />
-        <button type="submit">Preview</button>
-        {/* <button onClick={handleSetImg}>Set as profile image</button> */}
-
+        /> */}
+        <button type="submit">Confirm Profile Image</button>
       </form>
 
 
       {errors.server && <p>{errors.server}</p>}
+      </div>
       <form onSubmit={handleSubmit}>
         <label>
           Email

@@ -72,11 +72,15 @@ export default function MainPage() {
                         return (
                             <article className="post" key={post.id}>
                                 <div className="post-header">
-                                    <h3>{post.user.username}{' '}<Link>Follow</Link></h3>
-                                    <span>{post.created_at}</span>
+                                <img style={{width:'50px'}}src={post.user?.profileImage}/>
+                  <div>
+                  <h3>{post.user?.username}{' '}<Link>Follow</Link></h3>
+                  <span>{post.created_at}</span>
+
+                  </div>
                                 </div>
                                 <div className="post-content">
-                                    <img src="https://via.placeholder.com/600x300" alt="Post" />
+                                {post?.img && <img src={post.img} alt="Post" style={{width:'40%'}}/> }
                                     <p style={{ marginTop: '20px' }}>{post.text}</p>
                                     <br />
                                     {post.labels?.map(label => (

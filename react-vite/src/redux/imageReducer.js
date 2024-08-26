@@ -1,10 +1,14 @@
 const ADD_IMG = 'posts/addimage';
-
+// const UPDATE_IMG = "posts/editimage"
 
 const addPost = (post) => ({
     type: ADD_IMG,
     payload: post
 });
+// const editPost = (post) => ({
+//     type: UPDATE_IMG,
+//     payload:post
+// })
 
 
 export const createImage = (post) => async (dispatch) => {
@@ -21,6 +25,7 @@ export const createImage = (post) => async (dispatch) => {
         console.log("There was an error making your post!")
     }
 };
+// export const updateImage = (post)
 
 const initalState = {img:null}
 export default function imageReducer(state=initalState, action){

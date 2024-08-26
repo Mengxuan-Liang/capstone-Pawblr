@@ -18,6 +18,7 @@ def posts():
         if form.validate_on_submit():
             new_post = Post(
                 text=form.data['text'],
+                img=form.data['img'],
                 user_id=current_user.id
             )
             db.session.add(new_post)
@@ -54,6 +55,7 @@ def post(post_id):
          if form.validate_on_submit():
             #   post.title = data.get('title', post.title)
               post.text = data.get('text', post.text)
+              post.img = data.get('img',post.img)
 
               db.session.commit()
               return post.to_dict(), 200

@@ -11,8 +11,6 @@ import ProfileButton from '../Navigation/ProfileButton';
 export default function HomePage() {
   const dispatch = useDispatch();
   const navigate = useNavigate()
-  // const username = useSelector(state => state.session.user.username)
-  // const userId = useSelector(state => state.session.user.id)
   const userInfo = useSelector(state => state.session.user)
   useEffect(() => {
     if (!userInfo) {
@@ -21,10 +19,11 @@ export default function HomePage() {
 }, [userInfo, navigate]);
   const user = userInfo?.username;
   const userId = userInfo?.id;
-  const profileImage = userInfo.profileImage;
+  const profileImage = userInfo?.profileImage;
   const commments = useSelector(state => state.comment.comment)
   const [isloaded, setIsloaded] = useState(false)
   const [text, setText] = useState('')
+  
   const [errors, setErrors] = useState({})
 
   useEffect(() => {
@@ -122,12 +121,15 @@ export default function HomePage() {
             return (
               <article className="post" key={post.id}>
                 <div className="post-header">
-                  <img style={{width:'50px'}}src={post.user.profileImage}/>
-                  <h3>{post.user.username}{' '}<Link>Follow</Link></h3>
+                  <img style={{width:'50px'}}src={post.user?.profileImage}/>
+                  <div>
+                  <h3>{post.user?.username}{' '}<Link>Follow</Link></h3>
                   <span>{post.created_at}</span>
+
+                  </div>
                 </div>
                 <div className="post-content">
-                  <img src="https://via.placeholder.com/600x300" alt="Post" />
+                 {post?.img && <img src={post.img} alt="Post" style={{width:'40%'}}/> }
                   <p style={{ marginTop: '20px' }}>{post.text}</p>
                   <br />
                   {post.labels?.map(label => (

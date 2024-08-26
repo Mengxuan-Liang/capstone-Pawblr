@@ -87,6 +87,9 @@ body {
 
 .post-header {
   margin-bottom: 10px;
+  display: flex;
+  gap:10px;
+  align-items: center;
 }
 
 .post-header h2 {

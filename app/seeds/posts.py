@@ -11,7 +11,6 @@ def seed_posts():
         # title='some title in post 2',
         text = 'How little that which thou deniest me is;',
         user_id = 1,
-        img = 'post2.jpg'
     )
     post3 = Post(
         # title='some title in post 3',
