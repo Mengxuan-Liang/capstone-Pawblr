@@ -36,14 +36,19 @@ export const thunkGetPosts = () => async(dispatch) => {
 }
 
 export const thunkCreatePost = (post) => async(dispatch) => {
-    const {text, img} = post
+    const {text, img, selectedTag} = post
+    // console.log('TAG from', tags)
+    // const allTags = await fetch('/api/labels/');
+    // console.log('tags all from Tag table backend', allTags)
+    // if(allTags.ok){
+    //     const tagsData = await allTags.json()
+    //     // console.log(tagsData) array with id and name obj
+    //     // tagsData.find(tag => )
+    // }
     const res = await fetch('/api/posts/', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-           text,
-           img
-        })
+        body: JSON.stringify(post)
     });
     if (res.ok) {
         const data = await res.json()

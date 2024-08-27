@@ -23,6 +23,7 @@ export default function HomePage() {
   const commments = useSelector(state => state.comment.comment)
   const [isloaded, setIsloaded] = useState(false)
   const [text, setText] = useState('')
+  const [searchTag, setSearchTag] = useState(''); // **New State for Tag Search**
   
   const [errors, setErrors] = useState({})
 

@@ -69,13 +69,24 @@ export default function UpdateBlogModal({ el }) {
     // --------------aws----posting
     const handleSubmitImg = async (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        formData.append("image", file);
-        // console.log('IMG', image)
-        // console.log('FORMDATA', formData)
+    const formData = new FormData();
+    formData.append("image", file);
+    // console.log('IMG', image)
+    // console.log('FORMDATA', formData)
 
-        setImageLoading(true);
-        await dispatch(createImage(formData));
+    setImageLoading(true);
+    const response = await dispatch(createImage(formData));
+    // console.log('response', response)
+    if (response) {
+      // const data = await response.json();
+      // console.log('data', data)
+      const awsImageUrl = response.image.image;  // Assuming the URL is returned in the response
+      // console.log('aws images!!!!!!!', awsImageUrl)
+      setImageURL(awsImageUrl);  // Use the actual AWS URL here
+    }
+
+    setImageLoading(false);
+
 
     }
 

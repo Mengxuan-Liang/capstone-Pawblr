@@ -5,29 +5,44 @@ import { thunkCreatePost, thunkGetPosts } from "../../redux/postReducer";
 import { useNavigate } from "react-router-dom";
 import { thunkGetComments } from "../../redux/commentReducer";
 import { createImage } from "../../redux/imageReducer";
+import { thunkGetTags } from "../../redux/tagReducer";
 
 export default function CreateBlogModal() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate()
 
     const userId = useSelector(state => state.session.user.id)
 
-    const dispatch = useDispatch();
+
+
     const [text, setText] = useState("");
-    const [tag, setTag] = useState('')
     const [image, setImage] = useState(null);
     const [imageLoading, setImageLoading] = useState(false);
     // const [isloaded, setIsloaded] = useState(false)
     const [errors, setErrors] = useState({});
     const { closeModal } = useModal();
 
-    const navigate = useNavigate()
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //       await dispatch(thunkGetPosts());
-    //       await dispatch(thunkGetComments());
+    // tag
+    const allTags = useSelector(state => state.tag)
+    // console.log('all tag????', allTags)
+    useEffect(() => {
+        const func = async () => await dispatch(thunkGetTags())
+        func()
+        // console.log('does useeffect run??')
+    }, [dispatch])
 
-    //     };
-    //     fetchData();
-    //   }, [dispatch,isloaded]);
+    const [selectedTags, setSelectedTags] = useState([]); 
+    const handleTagClick = (tagId) => {
+        setSelectedTags(prevTags => {
+            if (prevTags.includes(tagId)) {
+                // Remove tag if it's already selected
+                return prevTags.filter(tag => tag !== tagId);
+            } else {
+                // Add tag if it's not selected
+                return [...prevTags, tagId];
+            }
+        });
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -36,12 +51,13 @@ export default function CreateBlogModal() {
             thunkCreatePost({
                 user_id: userId,
                 text,
-                img: imageURL
+                img: imageURL,
+                tags: selectedTags
             })
         );
 
 
-        if (!serverResponse.errors) {
+        if (!serverResponse?.errors) {
             // setIsloaded(!isloaded)
             closeModal();
             navigate('/home');
@@ -76,15 +92,31 @@ export default function CreateBlogModal() {
     // --------------aws----posting
     const handleSubmitImg = async (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        formData.append("image", file);
-        // console.log('IMG', image)
-        // console.log('FORMDATA', formData)
+    const formData = new FormData();
+    formData.append("image", file);
+    // console.log('IMG', image)
+    // console.log('FORMDATA', formData)
 
-        setImageLoading(true);
-        await dispatch(createImage(formData));
+    setImageLoading(true);
+    const response = await dispatch(createImage(formData));
+    // console.log('response', response)
+    if (response) {
+      // const data = await response.json();
+      // console.log('data', data)
+      const awsImageUrl = response.image.image;  // Assuming the URL is returned in the response
+    //   console.log('aws images!!!!!!!', awsImageUrl)
+      setImageURL(awsImageUrl);  // Use the actual AWS URL here
+    }
+console.log(imageURL)
+    setImageLoading(false);
+
 
     }
+//       console.log('IMAGE', image)
+
+//   console.log('FILE', file)
+//   console.log('imageURL', imageURL)
+
     return (
         <div id="container-create-blog-modal">
             <h2>Create Blog</h2>
@@ -134,11 +166,40 @@ export default function CreateBlogModal() {
                 </label>
                 {errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.text}</p>}
                 <br></br>
+
                 <label style={{ color: 'grey' }}>
-                    #add tags to help people find your post
+                    # Add tags to help people find your post
                 </label>
-                {errors?.errors?.tag && <p style={{ color: 'red' }}>{errors.errors.tag}</p>}
-                <br></br>
+                <div>
+                {allTags?.tag?.map(tag => (
+                        <button
+                            key={tag.id}
+                            type="button"
+                            onClick={() => handleTagClick(tag.id)}
+                            style={{
+                                backgroundColor: selectedTags.includes(tag.id) ? 'lightblue' : 'white',
+                                border: '1px solid #ddd',
+                                borderRadius: '4px',
+                                padding: '5px 10px',
+                                margin: '5px',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            {tag.name}
+                        </button>
+                    ))}
+                    {/* <button type="button" onClick={handleAddTag}>Add Tag</button> */}
+                </div>
+                {/* <div>
+                    {tags.map((tag, index) => (
+                        <span key={index} style={{ marginRight: '10px' }}>
+                            {tag}
+                            <button type="button" onClick={() => handleRemoveTag(tag)}>Remove</button>
+                        </span>
+                    ))}
+                </div> */}
+                {errors?.errors?.tags && <p style={{ color: 'red' }}>{errors?.errors?.tags}</p>}
+                <br />
                 <button type="submit">Create</button>
                 <button
 

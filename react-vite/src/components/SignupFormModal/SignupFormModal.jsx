@@ -4,7 +4,7 @@ import { useModal } from "../../context/Modal";
 import { thunkSignup } from "../../redux/session";
 import { createImage } from "../../redux/imageReducer";
 import './SignupForm.css'
-import "../LoginFormModal/LoginForm.css"; 
+import "../LoginFormModal/LoginForm.css";
 
 
 function SignupFormModal() {
@@ -13,7 +13,7 @@ function SignupFormModal() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  // const [image, setImage] = useState(null);
+  const [image, setImage] = useState(null);
   const [imageLoading, setImageLoading] = useState(false);
   // const [profileImg, setProfileImg] = useState('')
   const [errors, setErrors] = useState({});
@@ -77,12 +77,23 @@ function SignupFormModal() {
     // console.log('FORMDATA', formData)
 
     setImageLoading(true);
-    await dispatch(createImage(formData));
- 
+    const response = await dispatch(createImage(formData));
+    // console.log('response', response)
+    if (response) {
+      // const data = await response.json();
+      // console.log('data', data)
+      const awsImageUrl = response.image.image;  // Assuming the URL is returned in the response
+      // console.log('aws images!!!!!!!', awsImageUrl)
+      setImageURL(awsImageUrl);  // Use the actual AWS URL here
+    }
+
+    setImageLoading(false);
+
   }
 
-  // const imageUrl = useSelector(state => state.image?.img?.image?.image);
+  const stateImageUrl = useSelector(state => state.image?.img?.image?.image);
   // console.log('IMAGE', image)
+  // console.log('state image', stateImageUrl)
   // console.log('FILE', file)
   // console.log('imageURL', imageURL)
 
@@ -90,10 +101,10 @@ function SignupFormModal() {
   return (
     <div className="modal-container">
       <h1>Sign Up</h1>
-<div>Choose profile image(optional)</div>
+      <div>Choose profile image(optional)</div>
 
       <div className="file-inputs-container" >
-        <div><img src={imageURL} style={{width:"70px"}} className="thumbnails"></img></div>
+        <div><img src={imageURL} style={{ width: "70px" }} className="thumbnails"></img></div>
         <div className="file-inputs-filename" style={{ color: filename === maxFileError ? "red" : "#B7BBBF" }}>{filename}</div>
         <input type="file" accept="image/png, image/jpeg, image/jpg" id="post-image-input" onChange={fileWrap}></input>
         <div className="file-inputs-optional">{optional}</div>
@@ -106,21 +117,21 @@ function SignupFormModal() {
       {(imageLoading) && <img style={{ width: '20%' }} src={imageURL}></img>} */}
       <div >
 
-      <form
-        onSubmit={handleSubmitImg}
-        encType="multipart/form-data"
-      >
-        {/* <input
+        <form
+          onSubmit={handleSubmitImg}
+          encType="multipart/form-data"
+        >
+          {/* <input
          style={{visibility:'hidden'}}
           type="file"
           accept="image/*"
           onChange={(e) => setImage(e.target.files[0])}
         /> */}
-        <button type="submit">Confirm Profile Image</button>
-      </form>
+          <button type="submit">Confirm Profile Image</button>
+        </form>
 
 
-      {errors.server && <p>{errors.server}</p>}
+        {errors.server && <p>{errors.server}</p>}
       </div>
       <form onSubmit={handleSubmit}>
         <label>

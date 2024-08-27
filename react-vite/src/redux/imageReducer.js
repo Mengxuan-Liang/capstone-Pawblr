@@ -19,8 +19,9 @@ export const createImage = (post) => async (dispatch) => {
   
     if (response.ok) {
         const resPost  = await response.json();
-        // console.log('RES POST ???',resPost)
+        console.log('RES POST ???',resPost)
         dispatch(addPost(resPost));
+        return resPost;
     } else {
         console.log("There was an error making your post!")
     }
