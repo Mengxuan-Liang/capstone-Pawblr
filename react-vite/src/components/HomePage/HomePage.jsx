@@ -13,6 +13,8 @@ export default function HomePage() {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const userInfo = useSelector(state => state.session.user)
+  const posts = useSelector(state => state.post.post);
+
   useEffect(() => {
     if (!userInfo) {
       navigate('/');
@@ -26,8 +28,6 @@ export default function HomePage() {
   const [text, setText] = useState('')
   const [searchTag, setSearchTag] = useState('');
   const [likedPosts, setLikedPosts] = useState(new Set());
-  // console.log('liked posts!!!!!!',likedPosts)
-
   const [errors, setErrors] = useState({})
 
   useEffect(() => {
@@ -38,10 +38,7 @@ export default function HomePage() {
         try {
           const response = await fetch(`/api/likes`);
           const userLikes = await response.json();
-          console.log('get user liked post', userLikes)
-          // console.log('get user liked post',response)
           const likedPostIds = new Set(userLikes?.likes?.map(like => like.post_id));
-          console.log('SET LIKES',likedPostIds)
           setLikedPosts(likedPostIds);
         } catch (error) {
           console.error("Error fetching liked posts:", error);
@@ -51,15 +48,7 @@ export default function HomePage() {
     fetchData();
   }, [dispatch, isloaded]);
 
-  // const posts = useSelector(state => state.post.post?.filter(el => el.user_id == userId));
-  const posts = useSelector(state => state.post.post);
-  // console.log('shake post', posts)
-
-
-
-  const handleDeletePost = async (id) => {
-    await dispatch(thunkDeletePost(id))
-  }
+  // ADD COMMENT
   const handleSubmit = async (e, post_id) => {
     e.preventDefault();
     const response = await dispatch(thunkAddComments({
@@ -74,20 +63,18 @@ export default function HomePage() {
       setIsloaded(!isloaded)
     }
   }
-
+  // DELETE COMMENT
   const handleDelete = async (id) => {
     const res = await dispatch(thunkDeleteComment(id))
     if (res.errors) {
       setErrors(res.errors)
     } else {
-
       setIsloaded(!isloaded)
     }
-    // console.log('delete error',errors)
   }
-
-
+  // TOGGLE COMMENT
   const toggleComments = (event) => {
+    event.stopPropagation();
     const commentsSection = event.target.closest('.comments-section');
     const commentContainer = commentsSection.querySelector('.comment-container');
     const notesHeader = commentsSection.querySelector('.clickable-h4');
@@ -102,11 +89,8 @@ export default function HomePage() {
       : 'close notes';
   };
 
-  // **Function to handle like/unlike**
+  // TOGGLE LIKES
   const toggleLike = async (postId) => {
-    console.log('post id for likes',postId)
-    console.log('likedposts', likedPosts)
-     
     try {
       if (likedPosts.has(postId)) {
         // Unlike the post
@@ -132,6 +116,12 @@ export default function HomePage() {
       console.error("Error toggling like:", error);
     }
   };
+
+
+  // DELETE POST
+  const handleDeletePost = async (id) => {
+    await dispatch(thunkDeletePost(id))
+  }
 
   return (
     <div>
@@ -231,11 +221,11 @@ export default function HomePage() {
                   <div className="reply-like-container">
                     <span>reply</span>
                     <span
-                    style={{ cursor: 'pointer' }}
+                      style={{ cursor: 'pointer' }}
                       className="like-button"
                       onClick={() => toggleLike(post.id)} // **Handle like/unlike**
                     >
-                     {isLiked ? (
+                      {isLiked ? (
                         <FaHeart style={{ color: 'red' }} />
                       ) : (
                         <FaRegHeart />

@@ -114,6 +114,11 @@ body {
 .clickable-h4:hover {
   cursor: pointer;
 }
+.clickable-h4, 
+.comment-details-container form button {
+  z-index: 1;
+  position: relative;
+}
 .comment-details-container {
   /* border: 2px rebeccapurple solid; */
   background-color: rgb(233, 233, 233);
