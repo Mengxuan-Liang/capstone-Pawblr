@@ -99,23 +99,22 @@ export default function CreateBlogModal() {
 
     setImageLoading(true);
     const response = await dispatch(createImage(formData));
-    // console.log('response', response)
+    console.log('response', response)
     if (response) {
       // const data = await response.json();
       // console.log('data', data)
-      const awsImageUrl = response.image.image;  // Assuming the URL is returned in the response
-    //   console.log('aws images!!!!!!!', awsImageUrl)
+      const awsImageUrl = response.image.image;  
+      console.log('aws images!!!!!!!', awsImageUrl)
       setImageURL(awsImageUrl);  // Use the actual AWS URL here
     }
 console.log(imageURL)
     setImageLoading(false);
-
-
     }
 //       console.log('IMAGE', image)
+const stateImageUrl = useSelector(state => state.image?.img?.image?.image);
 
-//   console.log('FILE', file)
-//   console.log('imageURL', imageURL)
+  console.log('FILE', file)
+  console.log('imageURL', imageURL)
 
     return (
         <div id="container-create-blog-modal">

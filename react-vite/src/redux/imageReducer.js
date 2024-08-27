@@ -12,6 +12,7 @@ const addPost = (post) => ({
 
 
 export const createImage = (post) => async (dispatch) => {
+    console.log('post in createImage thunk!!!!!!!', post)
     const response = await fetch(`/api/images/`, {
       method: "POST",
       body: post
