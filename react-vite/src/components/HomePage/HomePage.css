@@ -202,3 +202,24 @@ ul {
 li {
   list-style: none;
 }
+
+.like-button {
+  cursor: pointer;
+  color: gray;
+  font-weight: bold;
+  transition: color 0.3s ease;
+  margin-left: 10px;
+  user-select: none; /* Prevent text selection when clicking */
+}
+
+.like-button:hover {
+  color: #007bff; /* Change color on hover */
+}
+
+.like-button.liked {
+  color: #ff4500; /* Color for liked state (e.g., red/orange) */
+}
+
+.like-button:active {
+  transform: scale(0.95); /* Add a subtle click effect */
+}

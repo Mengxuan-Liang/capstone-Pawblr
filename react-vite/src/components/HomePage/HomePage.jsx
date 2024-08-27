@@ -7,6 +7,7 @@ import UpdateBlogButton from '../UpdataBlog/UpdateBlogButton';
 import { thunkAddComments, thunkDeleteComment, thunkGetComments } from '../../redux/commentReducer';
 import './HomePage.css';
 import ProfileButton from '../Navigation/ProfileButton';
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 
 export default function HomePage() {
   const dispatch = useDispatch();
@@ -14,23 +15,38 @@ export default function HomePage() {
   const userInfo = useSelector(state => state.session.user)
   useEffect(() => {
     if (!userInfo) {
-        navigate('/');
+      navigate('/');
     }
-}, [userInfo, navigate]);
+  }, [userInfo, navigate]);
   const user = userInfo?.username;
   const userId = userInfo?.id;
   const profileImage = userInfo?.profileImage;
   const commments = useSelector(state => state.comment.comment)
   const [isloaded, setIsloaded] = useState(false)
   const [text, setText] = useState('')
-  const [searchTag, setSearchTag] = useState(''); // **New State for Tag Search**
-  
+  const [searchTag, setSearchTag] = useState('');
+  const [likedPosts, setLikedPosts] = useState(new Set());
+  // console.log('liked posts!!!!!!',likedPosts)
+
   const [errors, setErrors] = useState({})
 
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(thunkGetPosts());
       await dispatch(thunkGetComments());
+      if (userId) {
+        try {
+          const response = await fetch(`/api/likes`);
+          const userLikes = await response.json();
+          console.log('get user liked post', userLikes)
+          // console.log('get user liked post',response)
+          const likedPostIds = new Set(userLikes?.likes?.map(like => like.post_id));
+          console.log('SET LIKES',likedPostIds)
+          setLikedPosts(likedPostIds);
+        } catch (error) {
+          console.error("Error fetching liked posts:", error);
+        }
+      }
     };
     fetchData();
   }, [dispatch, isloaded]);
@@ -64,7 +80,7 @@ export default function HomePage() {
     if (res.errors) {
       setErrors(res.errors)
     } else {
-    
+
       setIsloaded(!isloaded)
     }
     // console.log('delete error',errors)
@@ -85,6 +101,38 @@ export default function HomePage() {
       ? `${commentCount} notes`
       : 'close notes';
   };
+
+  // **Function to handle like/unlike**
+  const toggleLike = async (postId) => {
+    console.log('post id for likes',postId)
+    console.log('likedposts', likedPosts)
+     
+    try {
+      if (likedPosts.has(postId)) {
+        // Unlike the post
+        const response = await fetch(`/api/likes/${postId}`, { method: 'DELETE' });
+        if (!response.ok) {
+          throw new Error('Failed to unlike the post');
+        }
+        setLikedPosts(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(postId);
+          return newSet;
+        });
+      } else {
+        // Like the post
+        const response = await fetch(`/api/likes/${postId}`, { method: 'POST' });
+        console.log('res after click like', response)
+        if (!response.ok) {
+          throw new Error('Failed to like the post');
+        }
+        setLikedPosts(prev => new Set(prev).add(postId));
+      }
+    } catch (error) {
+      console.error("Error toggling like:", error);
+    }
+  };
+
   return (
     <div>
       <header className="header">
@@ -110,7 +158,7 @@ export default function HomePage() {
               <li><a href="#">Activity</a></li>
               <li><a href="#">Messages</a></li>
               <li><a href="#">Settings</a></li>
-              <ProfileButton/>
+              <ProfileButton />
             </ul>
             <div><CreateBlogButton /></div>
           </div>
@@ -118,19 +166,21 @@ export default function HomePage() {
 
         <section className="feed">
           {posts?.map(post => {
+            // Determine if the current post is liked
+            const isLiked = likedPosts.has(post.id);
 
             return (
               <article className="post" key={post.id}>
                 <div className="post-header">
-                  <img style={{width:'50px'}}src={post.user?.profileImage}/>
+                  <img style={{ width: '50px' }} src={post.user?.profileImage} />
                   <div>
-                  <h3>{post.user?.username}{' '}<Link>Follow</Link></h3>
-                  <span>{post.created_at}</span>
+                    <h3>{post.user?.username}{' '}<Link>Follow</Link></h3>
+                    <span>{post.created_at}</span>
 
                   </div>
                 </div>
                 <div className="post-content">
-                 {post?.img && <img src={post.img} alt="Post" style={{width:'40%'}}/> }
+                  {post?.img && <img src={post.img} alt="Post" style={{ width: '40%' }} />}
                   <p style={{ marginTop: '20px' }}>{post.text}</p>
                   <br />
                   {post.labels?.map(label => (
@@ -173,24 +223,34 @@ export default function HomePage() {
                       </div>
                     ))}
                   </ul>
-                 
+
                 </span>
 
                 <div className="comments-row-container">
-                 
+
                   <div className="reply-like-container">
                     <span>reply</span>
-                    <span>like</span>
+                    <span
+                    style={{ cursor: 'pointer' }}
+                      className="like-button"
+                      onClick={() => toggleLike(post.id)} // **Handle like/unlike**
+                    >
+                     {isLiked ? (
+                        <FaHeart style={{ color: 'red' }} />
+                      ) : (
+                        <FaRegHeart />
+                      )}
+                    </span>
                     {
                       post.user_id === userId && <>
-                      <span><UpdateBlogButton el={post} /></span>
-                      <span><button onClick={() => handleDeletePost(post.id)}>delete</button></span>
-                      </> 
+                        <span><UpdateBlogButton el={post} /></span>
+                        <span><button onClick={() => handleDeletePost(post.id)}>delete</button></span>
+                      </>
                     }
-                   
+
                   </div>
                 </div>
-              
+
               </article>
             );
           })}
