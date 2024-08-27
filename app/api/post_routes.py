@@ -66,7 +66,16 @@ def post(post_id):
             #   post.title = data.get('title', post.title)
               post.text = data.get('text', post.text)
               post.img = data.get('img',post.img)
-
+              tag_ids = request.json.get('tags',[])
+            #   print('TAG GOT IN ROUTES!!!!!!!!', tag_ids)
+              post.labels.clear()
+              if tag_ids:
+                   for tag_id in tag_ids:
+                        tag = Label.query.get(tag_id)
+                        if tag:
+                             post.labels.append(tag)
+                        else:
+                             return {"error": f"Tag with ID {tag_id} not found"}, 404
               db.session.commit()
               return post.to_dict(), 200
          return {'errors':form.errors}, 400

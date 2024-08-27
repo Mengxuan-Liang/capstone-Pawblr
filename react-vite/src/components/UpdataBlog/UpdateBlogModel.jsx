@@ -13,20 +13,19 @@ export default function UpdateBlogModal({ el }) {
     const userId = useSelector(state => state.session.user.id)
     const [text, setText] = useState(el?.text);
     const [img, setImg] = useState(el?.img);
-    const [tags, setTags] = useState(el?.labels)
+    // const [tags, setTags] = useState(el?.labels)
     const [errors, setErrors] = useState({});
     const { closeModal } = useModal();
 
-    // tag
+    // TAGS
     const allTags = useSelector(state => state.tag)
-    // console.log('all tag????', allTags)
+    console.log('all tags', allTags)
+    const [selectedTags, setSelectedTags] = useState(el?.labels?.map(tag => tag.id) || []);
     useEffect(() => {
         const func = async () => await dispatch(thunkGetTags())
         func()
-        // console.log('does useeffect run??')
-    }, [dispatch])
-
-    const [selectedTags, setSelectedTags] = useState([]);
+    }, [dispatch,selectedTags])
+    
     const handleTagClick = (tagId) => {
         setSelectedTags(prevTags => {
             if (prevTags.includes(tagId)) {
@@ -38,7 +37,8 @@ export default function UpdateBlogModal({ el }) {
             }
         });
     };
-
+    const unselectedTags = allTags?.tag?.filter(tag => !selectedTags.includes(tag.id));
+    console.log('SELECTED TAGS!!!!!!', selectedTags)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -51,6 +51,7 @@ export default function UpdateBlogModal({ el }) {
                 tags: selectedTags
             })
         );
+        console.log('server response!!!!!', serverResponse)
         if (!serverResponse.errors) {
             closeModal();
             navigate('/home');
@@ -71,10 +72,10 @@ export default function UpdateBlogModal({ el }) {
 
         const tempFile = e.target.files[0];
         if (tempFile?.size > 5000000) {
-            setFilename(maxFileError); 
+            setFilename(maxFileError);
             return
         }
-        const newImageURL = URL.createObjectURL(tempFile); 
+        const newImageURL = URL.createObjectURL(tempFile);
         setImageURL(newImageURL);
         setFile(tempFile);
         setFilename(tempFile.name);
@@ -134,7 +135,7 @@ export default function UpdateBlogModal({ el }) {
 
                 {errors.server && <p>{errors.server}</p>}
             </div>
-<br></br>
+            <br></br>
             <form id="container-signup-form"
                 onSubmit={handleSubmit}
             >
@@ -148,14 +149,14 @@ export default function UpdateBlogModal({ el }) {
                 </label>
                 {errors?.errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.errors?.text}</p>}
                 <br></br>
-                <p>edit your tags</p>
-                {el?.labels?.map(tag => (
+                <p>Edit your tags</p>
+                {selectedTags?.map(tag => (
                     <button
-                        key={tag.id}
+                        key={tag}
                         type="button"
-                        onClick={() => handleTagClick(tag.id)}
+                        onClick={() => handleTagClick(tag)}
                         style={{
-                            backgroundColor: selectedTags.includes(tag.id) ? 'lightblue' : 'white',
+                            backgroundColor: selectedTags.includes(tag) ? 'lightblue' : 'white',
                             border: '1px solid #ddd',
                             borderRadius: '4px',
                             padding: '5px 10px',
@@ -163,14 +164,15 @@ export default function UpdateBlogModal({ el }) {
                             cursor: 'pointer'
                         }}
                     >
-                        {tag.name}
+                        {allTags?.tag?.find(el => el?.id == tag)?.name}
                     </button>
                 ))}
+                <br></br>
                 <label style={{ color: 'grey' }}>
                     # Add more tags to help people find your post
                 </label>
                 <div>
-                    {allTags?.tag?.map(tag => (
+                    {unselectedTags?.map(tag => (
                         <button
                             key={tag.id}
                             type="button"

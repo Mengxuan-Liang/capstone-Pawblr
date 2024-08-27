@@ -62,7 +62,8 @@ export const thunkCreatePost = (post) => async(dispatch) => {
 }
 
 export const thunkUpdatePost = (post) => async(dispatch) => {
-    const {text, post_id, img} = post
+    const {text, post_id, img, tags} = post
+    console.log('TAGS IN POST THUNK', tags)
     const res = await fetch(`/api/posts/${post_id}`, {
         method: 'PUT',
         headers: { "Content-Type": "application/json" },
@@ -70,6 +71,7 @@ export const thunkUpdatePost = (post) => async(dispatch) => {
     });
     if (res.ok) {
         const data = await res.json()
+        console.log('tag back from the server', data)
         dispatch(updatePost(data))
         return {data}
     }else {
