@@ -31,13 +31,13 @@ def seed_posts():
         # title='some title in post 3',
         text = 'Tis some visiter, I muttered, tapping at my chamber door— Only this and nothing more.',
         user_id = 2,
-        img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1724805733/capstone/download_3_mq2d7d.jpg'
+        # img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1724805733/capstone/download_3_mq2d7d.jpg'
     )
     post7 = Post(
         # title='some title in post 3',
         text = '“Hope” is the thing with feathers - That perches in the soul - And sings the tune without the words - And never stops - at all -',
         user_id = 3,
-         img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1724805734/capstone/5a0d342841ff207b763869482e2ca816e2e592f0_tligx2.jpg'
+        #  img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1724805734/capstone/5a0d342841ff207b763869482e2ca816e2e592f0_tligx2.jpg'
     )
     post8 = Post(
         # title='some title in post 3',
