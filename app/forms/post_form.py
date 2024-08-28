@@ -19,4 +19,5 @@ class PostForm(FlaskForm):
             )
         ]
     )
+    img = StringField('img')
     

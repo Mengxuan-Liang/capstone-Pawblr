@@ -36,13 +36,20 @@ export const thunkGetPosts = () => async(dispatch) => {
 }
 
 export const thunkCreatePost = (post) => async(dispatch) => {
-    const {text} = post
+    const {text, img, selectedTag} = post
+    console.log('img in thunk', img)
+    // console.log('TAG from', tags)
+    // const allTags = await fetch('/api/labels/');
+    // console.log('tags all from Tag table backend', allTags)
+    // if(allTags.ok){
+    //     const tagsData = await allTags.json()
+    //     // console.log(tagsData) array with id and name obj
+    //     // tagsData.find(tag => )
+    // }
     const res = await fetch('/api/posts/', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-           text
-        })
+        body: JSON.stringify(post)
     });
     if (res.ok) {
         const data = await res.json()
@@ -55,16 +62,16 @@ export const thunkCreatePost = (post) => async(dispatch) => {
 }
 
 export const thunkUpdatePost = (post) => async(dispatch) => {
-    const {text, post_id} = post
+    const {text, post_id, img, tags} = post
+    console.log('TAGS IN POST THUNK', tags)
     const res = await fetch(`/api/posts/${post_id}`, {
         method: 'PUT',
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            text
-        })
+        body: JSON.stringify(post)
     });
     if (res.ok) {
         const data = await res.json()
+        console.log('tag back from the server', data)
         dispatch(updatePost(data))
         return {data}
     }else {
@@ -82,6 +89,7 @@ export const thunkDeletePost = (id) => async(dispatch) => {
         return;
     }
 }
+
 
 const initalState = {}
 export default function postReducer(state=initalState, action){

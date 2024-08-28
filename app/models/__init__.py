@@ -8,3 +8,5 @@ from .comment import Comment
 from .label import Label
 from .like import Like
 from .post import Post
+from .postlabel import postlabel
+from .image import Image

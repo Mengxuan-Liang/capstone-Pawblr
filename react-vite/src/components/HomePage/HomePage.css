@@ -8,6 +8,7 @@
 body {
   background-color: #f4f4f4;
   color: #333;
+  height: 2000px;
   /* border: 2px yellow solid; */
   /* margin-left: 30px; */
 }
@@ -51,6 +52,8 @@ body {
   background-color: #f8f9fa;
   padding: 20px;
   border-right: 1px solid #ccc;
+  min-height: 100vh;
+  /* border: 2px yellow solid; */
 }
 
 .sidebar ul {
@@ -65,11 +68,29 @@ body {
   text-decoration: none;
   color: #333;
 }
-
+.model-button-sidebar{
+  display: flex;
+  /* border: 2px rebeccapurple solid; */
+  justify-content: flex-start;
+  width: 50%;
+}
 .fixed-menu {
   position: fixed;
   top: 180px;
   width: 25%;
+}
+.profile-button {
+  margin-bottom: 100px;
+}
+.create-blog-button {
+  background: lightgray;
+  width: fit-content;
+  padding: 10px;
+  border-radius: 7px;
+}
+.create-blog-button:hover {
+  background-color: rgb(181, 180, 180);
+  cursor: pointer;
 }
 
 .feed {
@@ -87,6 +108,9 @@ body {
 
 .post-header {
   margin-bottom: 10px;
+  display: flex;
+  gap:10px;
+  align-items: center;
 }
 
 .post-header h2 {
@@ -97,20 +121,56 @@ body {
   width: 100%;
   border-radius: 5px;
 }
+
+.post-author-follow-button {
+  display: flex;
+  gap:10px;
+}
+.follow-button {
+  border: none;
+  background-color: lightgray;
+  border-radius: 7px;
+  padding: 5px;
+}
+.follow-button:hover {
+  cursor: pointer;
+}
+.notes-reply-like-update-delete-container {
+  display: flex;
+  justify-content: space-between;
+}
 .comments-row-container{
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
 }
+.comments-row-container  button {
+  border: none;
+  width: 50px;
+  height: 30px;
+  border-radius: 7px;
+  background-color: lightgray;
+  font-size:medium
+}
+.comments-row-container button:hover{
+  cursor: pointer;
+}
 .clickable-h4 {
-  border: 1px black solid;
+  /* border: 1px black solid; */
   width: fit-content;
   padding: 5px;
-  background-color: lightgray
+  background-color: lightgray;
+  border-radius: 7px;
 }
 .clickable-h4:hover {
   cursor: pointer;
 }
+.clickable-h4, 
+.comment-details-container form button {
+  z-index: auto;
+  position: static
+}
+
 .comment-details-container {
   /* border: 2px rebeccapurple solid; */
   background-color: rgb(233, 233, 233);
@@ -129,6 +189,12 @@ body {
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
+}
+.update-post-button {
+  background-color: lightgray;
+  padding: 1px;
+  border-radius: 7px;
+  height: 30px;
 }
 .right-column {
   width: 20%;
@@ -159,7 +225,7 @@ body {
 }
 
 .sticky-footer {
-  position: fixed;
+  /* position: fixed; */
   bottom: 0;
   left: 0;
   width: 100%;
@@ -169,7 +235,8 @@ body {
   padding: 10px 0;
   z-index: 1000;
   height: fit-content;
-  padding: 25px;
+  padding-bottom: 10px;
+  padding-top: 20px;
 }
 
 
@@ -198,3 +265,25 @@ ul {
 li {
   list-style: none;
 }
+
+.like-button {
+  cursor: pointer;
+  color: gray;
+  font-weight: bold;
+  transition: color 0.3s ease;
+  margin-left: 10px;
+  user-select: none; /* Prevent text selection when clicking */
+}
+
+.like-button:hover {
+  color: #007bff; /* Change color on hover */
+}
+
+.like-button.liked {
+  color: #ff4500; /* Color for liked state (e.g., red/orange) */
+}
+
+.like-button:active {
+  transform: scale(0.95); /* Add a subtle click effect */
+}
+

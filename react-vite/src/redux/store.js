@@ -8,11 +8,15 @@ import thunk from "redux-thunk";
 import sessionReducer from "./session";
 import postReducer from "./postReducer";
 import commentReducer from "./commentReducer";
+import imageReducer from "./imageReducer";
+import tagReducer from "./tagReducer";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   post: postReducer,
-  comment: commentReducer
+  comment: commentReducer,
+  image: imageReducer,
+  tag: tagReducer
 });
 
 let enhancer;

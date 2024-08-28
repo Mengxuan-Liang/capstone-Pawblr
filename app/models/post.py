@@ -13,6 +13,7 @@ class Post(db.Model):
     # title = db.Column(db.String(255), nullable=True)
     text = db.Column(db.String(2555), nullable=True)
     img = db.Column(db.String(2555))
+    # tag = db.Column(db.String(2555))
     user_id = db.Column(
         db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=True
     )
@@ -44,10 +45,11 @@ class Post(db.Model):
             # "title": self.title,
             "text": self.text,
             "img": self.img,
+            # 'tag':self.tag,
             "user_id": self.user_id,
             "user": (
                 {
-                    # "id": self.user.id,
+                    "profileImage": self.user.profileImage,
                     "username": self.user.username,
                 }
                 if self.user

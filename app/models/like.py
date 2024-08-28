@@ -15,6 +15,8 @@ class Like(db.Model):
     user = db.relationship('User', back_populates='likes')
     post = db.relationship('Post', back_populates='likes')
 
+    __table_args__ = (db.UniqueConstraint('post_id', 'user_id', name='unique_like'),)
+
     def to_dict(self):
         return {
             'id': self.id,

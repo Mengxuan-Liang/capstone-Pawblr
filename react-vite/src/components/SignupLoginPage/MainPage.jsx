@@ -43,7 +43,7 @@ export default function MainPage() {
     };
 
     return (
-        <div>
+        <div className='wrapper'>
             <header className="header">
                 <div className="logo">Dumblr</div>
                 <nav className="navigation">
@@ -63,6 +63,9 @@ export default function MainPage() {
                             <li><NavLink to={'/blog'}>Change palette</NavLink></li>
 
                         </ul>
+                        <di className='model-button-sidebar'>
+                        <ModelButton/>
+                        </di>
                     </div>
                 </aside>
 
@@ -72,11 +75,15 @@ export default function MainPage() {
                         return (
                             <article className="post" key={post.id}>
                                 <div className="post-header">
-                                    <h3>{post.user.username}{' '}<Link>Follow</Link></h3>
-                                    <span>{post.created_at}</span>
+                                <img style={{width:'50px'}}src={post.user?.profileImage}/>
+                  <div>
+                  <h3>{post.user?.username}{' '}<Link>Follow</Link></h3>
+                  <span>{post.created_at}</span>
+
+                  </div>
                                 </div>
                                 <div className="post-content">
-                                    <img src="https://via.placeholder.com/600x300" alt="Post" />
+                                {post?.img && <img src={post.img} alt="Post" style={{width:'40%'}}/> }
                                     <p style={{ marginTop: '20px' }}>{post.text}</p>
                                     <br />
                                     {post.labels?.map(label => (
@@ -86,19 +93,18 @@ export default function MainPage() {
                                     ))}
                                 </div>
                                 <br />
-                                <hr style={{ color: 'grey' }} />
+                                {/* <hr style={{ color: 'grey' }} />
                                 <div className='comment-like-reply-container'>
                                     <span className="comments-section">
                                         <h4 className='clickable-h4' onClick={() => handleClick()}>
                                             {post.comments ? post.comments?.length : 0} notes
                                         </h4>
-                                        {/* {isModalOpen && <SignupFormModal />} */}
                                     </span>
                                     <div className="reply-like-container">
                                         <span>reply</span>
                                         <span>like</span>
                                     </div>
-                                </div>
+                                </div> */}
 
                             </article>
                         );

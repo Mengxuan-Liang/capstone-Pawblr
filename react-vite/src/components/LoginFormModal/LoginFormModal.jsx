@@ -31,7 +31,7 @@ function LoginFormModal() {
   return (
     <div className="modal-container">
       <h1>Dumblr</h1>
-      <h4 className="modal-title">Log in, you'll never be board again.</h4>
+      {/* <h4 className="modal-title">Log in, you'll never be board again.</h4> */}
       <br></br>
       <form className="form" onSubmit={handleSubmit}>
         <label className="form-label">
