@@ -28,7 +28,7 @@ export default function HomePage() {
   const [text, setText] = useState('')
   const [searchTag, setSearchTag] = useState('');
   const [likedPosts, setLikedPosts] = useState(new Set());
-   const [followStatus, setFollowStatus] = useState(new Set());
+  const [followStatus, setFollowStatus] = useState(new Set());
   const [errors, setErrors] = useState({})
 
   useEffect(() => {
@@ -45,29 +45,14 @@ export default function HomePage() {
           console.error("Error fetching liked posts:", error);
         }
       }
-
-      // const checkFollowStatus = async (followeeId) => {
-        try {
-          const response = await fetch(`/api/follow/status`);
-          const data = await response.json();
-          console.log('DATA!!',data)
-          const followedUsers = new Set(data?.follows?.map(follow=> follow.id))
-          setFollowStatus(followedUsers)
-          // followStatus[followeeId]= data.is_following;
-          // setFollowStatus(followStatus)
-          // setIsFollowing(data.is_following);
-        } catch (error) {
-          console.error("Error checking follow status:", error);
-        }
-      // };
-    
-      // if (userId) {
-      //   posts?.forEach(post => {
-      //     if (post.user_id) {
-      //       checkFollowStatus(post.user_id);
-      //     }
-      //   });
-      // }
+      try {
+        const response = await fetch(`/api/follow/status`);
+        const data = await response.json();
+        const followedUsers = new Set(data?.follows?.map(follow => follow.id))
+        setFollowStatus(followedUsers)
+      } catch (error) {
+        console.error("Error checking follow status:", error);
+      }
     };
     fetchData();
   }, [dispatch, isloaded, userId]);
@@ -89,33 +74,36 @@ export default function HomePage() {
   }
   // DELETE COMMENT
   const handleDelete = async (id) => {
-    const res = await dispatch(thunkDeleteComment(id))
-    if (res.errors) {
-      setErrors(res.errors)
-    } else {
-      setIsloaded(!isloaded)
+    const confirmDelete = window.confirm("Are you sure you want to delete this comment?");
+    if (confirmDelete) {
+      const res = await dispatch(thunkDeleteComment(id))
+      if (res.errors) {
+        setErrors(res.errors)
+      } else {
+        setIsloaded(!isloaded)
+      }
     }
   }
   // TOGGLE COMMENT
-const toggleComments = (postId) => {
-  // Select the correct comments section using the postId
-  const commentsSection = document.getElementById(`comments-section-${postId}`);
-  
-  if (!commentsSection) return; // Ensure that commentsSection exists
+  const toggleComments = (postId) => {
+    // Select the correct comments section using the postId
+    const commentsSection = document.getElementById(`comments-section-${postId}`);
 
-  // Find the comment container within the comments section
-  const commentContainer = commentsSection.querySelector('.comment-container');
-  const notesHeader = commentsSection.querySelector('.clickable-h4');
+    if (!commentsSection) return; // Ensure that commentsSection exists
 
-  if (!commentContainer || !notesHeader) return; // Ensure that commentContainer and notesHeader exist
+    // Find the comment container within the comments section
+    const commentContainer = commentsSection.querySelector('.comment-container');
+    const notesHeader = commentsSection.querySelector('.clickable-h4');
 
-  // Toggle visibility of the comment container
-  const isHidden = commentContainer.classList.toggle('hidden');
+    if (!commentContainer || !notesHeader) return; // Ensure that commentContainer and notesHeader exist
 
-  // Update the notes header text based on visibility
-  const commentCount = commentContainer.dataset.commentCount || '0';
-  notesHeader.textContent = isHidden ? `${commentCount} notes` : 'close notes';
-};
+    // Toggle visibility of the comment container
+    const isHidden = commentContainer.classList.toggle('hidden');
+
+    // Update the notes header text based on visibility
+    const commentCount = commentContainer.dataset.commentCount || '0';
+    notesHeader.textContent = isHidden ? `${commentCount} notes` : 'close notes';
+  };
 
   // TOGGLE LIKES
   const toggleLike = async (postId) => {
@@ -145,40 +133,41 @@ const toggleComments = (postId) => {
     }
   };
 
-// FOLLOW
-// const [isFollowing, setIsFollowing] = useState(false)
-console.log('is following', followStatus)
-const handleFollow = async (followeeId)=> {
-  if(followStatus.has(followeeId)){
-    const res = await fetch('/api/follow',{
-      method:'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ followee_id: followeeId }),
-    });
-    if (!res.ok) {
-      throw new Error('Failed to unfollow this user');
+  // TOGGLE FOLLOW
+  const handleFollow = async (followeeId) => {
+    if (followStatus.has(followeeId)) {
+      const res = await fetch('/api/follow', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ followee_id: followeeId }),
+      });
+      if (!res.ok) {
+        throw new Error('Failed to unfollow this user');
+      }
+      setFollowStatus(pre => {
+        const newSet = new Set(pre)
+        newSet.delete(followeeId)
+        return newSet
+      })
+    } else {
+      const res = await fetch('/api/follow', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ followee_id: followeeId }),
+      });
+      if (!res.ok) {
+        throw new Error('Failed to follow this user');
+      };
+      setFollowStatus(prev => new Set(prev).add(followeeId))
     }
-    setFollowStatus(pre => {
-      const newSet = new Set(pre)
-      newSet.delete(followeeId)
-      return newSet
-    })
-  }else {
-    const res = await fetch('/api/follow', {
-      method:'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ followee_id: followeeId }),
-    });
-    if (!res.ok) {
-      throw new Error('Failed to follow this user');
-    };
-    setFollowStatus(prev => new Set(prev).add(followeeId))
   }
-}
 
   // DELETE POST
   const handleDeletePost = async (id) => {
-    await dispatch(thunkDeletePost(id))
+    const confirmDelete = window.confirm("Are you sure you want to delete this post?");
+    if (confirmDelete) {
+      await dispatch(thunkDeletePost(id));
+    }
   }
 
   return (
@@ -216,7 +205,7 @@ const handleFollow = async (followeeId)=> {
 
         <section className="feed">
           {posts?.map(post => {
-            // Determine if the current post is liked
+            // Determine if the current post is liked, post's author is followed
             const isLiked = likedPosts.has(post.id);
             const isFollowed = followStatus.has(post.user_id);
 
@@ -226,8 +215,8 @@ const handleFollow = async (followeeId)=> {
                   <img style={{ width: '50px' }} src={post.user?.profileImage} />
                   <div>
                     <div className='post-author-follow-button'>
-                    <h3>{post.user?.username}{' '}</h3>
-                    {post.user_id !== userId && <button className='follow-button'onClick={()=> handleFollow(post.user_id)}>{isFollowed? 'Unfollow':'Follow'}</button>}
+                      <h3>{post.user?.username}{' '}</h3>
+                      {post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.user_id)}>{isFollowed ? 'Unfollow' : 'Follow'}</button>}
                     </div>
                     <span>{post.created_at}</span>
                   </div>
@@ -268,7 +257,7 @@ const handleFollow = async (followeeId)=> {
                       <br></br>
                       {post.comments?.map(comment => (
                         <div className='comment-details-container' key={comment.id}>
-                          <span style={{fontSize:'small'}}>{comment.user?.username}</span>{' '}<span style={{fontSize:'small'}}>{comment.created_at}</span>
+                          <span style={{ fontSize: 'small' }}>{comment.user?.username}</span>{' '}<span style={{ fontSize: 'small' }}>{comment.created_at}</span>
                           <div key={comment.id}>{comment.text}</div>
                           {/* <button >reply</button> */}
                           {
@@ -281,7 +270,7 @@ const handleFollow = async (followeeId)=> {
 
                   <span className="comments-row-container">
                     <div className="reply-like-container">
-                    <button onClick={() => toggleComments(post.id)}>Reply</button>
+                      <button onClick={() => toggleComments(post.id)}>Reply</button>
                       <span
                         style={{ cursor: 'pointer' }}
                         className="like-button"
