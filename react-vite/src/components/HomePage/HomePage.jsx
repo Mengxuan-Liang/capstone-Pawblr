@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { thunkGetPosts, thunkDeletePost } from '../../redux/postReducer';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useFetcher, useNavigate } from 'react-router-dom';
 import CreateBlogButton from '../CreateBlog/CreateBlogButton';
 import UpdateBlogButton from '../UpdataBlog/UpdateBlogButton';
 import { thunkAddComments, thunkDeleteComment, thunkGetComments } from '../../redux/commentReducer';
@@ -28,6 +28,7 @@ export default function HomePage() {
   const [text, setText] = useState('')
   const [searchTag, setSearchTag] = useState('');
   const [likedPosts, setLikedPosts] = useState(new Set());
+   const [followStatus, setFollowStatus] = useState(new Set());
   const [errors, setErrors] = useState({})
 
   useEffect(() => {
@@ -44,6 +45,29 @@ export default function HomePage() {
           console.error("Error fetching liked posts:", error);
         }
       }
+
+      // const checkFollowStatus = async (followeeId) => {
+        try {
+          const response = await fetch(`/api/follow/status`);
+          const data = await response.json();
+          console.log('DATA!!',data)
+          const followedUsers = new Set(data?.follows?.map(follow=> follow.id))
+          setFollowStatus(followedUsers)
+          // followStatus[followeeId]= data.is_following;
+          // setFollowStatus(followStatus)
+          // setIsFollowing(data.is_following);
+        } catch (error) {
+          console.error("Error checking follow status:", error);
+        }
+      // };
+    
+      // if (userId) {
+      //   posts?.forEach(post => {
+      //     if (post.user_id) {
+      //       checkFollowStatus(post.user_id);
+      //     }
+      //   });
+      // }
     };
     fetchData();
   }, [dispatch, isloaded, userId]);
@@ -93,8 +117,6 @@ const toggleComments = (postId) => {
   notesHeader.textContent = isHidden ? `${commentCount} notes` : 'close notes';
 };
 
-  
-
   // TOGGLE LIKES
   const toggleLike = async (postId) => {
     try {
@@ -112,7 +134,7 @@ const toggleComments = (postId) => {
       } else {
         // Like the post
         const response = await fetch(`/api/likes/${postId}`, { method: 'POST' });
-        console.log('res after click like', response)
+        // console.log('res after click like', response)
         if (!response.ok) {
           throw new Error('Failed to like the post');
         }
@@ -123,6 +145,36 @@ const toggleComments = (postId) => {
     }
   };
 
+// FOLLOW
+// const [isFollowing, setIsFollowing] = useState(false)
+console.log('is following', followStatus)
+const handleFollow = async (followeeId)=> {
+  if(followStatus.has(followeeId)){
+    const res = await fetch('/api/follow',{
+      method:'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ followee_id: followeeId }),
+    });
+    if (!res.ok) {
+      throw new Error('Failed to unfollow this user');
+    }
+    setFollowStatus(pre => {
+      const newSet = new Set(pre)
+      newSet.delete(followeeId)
+      return newSet
+    })
+  }else {
+    const res = await fetch('/api/follow', {
+      method:'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ followee_id: followeeId }),
+    });
+    if (!res.ok) {
+      throw new Error('Failed to follow this user');
+    };
+    setFollowStatus(prev => new Set(prev).add(followeeId))
+  }
+}
 
   // DELETE POST
   const handleDeletePost = async (id) => {
@@ -166,15 +218,18 @@ const toggleComments = (postId) => {
           {posts?.map(post => {
             // Determine if the current post is liked
             const isLiked = likedPosts.has(post.id);
+            const isFollowed = followStatus.has(post.user_id);
 
             return (
               <article className="post" key={post.id}>
                 <div className="post-header">
                   <img style={{ width: '50px' }} src={post.user?.profileImage} />
                   <div>
-                    <h3>{post.user?.username}{' '}<Link>Follow</Link></h3>
+                    <div className='post-author-follow-button'>
+                    <h3>{post.user?.username}{' '}</h3>
+                    {post.user_id !== userId && <button className='follow-button'onClick={()=> handleFollow(post.user_id)}>{isFollowed? 'Unfollow':'Follow'}</button>}
+                    </div>
                     <span>{post.created_at}</span>
-
                   </div>
                 </div>
                 <div className="post-content">

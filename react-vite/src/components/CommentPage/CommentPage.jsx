@@ -71,7 +71,7 @@ export default function Comment() {
             return (
               <article className="post" key={post.id}>
                 <div className="post-header">
-                  <h3>{post.post.username}{' '}<Link>Follow</Link></h3>
+                  <h3>{post.post.username}{' '}</h3>
 
                 </div>
                 <div className="post-content">

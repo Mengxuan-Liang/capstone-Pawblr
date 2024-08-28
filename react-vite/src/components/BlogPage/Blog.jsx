@@ -175,7 +175,7 @@ const toggleComments = (postId) => {
               <div className="post-header">
                 <img style={{ width: '50px' }} src={post.user?.profileImage} />
                 <div>
-                  <h3>{post.user?.username}{' '}<Link>Follow</Link></h3>
+                  <h3>{post.user?.username}{' '}</h3>
                   <span>{post.created_at}</span>
 
                 </div>

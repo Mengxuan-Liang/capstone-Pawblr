@@ -118,6 +118,20 @@ body {
   width: 100%;
   border-radius: 5px;
 }
+
+.post-author-follow-button {
+  display: flex;
+  gap:10px;
+}
+.follow-button {
+  border: none;
+  background-color: lightgray;
+  border-radius: 7px;
+  padding: 5px;
+}
+.follow-button:hover {
+  cursor: pointer;
+}
 .notes-reply-like-update-delete-container {
   display: flex;
   justify-content: space-between;
