@@ -4,47 +4,49 @@ from sqlalchemy.sql import text
 def seed_posts():
     post1 = Post(
         # title='some title in post 1',
-        text = 'Mark but this flea, and mark in this, ',
+        text = "As virtuous men passe mildly away, And whisper to their soules, to goe, Whilst some of their sad friends doe say, The breath goes now, and some say, no: So let us melt, and make no noise, No teare-floods, nor sigh-tempests move, T'were prophanation of our joyes To tell the layetie our love.",
         user_id = 1,
     )
     post2 = Post(
         # title='some title in post 2',
-        text = 'How little that which thou deniest me is;',
+        text = "Moving of th'earth brings harmes and fears, Men reckon what it did and meant, But trepidation of the spheares, Though greater farre, is innocent.",
         user_id = 1,
     )
     post3 = Post(
         # title='some title in post 3',
-        text = 'It sucked me first, and now sucks thee,',
+        text = "Dull sublunary lovers love (Whose soul is sense) cannot admit Absence, because it doth remove Those things which elemented it.",
         user_id = 1,
     )
     post4 = Post(
         # title='some title in post 3',
-        text = 'And in this flea our two bloods mingled be',
+        text = "Once upon a midnight dreary, while I pondered, weak and weary, Over many a quaint and curious volume of forgotten lore",
         user_id = 2,
     )
     post5 = Post(
         # title='some title in post 3',
-        text = "Thou know’st that this cannot be said",
+        text = "While I nodded, nearly napping, suddenly there came a tapping, As of some one gently rapping, rapping at my chamber door.",
         user_id = 2,
     )
     post6 = Post(
         # title='some title in post 3',
-        text = 'A sin, nor shame, nor loss of maidenhead,',
+        text = 'Tis some visiter, I muttered, tapping at my chamber door— Only this and nothing more.',
         user_id = 2,
+        img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1724805733/capstone/download_3_mq2d7d.jpg'
     )
     post7 = Post(
         # title='some title in post 3',
-        text = 'Yet this enjoys before it woo,',
+        text = '“Hope” is the thing with feathers - That perches in the soul - And sings the tune without the words - And never stops - at all -',
         user_id = 3,
+         img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1724805734/capstone/5a0d342841ff207b763869482e2ca816e2e592f0_tligx2.jpg'
     )
     post8 = Post(
         # title='some title in post 3',
-        text = 'And pampered swells with one blood made of two,',
+        text = 'And sweetest - in the Gale - is heard - And sore must be the storm - That could abash the little Bird That kept so many warm -',
         user_id = 3,
     )
     post9 = Post(
         # title='some title in post 3',
-        text = 'And this, alas, is more than we would do.',
+        text = 'I’ve heard it in the chillest land - And on the strangest Sea - Yet - never - in Extremity, It asked a crumb - of me.',
         user_id = 3,
     )
 

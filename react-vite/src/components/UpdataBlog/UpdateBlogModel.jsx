@@ -5,6 +5,7 @@ import { thunkUpdatePost } from "../../redux/postReducer";
 import { useNavigate } from "react-router-dom";
 import { createImage } from "../../redux/imageReducer";
 import { thunkGetTags } from "../../redux/tagReducer";
+import './UpdateBlogModel.css'
 
 
 export default function UpdateBlogModal({ el }) {
@@ -104,10 +105,9 @@ export default function UpdateBlogModal({ el }) {
     const stateImageUrl = useSelector(state => state.image?.img?.image?.image);
 
     return (
-        <div id="container-signup-form-modal">
+        <div id="container-signup-form-modal" className="modal">
             <h1>Update</h1>
-            <p>Your image</p>
-            {el.img && <img style={{ width: '150px' }} src={el.img} />}
+            {el?.img && <img style={{ width: '150px' }} src={el?.img} />}
 
             <p style={{ color: 'grey', fontSize: "15px" }}>Upload new image</p>
             <div className="file-inputs-container">
@@ -117,7 +117,7 @@ export default function UpdateBlogModal({ el }) {
                 <div className="file-inputs-optional">{optional}</div>
                 {/* <label htmlFor="post-image-input" className="file-input-labels">Choose File</label> */}
             </div>
-
+<br></br>
             <div >
                 <form
                     onSubmit={handleSubmitImg}
@@ -129,7 +129,7 @@ export default function UpdateBlogModal({ el }) {
           accept="image/*"
           onChange={(e) => setImage(e.target.files[0])}
         /> */}
-                    <button type="submit">Confirm</button>
+                    <button style={{padding:'8px'}}type="submit">Confirm Image</button>
                 </form>
 
 
@@ -149,7 +149,8 @@ export default function UpdateBlogModal({ el }) {
                 </label>
                 {errors?.errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.errors?.text}</p>}
                 <br></br>
-                <p>Edit your tags</p>
+                <br></br>
+                <p style={{ color: 'grey' }}># Edit your tags</p>
                 {selectedTags?.map(tag => (
                     <button
                         key={tag}

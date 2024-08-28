@@ -8,12 +8,12 @@ def seed_users():
         username='John Donne', email='john@aa.io', password='password',  profileImage='https://res.cloudinary.com/dhukvbcqm/image/upload/v1724687622/capstone/612tkxoqAtL_i1uath.jpg')
     allan = User(
         username='Allan Poe', email='allan@aa.io', password='password', profileImage='https://res.cloudinary.com/dhukvbcqm/image/upload/v1724687622/capstone/28c2cdadd53140ed9a8ff8b0b37bbf9b_ywud0n.webp')
-    shake = User(
-        username='Shakespeare', email='shake@aa.io', password='password', profileImage='https://res.cloudinary.com/dhukvbcqm/image/upload/v1724687622/capstone/cute-corgi-dog-cartoon-illustration-funny-sitting-puppy_517059-178_mmjsil.avif')
+    emily = User(
+        username='Emily Dickinson', email='emily@aa.io', password='password', profileImage='https://res.cloudinary.com/dhukvbcqm/image/upload/v1724687622/capstone/cute-corgi-dog-cartoon-illustration-funny-sitting-puppy_517059-178_mmjsil.avif')
 
     db.session.add(john)
     db.session.add(allan)
-    db.session.add(shake)
+    db.session.add(emily)
     db.session.commit()
 
 

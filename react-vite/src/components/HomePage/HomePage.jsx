@@ -10,10 +10,10 @@ import ProfileButton from '../Navigation/ProfileButton';
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 
 export default function HomePage() {
+  const posts = useSelector(state => state.post.post);
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const userInfo = useSelector(state => state.session.user)
-  const posts = useSelector(state => state.post.post);
 
   useEffect(() => {
     if (!userInfo) {
@@ -46,7 +46,7 @@ export default function HomePage() {
       }
     };
     fetchData();
-  }, [dispatch, isloaded]);
+  }, [dispatch, isloaded, userId]);
 
   // ADD COMMENT
   const handleSubmit = async (e, post_id) => {
@@ -73,21 +73,27 @@ export default function HomePage() {
     }
   }
   // TOGGLE COMMENT
-  const toggleComments = (event) => {
-    event.stopPropagation();
-    const commentsSection = event.target.closest('.comments-section');
-    const commentContainer = commentsSection.querySelector('.comment-container');
-    const notesHeader = commentsSection.querySelector('.clickable-h4');
+const toggleComments = (postId) => {
+  // Select the correct comments section using the postId
+  const commentsSection = document.getElementById(`comments-section-${postId}`);
+  
+  if (!commentsSection) return; // Ensure that commentsSection exists
 
-    if (!commentContainer || !notesHeader) return;
+  // Find the comment container within the comments section
+  const commentContainer = commentsSection.querySelector('.comment-container');
+  const notesHeader = commentsSection.querySelector('.clickable-h4');
 
-    const isHidden = commentContainer.classList.toggle('hidden');
-    const commentCount = commentContainer.dataset.commentCount || '0';
+  if (!commentContainer || !notesHeader) return; // Ensure that commentContainer and notesHeader exist
 
-    notesHeader.textContent = isHidden
-      ? `${commentCount} notes`
-      : 'close notes';
-  };
+  // Toggle visibility of the comment container
+  const isHidden = commentContainer.classList.toggle('hidden');
+
+  // Update the notes header text based on visibility
+  const commentCount = commentContainer.dataset.commentCount || '0';
+  notesHeader.textContent = isHidden ? `${commentCount} notes` : 'close notes';
+};
+
+  
 
   // TOGGLE LIKES
   const toggleLike = async (postId) => {
@@ -140,17 +146,19 @@ export default function HomePage() {
       <div className="main-content">
         <aside className="sidebar">
           <div className="fixed-menu">
+            <div className='profile-button'>
+              < ProfileButton />
+            </div>
             <ul>
               <li><NavLink to={'/'}>Home</NavLink></li>
               <li><NavLink to={'/blog'}>Blogs</NavLink></li>
               <li><NavLink to={'/comment'}>Comments</NavLink></li>
               <li><a href="#">Likes</a></li>
-              <li><a href="#">Activity</a></li>
+              {/* <li><a href="#">Activity</a></li>
               <li><a href="#">Messages</a></li>
-              <li><a href="#">Settings</a></li>
-              <ProfileButton />
+              <li><a href="#">Settings</a></li> */}
             </ul>
-            <div><CreateBlogButton /></div>
+            <div className='create-blog-button'><CreateBlogButton /></div>
           </div>
         </aside>
 
@@ -181,66 +189,64 @@ export default function HomePage() {
                 </div>
                 <br />
                 <hr style={{ color: 'grey' }} />
-                <span className="comments-section">
-                  <h4 className='clickable-h4' onClick={toggleComments}>
-                    {post.comments ? post.comments?.length : 0} notes
-                  </h4>
-                  <ul className='comment-container hidden' data-comment-count={post.comments?.length}>
-                    <form onSubmit={(e) => handleSubmit(e, post.id)}>
-                      <label>
-                        <input
-                          type='text'
-                          value={text}
-                          onChange={e => setText(e.target.value)}
-                          placeholder={`Reply as @${user}`}
-                          required
-                        />
+                <br></br>
+                <div className='notes-reply-like-update-delete-container'>
+                  <span className="comments-section" id={`comments-section-${post.id}`}>
+                    <h4 className='clickable-h4' onClick={() => toggleComments(post.id)}>
+                      {post.comments ? post.comments?.length : 0} notes
+                    </h4>
+                    <br></br>
+                    <ul className='comment-container hidden' data-comment-count={post.comments?.length}>
+                      <form onSubmit={(e) => handleSubmit(e, post.id)}>
+                        <label>
+                          <input
+                            type='text'
+                            value={text}
+                            onChange={e => setText(e.target.value)}
+                            placeholder={`Reply as @${user}`}
+                            required
+                          />
+                        </label>
+                        {errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.text}</p>}
+                        <button type="submit">send</button>
+                      </form>
+                      <br></br>
+                      {post.comments?.map(comment => (
+                        <div className='comment-details-container' key={comment.id}>
+                          <span style={{fontSize:'small'}}>{comment.user?.username}</span>{' '}<span style={{fontSize:'small'}}>{comment.created_at}</span>
+                          <div key={comment.id}>{comment.text}</div>
+                          {/* <button >reply</button> */}
+                          {
+                            userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>delete</button>
+                          }
+                        </div>
+                      ))}
+                    </ul>
+                  </span>
 
-                      </label>
-                      {errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.text}</p>}
-                      <button type="submit">send</button>
-
-                    </form>
-
-                    {post.comments?.map(comment => (
-                      <div className='comment-details-container' key={comment.id}>
-                        <span>{comment.user?.username}</span>{' '}<span>{comment.created_at}</span>
-                        <div key={comment.id}>{comment.text}</div>
-                        <button >reply</button>
-                        {
-                          userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>delete</button>
-                        }
-                      </div>
-                    ))}
-                  </ul>
-
-                </span>
-
-                <div className="comments-row-container">
-
-                  <div className="reply-like-container">
-                    <span>reply</span>
-                    <span
-                      style={{ cursor: 'pointer' }}
-                      className="like-button"
-                      onClick={() => toggleLike(post.id)} // **Handle like/unlike**
-                    >
-                      {isLiked ? (
-                        <FaHeart style={{ color: 'red' }} />
-                      ) : (
-                        <FaRegHeart />
-                      )}
-                    </span>
-                    {
-                      post.user_id === userId && <>
-                        <span><UpdateBlogButton el={post} /></span>
-                        <span><button onClick={() => handleDeletePost(post.id)}>delete</button></span>
-                      </>
-                    }
-
-                  </div>
+                  <span className="comments-row-container">
+                    <div className="reply-like-container">
+                    <button onClick={() => toggleComments(post.id)}>Reply</button>
+                      <span
+                        style={{ cursor: 'pointer' }}
+                        className="like-button"
+                        onClick={() => toggleLike(post.id)}
+                      >
+                        {isLiked ? (
+                          <FaHeart style={{ color: 'red' }} />
+                        ) : (
+                          <FaRegHeart />
+                        )}
+                      </span>
+                      {
+                        post.user_id === userId && <>
+                          <span className='update-post-button'><UpdateBlogButton el={post} /></span>
+                          <span><button onClick={() => handleDeletePost(post.id)}>Delete</button></span>
+                        </>
+                      }
+                    </div>
+                  </span>
                 </div>
-
               </article>
             );
           })}

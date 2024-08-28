@@ -100,7 +100,7 @@ function SignupFormModal() {
 
   return (
     <div className="modal-container">
-      <h1>Sign Up</h1>
+      <h1>Dumblr</h1>
       <div>Choose profile image(optional)</div>
 
       <div className="file-inputs-container" >

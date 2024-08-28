@@ -43,7 +43,7 @@ export default function MainPage() {
     };
 
     return (
-        <div>
+        <div className='wrapper'>
             <header className="header">
                 <div className="logo">Dumblr</div>
                 <nav className="navigation">
@@ -63,6 +63,9 @@ export default function MainPage() {
                             <li><NavLink to={'/blog'}>Change palette</NavLink></li>
 
                         </ul>
+                        <di className='model-button-sidebar'>
+                        <ModelButton/>
+                        </di>
                     </div>
                 </aside>
 
@@ -90,19 +93,18 @@ export default function MainPage() {
                                     ))}
                                 </div>
                                 <br />
-                                <hr style={{ color: 'grey' }} />
+                                {/* <hr style={{ color: 'grey' }} />
                                 <div className='comment-like-reply-container'>
                                     <span className="comments-section">
                                         <h4 className='clickable-h4' onClick={() => handleClick()}>
                                             {post.comments ? post.comments?.length : 0} notes
                                         </h4>
-                                        {/* {isModalOpen && <SignupFormModal />} */}
                                     </span>
                                     <div className="reply-like-container">
                                         <span>reply</span>
                                         <span>like</span>
                                     </div>
-                                </div>
+                                </div> */}
 
                             </article>
                         );

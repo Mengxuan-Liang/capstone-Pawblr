@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { thunkGetComments } from "../../redux/commentReducer";
 import { createImage } from "../../redux/imageReducer";
 import { thunkGetTags } from "../../redux/tagReducer";
+import './CreateBlogModal.css'
 
 export default function CreateBlogModal() {
     const dispatch = useDispatch();
@@ -128,7 +129,7 @@ const stateImageUrl = useSelector(state => state.image?.img?.image?.image);
                 {/* <label htmlFor="post-image-input" className="file-input-labels">Choose File</label> */}
             </div>
 
-
+<br></br>
 
             {/* <p style={{ color: 'grey', fontSize: "15px" }}>Choose your profile image(optional)</p>
       {(imageLoading) && <img style={{ width: '20%' }} src={imageURL}></img>} */}
@@ -143,7 +144,7 @@ const stateImageUrl = useSelector(state => state.image?.img?.image?.image);
           accept="image/*"
           onChange={(e) => setImage(e.target.files[0])}
         /> */}
-                    <button type="submit">Confirm</button>
+                    <button style={{padding:'7px'}}type="submit">Confirm Image</button>
                 </form>
 
 
@@ -165,7 +166,7 @@ const stateImageUrl = useSelector(state => state.image?.img?.image?.image);
                 </label>
                 {errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.text}</p>}
                 <br></br>
-
+<br></br>
                 <label style={{ color: 'grey' }}>
                     # Add tags to help people find your post
                 </label>
@@ -199,7 +200,7 @@ const stateImageUrl = useSelector(state => state.image?.img?.image?.image);
                 </div> */}
                 {errors?.errors?.tags && <p style={{ color: 'red' }}>{errors?.errors?.tags}</p>}
                 <br />
-                <button type="submit">Create</button>
+                <button type="submit">Create</button> {' '}
                 <button
 
                     onClick={() => {
