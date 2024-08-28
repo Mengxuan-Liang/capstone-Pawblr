@@ -156,7 +156,7 @@ const toggleComments = (postId) => {
             <li><NavLink to={'/'}>Home</NavLink></li>
             <li><NavLink to={'/blog'}>Blogs</NavLink></li>
             <li><NavLink to={'/comment'}>Comments</NavLink></li>
-            <li><a href="#">Likes</a></li>
+            {/* <li><a href="#">Likes</a></li> */}
             {/* <li><a href="#">Activity</a></li>
             <li><a href="#">Messages</a></li>
             <li><a href="#">Settings</a></li> */}

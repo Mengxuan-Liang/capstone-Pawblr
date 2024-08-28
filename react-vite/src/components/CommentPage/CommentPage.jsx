@@ -50,14 +50,14 @@ export default function Comment() {
       <div className="main-content">
         <aside className="sidebar">
           <div className="fixed-menu">
-          <div className='profile-button'>
+            <div className='profile-button'>
               <ProfileButton />
             </div>
             <ul>
               <li><NavLink to={'/'}>Home</NavLink></li>
               <li><NavLink to={'/blog'}>Blogs</NavLink></li>
               <li><a href="#">Comments</a></li>
-              <li><a href="#">Likes</a></li>
+              {/* <li><a href="#">Likes</a></li> */}
               {/* <li><a href="#">Activity</a></li>
               <li><a href="#">Messages</a></li>
               <li><a href="#">Settings</a></li> */}
@@ -84,15 +84,18 @@ export default function Comment() {
                       </span>
                     ))} */}
                 </div>
-                <br />
+
                 <hr style={{ color: 'grey' }} />
-<br></br>
+                <br></br>
                 <div className='comment-reply-like'>
-                    Your comments:
-                    <br></br>
-                    <br></br>
-                 {post.text}
-{/* <span>update comment</span><span>delete comment</span> */}
+                  <h4>Your comments:</h4>
+                  <br></br>
+
+                  <div>
+
+                    {post.text}
+                  </div>
+                  {/* <span>update comment</span><span>delete comment</span> */}
                 </div>
               </article>
             );

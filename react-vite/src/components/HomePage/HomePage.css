@@ -51,6 +51,8 @@ body {
   background-color: #f8f9fa;
   padding: 20px;
   border-right: 1px solid #ccc;
+  min-height: 100vh;
+  /* border: 2px yellow solid; */
 }
 
 .sidebar ul {

@@ -31,6 +31,14 @@ export default function HomePage() {
   const [followStatus, setFollowStatus] = useState(new Set());
   const [errors, setErrors] = useState({})
 
+  const [isModalOpen, setIsModalOpen] = useState(true);
+
+  const toggleModal = () => {
+    setIsModalOpen(prevState => !prevState);
+    setIsloaded(!isloaded)
+  };
+
+
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(thunkGetPosts());
@@ -55,8 +63,9 @@ export default function HomePage() {
       }
     };
     fetchData();
-  }, [dispatch, isloaded, userId]);
-
+  }, [dispatch, isloaded, userId,isModalOpen]);
+  
+console.log('is modle open????????', isModalOpen)
   // ADD COMMENT
   const handleSubmit = async (e, post_id) => {
     e.preventDefault();
@@ -194,12 +203,12 @@ export default function HomePage() {
               <li><NavLink to={'/'}>Home</NavLink></li>
               <li><NavLink to={'/blog'}>Blogs</NavLink></li>
               <li><NavLink to={'/comment'}>Comments</NavLink></li>
-              <li><a href="#">Likes</a></li>
+              {/* <li><a href="#">Likes</a></li> */}
               {/* <li><a href="#">Activity</a></li>
               <li><a href="#">Messages</a></li>
               <li><a href="#">Settings</a></li> */}
             </ul>
-            <div className='create-blog-button'><CreateBlogButton /></div>
+            <button onClick={toggleModal} className='create-blog-button'><CreateBlogButton /></button>
           </div>
         </aside>
 
@@ -236,7 +245,7 @@ export default function HomePage() {
                 <br></br>
                 <div className='notes-reply-like-update-delete-container'>
                   <span className="comments-section" id={`comments-section-${post.id}`}>
-                    <h4 className='clickable-h4' onClick={() => toggleComments(post.id)}>
+                    <h4 className={isModalOpen?'clickable-h4':''} onClick={() => toggleComments(post.id)}>
                       {post.comments ? post.comments?.length : 0} notes
                     </h4>
                     <br></br>
