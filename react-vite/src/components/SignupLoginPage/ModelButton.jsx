@@ -5,7 +5,7 @@ import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 // import CreateBlogModal from "./CreateBlogModal";
 import LoginFormModal from "../LoginFormModal/LoginFormModal";
 import SignupFormModal from "../SignupFormModal/SignupFormModal";
-import ModalPage from "./ModelPage";
+// import ModalPage from "./ModelPage";
 import HomePage from "../HomePage/HomePage";
 
 

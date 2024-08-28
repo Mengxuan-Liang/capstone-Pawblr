@@ -13,7 +13,7 @@ function SignupFormModal() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [image, setImage] = useState(null);
+  // const [image, setImage] = useState(null);
   const [imageLoading, setImageLoading] = useState(false);
   // const [profileImg, setProfileImg] = useState('')
   const [errors, setErrors] = useState({});

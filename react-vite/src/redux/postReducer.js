@@ -36,8 +36,8 @@ export const thunkGetPosts = () => async(dispatch) => {
 }
 
 export const thunkCreatePost = (post) => async(dispatch) => {
-    const {text, img, selectedTag} = post
-    console.log('img in thunk', img)
+    // const {text, img, selectedTag} = post
+    // console.log('img in thunk', img)
     // console.log('TAG from', tags)
     // const allTags = await fetch('/api/labels/');
     // console.log('tags all from Tag table backend', allTags)
@@ -62,8 +62,8 @@ export const thunkCreatePost = (post) => async(dispatch) => {
 }
 
 export const thunkUpdatePost = (post) => async(dispatch) => {
-    const {text, post_id, img, tags} = post
-    console.log('TAGS IN POST THUNK', tags)
+    const {post_id} = post
+    // console.log('TAGS IN POST THUNK', tags)
     const res = await fetch(`/api/posts/${post_id}`, {
         method: 'PUT',
         headers: { "Content-Type": "application/json" },
@@ -71,7 +71,7 @@ export const thunkUpdatePost = (post) => async(dispatch) => {
     });
     if (res.ok) {
         const data = await res.json()
-        console.log('tag back from the server', data)
+        // console.log('tag back from the server', data)
         dispatch(updatePost(data))
         return {data}
     }else {

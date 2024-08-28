@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { thunkGetPosts, thunkDeletePost } from '../../redux/postReducer';
-import { Link, NavLink, useFetcher, useNavigate } from 'react-router-dom';
+import {  NavLink,  useNavigate } from 'react-router-dom';
 import CreateBlogButton from '../CreateBlog/CreateBlogButton';
 import UpdateBlogButton from '../UpdataBlog/UpdateBlogButton';
 import { thunkAddComments, thunkDeleteComment, thunkGetComments } from '../../redux/commentReducer';
@@ -22,11 +22,11 @@ export default function HomePage() {
   }, [userInfo, navigate]);
   const user = userInfo?.username;
   const userId = userInfo?.id;
-  const profileImage = userInfo?.profileImage;
+  // const profileImage = userInfo?.profileImage;
   const commments = useSelector(state => state.comment.comment)
   const [isloaded, setIsloaded] = useState(false)
   const [text, setText] = useState('')
-  const [searchTag, setSearchTag] = useState('');
+  // const [searchTag, setSearchTag] = useState('');
   const [likedPosts, setLikedPosts] = useState(new Set());
   const [followStatus, setFollowStatus] = useState(new Set());
   const [errors, setErrors] = useState({})
@@ -166,7 +166,7 @@ export default function HomePage() {
       });
       if (!res.ok) {
         throw new Error('Failed to follow this user');
-      };
+      }
       setFollowStatus(prev => new Set(prev).add(followeeId))
     }
   }

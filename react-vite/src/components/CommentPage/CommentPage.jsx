@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { thunkDeletePost, thunkGetPosts } from '../../redux/postReducer';
-import { Link, NavLink } from 'react-router-dom';
+// import { thunkDeletePost, thunkGetPosts } from '../../redux/postReducer';
+import { NavLink } from 'react-router-dom';
 import '../HomePage/HomePage.css';
 import CreateBlogButton from '../CreateBlog/CreateBlogButton';
-import UpdateBlogButton from '../UpdataBlog/UpdateBlogButton';
+// import UpdateBlogButton from '../UpdataBlog/UpdateBlogButton';
 import { thunkGetComments } from '../../redux/commentReducer';
 import ProfileButton from '../Navigation/ProfileButton';
 
 export default function Comment() {
   const username = useSelector(state => state.session.user.username)
   const userId = useSelector(state => state.session.user.id)
-  const [expandedPostId, setExpandedPostId] = useState(null);
+  // const [expandedPostId, setExpandedPostId] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {

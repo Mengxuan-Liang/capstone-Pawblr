@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { thunkCreatePost, thunkGetPosts } from "../../redux/postReducer";
 import { useNavigate } from "react-router-dom";
-import { thunkGetComments } from "../../redux/commentReducer";
+// import { thunkGetComments } from "../../redux/commentReducer";
 import { createImage } from "../../redux/imageReducer";
 import { thunkGetTags } from "../../redux/tagReducer";
 import './CreateBlogModal.css'
@@ -17,7 +17,7 @@ export default function CreateBlogModal() {
 
 
     const [text, setText] = useState("");
-    const [image, setImage] = useState(null);
+    // const [image, setImage] = useState(null);
     const [imageLoading, setImageLoading] = useState(false);
     // const [isloaded, setIsloaded] = useState(false)
     const [errors, setErrors] = useState({});

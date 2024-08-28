@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { thunkDeletePost, thunkGetPosts } from '../../redux/postReducer';
-import { Link, NavLink, Form, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import CreateBlogButton from '../CreateBlog/CreateBlogButton';
 import UpdateBlogButton from '../UpdataBlog/UpdateBlogButton';
 import { thunkGetComments, thunkAddComments, thunkDeleteComment } from '../../redux/commentReducer';
 import '../HomePage/HomePage';
 import ProfileButton from '../Navigation/ProfileButton';
 import { FaRegHeart, FaHeart } from "react-icons/fa";
-import { createImage } from '../../redux/imageReducer';
+// import { createImage } from '../../redux/imageReducer';
 
 
 
@@ -24,11 +24,11 @@ export default function Blog() {
   }, [userInfo, navigate]);
   const user = userInfo?.username;
   const userId = userInfo?.id;
-  const profileImage = userInfo?.profileImage;
+  // const profileImage = userInfo?.profileImage;
   const commments = useSelector(state => state.comment.comment)
   const [isloaded, setIsloaded] = useState(false)
   const [text, setText] = useState('')
-  const [searchTag, setSearchTag] = useState('');
+  // const [searchTag, setSearchTag] = useState('');
   const [likedPosts, setLikedPosts] = useState(new Set());
   const [errors, setErrors] = useState({})
   

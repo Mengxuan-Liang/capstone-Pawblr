@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { thunkGetPosts, thunkDeletePost } from '../../redux/postReducer';
+import { thunkGetPosts } from '../../redux/postReducer';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import CreateBlogButton from '../CreateBlog/CreateBlogButton';
-import UpdateBlogButton from '../UpdataBlog/UpdateBlogButton';
-import { thunkAddComments, thunkDeleteComment, thunkGetComments } from '../../redux/commentReducer';
+// import CreateBlogButton from '../CreateBlog/CreateBlogButton';
+// import UpdateBlogButton from '../UpdataBlog/UpdateBlogButton';
+// import { thunkAddComments, thunkDeleteComment, thunkGetComments } from '../../redux/commentReducer';
 import '../HomePage/HomePage.css'
-import SignupFormModal from '../SignupFormModal/SignupFormModal';
+// import SignupFormModal from '../SignupFormModal/SignupFormModal';
 import ModelButton from './ModelButton';
-import LoginFormModal from '../LoginFormModal/LoginFormModal';
-import ProfileButton from '../Navigation/ProfileButton';
-import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
+// import LoginFormModal from '../LoginFormModal/LoginFormModal';
+// import ProfileButton from '../Navigation/ProfileButton';
+// import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
 
 export default function MainPage() {
     const dispatch = useDispatch();
@@ -38,9 +38,9 @@ export default function MainPage() {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleClick = () => {
-        setIsModalOpen(!isModalOpen); // Toggle the modal visibility
-    };
+    // const handleClick = () => {
+    //     setIsModalOpen(!isModalOpen); // Toggle the modal visibility
+    // };
 
     return (
         <div className='wrapper'>
@@ -117,7 +117,7 @@ export default function MainPage() {
                        {
                         posts?.map(el => {
                             return (
-                            <div>
+                            <div key={el.id}>
                                 <span>{el.user.username}</span> {' '}
                                 <NavLink>Follow</NavLink>
                             </div>
