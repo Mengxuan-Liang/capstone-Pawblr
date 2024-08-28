@@ -31,12 +31,12 @@ export default function HomePage() {
   const [followStatus, setFollowStatus] = useState(new Set());
   const [errors, setErrors] = useState({})
 
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  // const [isModalOpen, setIsModalOpen] = useState(true);
 
-  const toggleModal = () => {
-    setIsModalOpen(prevState => !prevState);
-    setIsloaded(!isloaded)
-  };
+  // const toggleModal = () => {
+  //   setIsModalOpen(prevState => !prevState);
+  //   setIsloaded(!isloaded)
+  // };
 
 
   useEffect(() => {
@@ -63,9 +63,9 @@ export default function HomePage() {
       }
     };
     fetchData();
-  }, [dispatch, isloaded, userId,isModalOpen]);
+  }, [dispatch, isloaded, userId]);
   
-console.log('is modle open????????', isModalOpen)
+// console.log('is modle open????????', isModalOpen)
   // ADD COMMENT
   const handleSubmit = async (e, post_id) => {
     e.preventDefault();
@@ -208,7 +208,7 @@ console.log('is modle open????????', isModalOpen)
               <li><a href="#">Messages</a></li>
               <li><a href="#">Settings</a></li> */}
             </ul>
-            <button onClick={toggleModal} className='create-blog-button'><CreateBlogButton /></button>
+            <button className='create-blog-button'><CreateBlogButton /></button>
           </div>
         </aside>
 
@@ -245,7 +245,7 @@ console.log('is modle open????????', isModalOpen)
                 <br></br>
                 <div className='notes-reply-like-update-delete-container'>
                   <span className="comments-section" id={`comments-section-${post.id}`}>
-                    <h4 className={isModalOpen?'clickable-h4':''} onClick={() => toggleComments(post.id)}>
+                    <h4 className='clickable-h4' onClick={() => toggleComments(post.id)}>
                       {post.comments ? post.comments?.length : 0} notes
                     </h4>
                     <br></br>
