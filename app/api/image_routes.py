@@ -10,9 +10,9 @@ image_routes = Blueprint("images", __name__)
 
 @image_routes.route("/", methods=['GET', "POST"])
 def upload_image():
-        form = ImageForm()
+            form = ImageForm()
  
-        if form.validate_on_submit():
+        # if form.validate_on_submit():
           
             image = form.data["image"]
             image.filename = get_unique_filename(image.filename)

@@ -53,15 +53,12 @@ function SignupFormModal() {
 
   const fileWrap = (e) => {
     e.stopPropagation();
-
     const tempFile = e.target.files[0];
-
     // Check for max image size of 5Mb
     if (tempFile?.size > 5000000) {
       setFilename(maxFileError); // "Selected image exceeds the maximum file size of 5Mb"
       return
     }
-
     const newImageURL = URL.createObjectURL(tempFile); // Generate a local URL to render the image file inside of the <img> tag.
     setImageURL(newImageURL);
     setFile(tempFile);
