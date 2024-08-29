@@ -19,11 +19,11 @@ def upload_image():
         upload = upload_file_to_s3(image)
         print(upload)
 
-        if "url" not in upload:
+        # if "url" not in upload:
         # if the dictionary doesn't have a url key
         # it means that there was an error when you tried to upload
         # so you send back that error message (and you printed it above)
-            return {'message': 'can not create image'}
+            # return {'message': 'can not create image'}
 
         url = upload["url"]
         new_image = Image(image= url)
