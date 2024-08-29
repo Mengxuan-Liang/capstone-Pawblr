@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { thunkGetPosts } from '../../redux/postReducer';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 // import CreateBlogButton from '../CreateBlog/CreateBlogButton';
 // import UpdateBlogButton from '../UpdataBlog/UpdateBlogButton';
 // import { thunkAddComments, thunkDeleteComment, thunkGetComments } from '../../redux/commentReducer';
@@ -34,9 +34,6 @@ export default function MainPage() {
     }, [dispatch, isloaded]);
 
     const posts = useSelector(state => state.post.post);
-
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
         <div className='wrapper'>

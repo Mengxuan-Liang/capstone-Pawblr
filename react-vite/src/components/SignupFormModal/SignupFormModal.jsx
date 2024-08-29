@@ -82,7 +82,7 @@ function SignupFormModal() {
     if (response) {
       // const data = await response.json();
       // console.log('data', data)
-      const awsImageUrl = response.image.image;  // Assuming the URL is returned in the response
+      const awsImageUrl = response?.image?.image; 
       // console.log('aws images!!!!!!!', awsImageUrl)
       setImageURL(awsImageUrl);  // Use the actual AWS URL here
     }
@@ -131,7 +131,7 @@ function SignupFormModal() {
         </form>
 
 
-        {errors.server && <p>{errors.server}</p>}
+        {errors?.server && <p>{errors.server}</p>}
       </div>
       <form onSubmit={handleSubmit}>
         <label>
