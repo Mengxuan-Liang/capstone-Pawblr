@@ -1,7 +1,7 @@
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { thunkGetPosts, thunkDeletePost } from '../../redux/postReducer';
-import {  NavLink,  useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import CreateBlogButton from '../CreateBlog/CreateBlogButton';
 import UpdateBlogButton from '../UpdataBlog/UpdateBlogButton';
 import { thunkAddComments, thunkDeleteComment, thunkGetComments } from '../../redux/commentReducer';
@@ -31,13 +31,6 @@ export default function HomePage() {
   const [followStatus, setFollowStatus] = useState(new Set());
   const [errors, setErrors] = useState({})
 
-  // const [isModalOpen, setIsModalOpen] = useState(true);
-
-  // const toggleModal = () => {
-  //   setIsModalOpen(prevState => !prevState);
-  //   setIsloaded(!isloaded)
-  // };
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,8 +57,7 @@ export default function HomePage() {
     };
     fetchData();
   }, [dispatch, isloaded, userId]);
-  
-// console.log('is modle open????????', isModalOpen)
+
   // ADD COMMENT
   const handleSubmit = async (e, post_id) => {
     e.preventDefault();
@@ -170,6 +162,22 @@ export default function HomePage() {
       setFollowStatus(prev => new Set(prev).add(followeeId))
     }
   }
+  // REBLOG
+  const handleReblog = async (postId) => {
+    try {
+      const response = await fetch('/api/reblog/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ original_post_id: postId })
+      });
+      if (!response.ok) {
+        throw new Error('Failed to reblog the post')
+      }
+      setIsloaded(!isloaded)
+    } catch (error) {
+      console.error('Error reblogging the post:', error)
+    }
+  }
 
   // DELETE POST
   const handleDeletePost = async (id) => {
@@ -208,7 +216,7 @@ export default function HomePage() {
               <li><a href="#">Messages</a></li>
               <li><a href="#">Settings</a></li> */}
             </ul>
-            <button className='create-blog-button'><CreateBlogButton /></button>
+            <div className='create-blog-button'><CreateBlogButton /></div>
           </div>
         </aside>
 
@@ -220,86 +228,186 @@ export default function HomePage() {
 
             return (
               <article className="post" key={post.id}>
-                <div className="post-header">
-                  <img style={{ width: '50px' }} src={post.user?.profileImage} />
-                  <div>
-                    <div className='post-author-follow-button'>
-                      <h3>{post.user?.username}{' '}</h3>
-                      {post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.user_id)}>{isFollowed ? 'Unfollow' : 'Follow'}</button>}
+                {!post?.root_post ? (
+                  <>
+                    <div className="post-header">
+                      <img style={{ width: '50px' }} src={post.user?.profileImage} />
+                      <div>
+                        <div className='post-author-follow-button'>
+                          <h3>{post.user?.username}{' '}</h3>
+                          {post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.user_id)}>{isFollowed ? 'Unfollow' : 'Follow'}</button>}
+                        </div>
+                        <span>{post.created_at}</span>
+                      </div>
                     </div>
-                    <span>{post.created_at}</span>
-                  </div>
-                </div>
-                <div className="post-content">
-                  {post?.img && <img src={post.img} alt="Post" style={{ width: '40%' }} />}
-                  <p style={{ marginTop: '20px' }}>{post.text}</p>
-                  <br />
-                  {post.labels?.map(label => (
-                    <span key={label.id} style={{ color: 'gray' }}>
-                      #{label.name} {' '}
-                    </span>
-                  ))}
-                </div>
-                <br />
-                <hr style={{ color: 'grey' }} />
-                <br></br>
-                <div className='notes-reply-like-update-delete-container'>
-                  <span className="comments-section" id={`comments-section-${post.id}`}>
-                    <h4 className='clickable-h4' onClick={() => toggleComments(post.id)}>
-                      {post.comments ? post.comments?.length : 0} notes
-                    </h4>
+                    <div className="post-content">
+                      {post?.img && <img src={post.img} alt="Post" style={{ width: '40%' }} />}
+                      <p style={{ marginTop: '20px' }}>{post.text}</p>
+                      <br />
+                      {post.labels?.map(label => (
+                        <span key={label.id} style={{ color: 'gray' }}>
+                          #{label.name} {' '}
+                        </span>
+                      ))}
+                    </div>
+                    <br />
+                    <hr style={{ color: 'grey' }} />
                     <br></br>
-                    <ul className='comment-container hidden' data-comment-count={post.comments?.length}>
-                      <form onSubmit={(e) => handleSubmit(e, post.id)}>
-                        <label>
-                          <input
-                            type='text'
-                            value={text}
-                            onChange={e => setText(e.target.value)}
-                            placeholder={`Reply as @${user}`}
-                            required
-                          />
-                        </label>
-                        {errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.text}</p>}
-                        <button type="submit">send</button>
-                      </form>
-                      <br></br>
-                      {post.comments?.map(comment => (
-                        <div className='comment-details-container' key={comment.id}>
-                          <span style={{ fontSize: 'small' }}>{comment.user?.username}</span>{' '}<span style={{ fontSize: 'small' }}>{comment.created_at}</span>
-                          <div key={comment.id}>{comment.text}</div>
-                          {/* <button >reply</button> */}
+                    <div className='notes-reply-like-update-delete-container'>
+                      <span className="comments-section" id={`comments-section-${post.id}`}>
+                        <h4 className='clickable-h4' onClick={() => toggleComments(post.id)}>
+                          {post.comments ? post.comments?.length : 0} notes
+                        </h4>
+                        <br></br>
+                        <ul className='comment-container hidden' data-comment-count={post.comments?.length}>
+                          <form onSubmit={(e) => handleSubmit(e, post.id)}>
+                            <label>
+                              <input
+                                type='text'
+                                value={text}
+                                onChange={e => setText(e.target.value)}
+                                placeholder={`Reply as @${user}`}
+                                required
+                              />
+                            </label>
+                            {errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.text}</p>}
+                            <button type="submit">send</button>
+                          </form>
+                          <br></br>
+                          {post.comments?.map(comment => (
+                            <div className='comment-details-container' key={comment.id}>
+                              <span style={{ fontSize: 'small' }}>{comment.user?.username}</span>{' '}<span style={{ fontSize: 'small' }}>{comment.created_at}</span>
+                              <div key={comment.id}>{comment.text}</div>
+                              {/* <button >reply</button> */}
+                              {
+                                userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>delete</button>
+                              }
+                            </div>
+                          ))}
+                        </ul>
+                      </span>
+
+                      <span className="comments-row-container">
+                        <div className="reply-like-container">
+                          <button onClick={() => toggleComments(post.id)}>Reply</button>
+                          <div onClick={() => handleReblog(post.id)}>Reblog</div>
+                          <span
+                            style={{ cursor: 'pointer' }}
+                            className="like-button"
+                            onClick={() => toggleLike(post.id)}
+                          >
+                            {isLiked ? (
+                              <FaHeart style={{ color: 'red' }} />
+                            ) : (
+                              <FaRegHeart />
+                            )}
+                          </span>
                           {
-                            userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>delete</button>
+                            post.user_id === userId && <>
+                              <span className='update-post-button'><UpdateBlogButton el={post} /></span>
+                              <span><button onClick={() => handleDeletePost(post.id)}>Delete</button></span>
+                            </>
                           }
                         </div>
-                      ))}
-                    </ul>
-                  </span>
-
-                  <span className="comments-row-container">
-                    <div className="reply-like-container">
-                      <button onClick={() => toggleComments(post.id)}>Reply</button>
-                      <span
-                        style={{ cursor: 'pointer' }}
-                        className="like-button"
-                        onClick={() => toggleLike(post.id)}
-                      >
-                        {isLiked ? (
-                          <FaHeart style={{ color: 'red' }} />
-                        ) : (
-                          <FaRegHeart />
-                        )}
                       </span>
-                      {
-                        post.user_id === userId && <>
-                          <span className='update-post-button'><UpdateBlogButton el={post} /></span>
-                          <span><button onClick={() => handleDeletePost(post.id)}>Delete</button></span>
-                        </>
-                      }
                     </div>
-                  </span>
-                </div>
+                  </>) :
+                  <>
+                    <div className="post-header">
+                      <img style={{ width: '50px' }} src={post.user?.profileImage} />
+                      <div>
+                        <div className='post-author-follow-button'>
+                          <h3>{post.user?.username}{' '}Reblogged</h3>
+                          {post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.user_id)}>{isFollowed ? 'Unfollow' : 'Follow'}</button>}
+                        </div>
+                        <span>{post.created_at}</span>
+                      </div>
+                    </div>
+                    <div className="post-header">
+                      <img style={{ width: '50px' }} src={post.root_post.user?.profileImage} />
+                      <div>
+                        <div className='post-author-follow-button'>
+                          <h3>{post.root_post.user?.username}{' '}</h3>
+                          {post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.user_id)}>{isFollowed ? 'Unfollow' : 'Follow'}</button>}
+                        </div>
+                        <span>{post.root_post.created_at}</span>
+                      </div>
+                    </div>
+                    <div className="post-content">
+                      {post?.root_post?.img && <img src={post.root_post.img} alt="Post" style={{ width: '40%' }} />}
+                      <p style={{ marginTop: '20px' }}>{post.root_post.text}</p>
+                      <br />
+                      {post?.root_post?.labels?.map(label => (
+                        <span key={label.id} style={{ color: 'gray' }}>
+                          #{label.name} {' '}
+                        </span>
+                      ))}
+                    </div>
+                    <br />
+                    <hr style={{ color: 'grey' }} />
+                    <br></br>
+                    <div className='notes-reply-like-update-delete-container'>
+                      <span className="comments-section" id={`comments-section-${post.id}`}>
+                        <h4 className='clickable-h4' onClick={() => toggleComments(post.id)}>
+                          {post.root_post.comments ? post.root_post.comments?.length : 0} notes
+                        </h4>
+                        <br></br>
+                        <ul className='comment-container hidden' data-comment-count={post.root_post.comments?.length}>
+                          <form onSubmit={(e) => handleSubmit(e, post.root_post.id)}>
+                            <label>
+                              <input
+                                type='text'
+                                value={text}
+                                onChange={e => setText(e.target.value)}
+                                placeholder={`Reply as @${user}`}
+                                required
+                              />
+                            </label>
+                            {errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.text}</p>}
+                            <button type="submit">send</button>
+                          </form>
+                          <br></br>
+                          {post.root_post.comments?.map(comment => (
+                            <div className='comment-details-container' key={comment.id}>
+                              <span style={{ fontSize: 'small' }}>{comment.user?.username}</span>{' '}<span style={{ fontSize: 'small' }}>{comment.created_at}</span>
+                              <div style={{display:'flex', justifyContent:'space-between'}}>
+                                <div key={comment.id}>{comment.text}</div>
+                                {
+                                  userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>delete</button>
+                                }
+                              </div>
+                            </div>
+                          ))}
+                        </ul>
+                      </span>
+
+                      <span className="comments-row-container">
+                        <div className="reply-like-container">
+                          <button onClick={() => toggleComments(post?.id)}>Reply</button>
+                          <div onClick={() => handleReblog(post.id)}>Reblog</div>
+                          <span
+                            style={{ cursor: 'pointer' }}
+                            className="like-button"
+                            onClick={() => toggleLike(post.id)}
+                          >
+                            {isLiked ? (
+                              <FaHeart style={{ color: 'red' }} />
+                            ) : (
+                              <FaRegHeart />
+                            )}
+                          </span>
+                          {
+                            post.user_id === userId && <>
+                              <span className='update-post-button'><UpdateBlogButton el={post} /></span>
+                              <span><button onClick={() => handleDeletePost(post.id)}>Delete</button></span>
+                            </>
+                          }
+                        </div>
+                      </span>
+                    </div>
+                  </>}
+
+
               </article>
             );
           })}

@@ -13,6 +13,7 @@ from .api.image_routes import image_routes
 from .api.label_routes import label_routes
 from .api.like_routes import like_routes
 from .api.follow_routes import follow_routes
+from .api.reblog_routes import reblog_routes
 from .seeds import seed_commands
 from .config import Config
 
@@ -40,6 +41,7 @@ app.register_blueprint(image_routes, url_prefix='/api/images')
 app.register_blueprint(label_routes, url_prefix='/api/labels')
 app.register_blueprint(like_routes, url_prefix='/api/likes')
 app.register_blueprint(follow_routes, url_prefix='/api/follow')
+app.register_blueprint(reblog_routes, url_prefix='/api/reblog')
 db.init_app(app)
 Migrate(app, db)
 

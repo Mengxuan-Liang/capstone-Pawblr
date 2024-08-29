@@ -38,10 +38,6 @@ export default function MainPage() {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // const handleClick = () => {
-    //     setIsModalOpen(!isModalOpen); // Toggle the modal visibility
-    // };
-
     return (
         <div className='wrapper'>
             <header className="header">
@@ -63,9 +59,9 @@ export default function MainPage() {
                             <li><NavLink to={'/blog'}>Change palette</NavLink></li>
 
                         </ul>
-                        <di className='model-button-sidebar'>
+                        <div className='model-button-sidebar'>
                         <ModelButton/>
-                        </di>
+                        </div>
                     </div>
                 </aside>
 
