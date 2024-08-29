@@ -8,4 +8,4 @@ ALLOWED_EXTENSIONS = {"pdf", "png", "jpg", "jpeg", "gif"}
 
 class ImageForm(FlaskForm):
     image = FileField("Image File", validators=[FileRequired(), FileAllowed(list(ALLOWED_EXTENSIONS))])
-    # submit = SubmitField("Create Post")
+    submit = SubmitField("Create Post")
