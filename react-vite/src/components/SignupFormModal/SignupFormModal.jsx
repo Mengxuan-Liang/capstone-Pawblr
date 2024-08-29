@@ -19,15 +19,48 @@ function SignupFormModal() {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
+  const validateForm = () => {
+    const newErrors = {};
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      newErrors.email = "Please enter a valid email address.";
+    }
+
+    // Username validation (e.g., min length 4)
+    if (username.length < 2) {
+      newErrors.username = "Username must be at least 2 characters long.";
+    }
+
+    // Password validation (e.g., min length 6, can add complexity rules)
+    if (password.length < 2) {
+      newErrors.password = "Password must be at least 2 characters long.";
+    }
+
+    if (password !== confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match.";
+    }
+
+    setErrors(newErrors);
+
+    // Return whether the form is valid
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (password !== confirmPassword) {
-      return setErrors({
-        confirmPassword:
-          "Confirm Password field must be the same as the Password field",
-      });
+    if (!validateForm()) {
+      return;
     }
+
+    // if (password !== confirmPassword) {
+    //   return setErrors({
+    //     confirmPassword:
+    //       "Confirm Password field must be the same as the Password field",
+    //   });
+    // }
 
     const serverResponse = await dispatch(
       thunkSignup({
