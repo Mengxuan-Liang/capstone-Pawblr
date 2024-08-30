@@ -87,20 +87,6 @@ console.log('ERRORS IN HOME PAGE',errors)
 
   setText(prev => ({ ...prev, [post_id]: value }));
   };
-  // const handleSubmit = async (e, post_id) => {
-  //   e.preventDefault();
-  //   const response = await dispatch(thunkAddComments({
-  //     post_id,
-  //     text
-  //   }));
-  //   if (response.errors) {
-  //     setErrors(response)
-  //   } else {
-  //     // navigate('/')
-  //     setText('')
-  //     setIsloaded(!isloaded)
-  //   }
-  // }
   // DELETE COMMENT
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this comment?");
@@ -239,7 +225,7 @@ console.log('ERRORS IN HOME PAGE',errors)
               <li><NavLink to={'/blog'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Blogs</NavLink></li>
               <li><NavLink to={'/comment'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Comments</NavLink></li>
               <li><NavLink to={'/like'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Likes</NavLink></li>
-              <li><NavLink to={'/follow'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Follows</NavLink></li>
+              <li><NavLink to={'/follow'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Following</NavLink></li>
               {/* <li><a href="#">Activity</a></li>
               <li><a href="#">Messages</a></li>
               <li><a href="#">Settings</a></li> */}
