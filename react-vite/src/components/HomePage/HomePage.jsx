@@ -11,6 +11,7 @@ import { FaRegComment } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { BiSolidLike } from "react-icons/bi";
 import { BiLike } from "react-icons/bi";
+import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 
 export default function HomePage() {
   const dispatch = useDispatch();
@@ -35,7 +36,11 @@ export default function HomePage() {
   const [followStatus, setFollowStatus] = useState(new Set());
   const [errors, setErrors] = useState({})
 
-console.log('ERRORS IN HOME PAGE',errors)
+  // New state for the confirmation modal
+  const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState({}); // To store ID and type (post/comment)
+
+
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(thunkGetPosts());
@@ -89,16 +94,37 @@ console.log('ERRORS IN HOME PAGE',errors)
   };
   // DELETE COMMENT
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this comment?");
-    if (confirmDelete) {
-      const res = await dispatch(thunkDeleteComment(id))
+    setShowModal(true); // Show modal
+    setModalData({ id, type: 'comment' }); // Store ID and type
+  };
+
+  const handleConfirmDelete = async () => {
+    const { id, type } = modalData;
+
+    if (type === 'comment') {
+      const res = await dispatch(thunkDeleteComment(id));
       if (res.errors) {
-        setErrors(res.errors)
+        setErrors(res.errors);
       } else {
-        setIsloaded(!isloaded)
+        setIsloaded(!isloaded);
       }
+    } else if (type === 'post') {
+      await dispatch(thunkDeletePost(id));
     }
-  }
+
+    setShowModal(false); // Close modal
+  };
+  // const handleDelete = async (id) => {
+  //   const confirmDelete = window.confirm("Are you sure you want to delete this comment?");
+  //   if (confirmDelete) {
+  //     const res = await dispatch(thunkDeleteComment(id))
+  //     if (res.errors) {
+  //       setErrors(res.errors)
+  //     } else {
+  //       setIsloaded(!isloaded)
+  //     }
+  //   }
+  // }
   // TOGGLE COMMENT
   const toggleComments = (postId) => {
     // Select the correct comments section using the postId
@@ -194,14 +220,26 @@ console.log('ERRORS IN HOME PAGE',errors)
 
   // DELETE POST
   const handleDeletePost = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this post?");
-    if (confirmDelete) {
-      await dispatch(thunkDeletePost(id));
-    }
-  }
+    setShowModal(true); // Show modal
+    setModalData({ id, type: 'post' }); // Store ID and type
+  };
+  // const handleDeletePost = async (id) => {
+  //   const confirmDelete = window.confirm("Are you sure you want to delete this post?");
+  //   if (confirmDelete) {
+  //     await dispatch(thunkDeletePost(id));
+  //   }
+  // }
 
   return (
     <div>
+       {/* Modal for confirmation */}
+       <ConfirmationModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={handleConfirmDelete}
+        message="Confirm Deletion"
+      />
+
       <header className="header">
         <div className="logo">Dumblr</div>
         <nav className="navigation">
