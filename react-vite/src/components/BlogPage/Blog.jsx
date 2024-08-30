@@ -250,7 +250,7 @@ console.log('post', posts)
         </aside>
 
         <section className="feed">
-          {posts?.map(post => {
+          {posts?.length ? posts?.map(post => {
             // Determine if the current post is liked, post's author is followed
             const isLiked = likedPosts.has(post.id);
             const isFollowed = followStatus.has(post.user_id);
@@ -460,7 +460,7 @@ console.log('post', posts)
 
               </article>
             );
-          })}
+          }):<h2>You haven't posted any blogs yet</h2>}
         </section>
 
         <aside className="right-column">

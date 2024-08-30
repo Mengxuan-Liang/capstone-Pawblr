@@ -243,7 +243,7 @@ export default function Like() {
         </aside>
 
         <section className="feed">
-          {posts?.map(post => {
+          {posts?.length ? posts?.map(post => {
             // Determine if the current post is liked, post's author is followed
             const isLiked = likedPosts.has(post.id);
             const isFollowed = followStatus.has(post.user_id);
@@ -453,7 +453,7 @@ export default function Like() {
 
               </article>
             );
-          })}
+          }):<h2>You haven't liked any blogs yet</h2>}
         </section>
 
         <aside className="right-column">

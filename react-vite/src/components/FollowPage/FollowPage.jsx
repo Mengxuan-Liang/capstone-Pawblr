@@ -123,7 +123,7 @@ export default function Follow() {
                 </ul>
               </>
             ) : (
-              <h2>You are not following any user at the moment.</h2>
+              <h2>You haven't followed any users yet</h2>
             )}
           </div>
         </section>
