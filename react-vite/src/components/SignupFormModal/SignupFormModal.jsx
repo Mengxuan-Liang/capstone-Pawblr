@@ -169,7 +169,18 @@ function SignupFormModal() {
           <input
             type="text"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            // onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              setEmail(value);
+        
+              // Validate email format and clear error if valid
+              const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+              setErrors((prevErrors) => ({
+                ...prevErrors,
+                email: emailRegex.test(value) ? null : prevErrors.email,
+              }));
+            }}
             required
           />
         </label>
@@ -179,7 +190,17 @@ function SignupFormModal() {
           <input
             type="text"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            // onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              setUsername(value);
+          
+              // Clear error if text is greater than 2 characters
+              setErrors((prevErrors) => ({
+                ...prevErrors,
+                username: value.length >= 2 ? null : prevErrors.username,
+              }));
+            }}
             required
           />
         </label>
@@ -189,7 +210,17 @@ function SignupFormModal() {
           <input
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            // onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              setPassword(value);
+        
+              // Clear error if the password is valid
+              setErrors((prevErrors) => ({
+                ...prevErrors,
+                password: value.length >= 2 ? null : prevErrors.password,
+              }));
+            }}
             required
           />
         </label>
@@ -199,7 +230,17 @@ function SignupFormModal() {
           <input
             type="password"
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            // onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              setConfirmPassword(value);
+        
+              // Clear error if passwords match
+              setErrors((prevErrors) => ({
+                ...prevErrors,
+                confirmPassword: value === password ? null : prevErrors.confirmPassword,
+              }));
+            }}
             required
           />
         </label>
