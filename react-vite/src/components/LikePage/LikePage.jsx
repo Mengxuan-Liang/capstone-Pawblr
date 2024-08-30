@@ -150,6 +150,8 @@ export default function Like() {
         }
         setLikedPosts(prev => new Set(prev).add(postId));
       }
+      await dispatch(thunkGetPosts());
+      await dispatch(thunkGetComments());
     } catch (error) {
       console.error("Error toggling like:", error);
     }
