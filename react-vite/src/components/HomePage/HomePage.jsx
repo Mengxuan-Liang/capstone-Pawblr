@@ -240,7 +240,7 @@ export default function HomePage() {
                       <div>
                         <div className='post-author-follow-button'>
                           <h3>{post.user?.username}{' '}</h3>
-                          {post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.user_id)}>{isFollowed ? 'Unfollow' : 'Follow'}</button>}
+                          {post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.user_id)}>{isFollowed ? 'Following' : 'Follow'}</button>}
                         </div>
                         <span>{post.created_at}</span>
                       </div>
@@ -337,7 +337,7 @@ export default function HomePage() {
                       <div>
                         <div className='post-author-follow-button'>
                           <h3>{post.user?.username}{' '}Reblogged</h3>
-                          {post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.user_id)}>{isFollowed ? 'Unfollow' : 'Follow'}</button>}
+                          {/* {post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.user_id)}>{isFollowed ? 'Following' : 'Follow'}</button>} */}
                         </div>
                         <span>{post.created_at}</span>
                       </div>
@@ -347,7 +347,7 @@ export default function HomePage() {
                       <div>
                         <div className='post-author-follow-button'>
                           <h3>{post.root_post.user?.username}{' '}</h3>
-                          {post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.user_id)}>{isFollowed ? 'Unfollow' : 'Follow'}</button>}
+                          {post.root_post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.root_post?.user_id)}>{isFollowed ? 'Following' : 'Follow'}</button>}
                         </div>
                         <span>{post.root_post.created_at}</span>
                       </div>
