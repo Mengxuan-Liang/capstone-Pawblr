@@ -221,12 +221,12 @@ console.log('ERRORS IN HOME PAGE',errors)
       <header className="header">
         <div className="logo">Dumblr</div>
         <nav className="navigation">
-          <a href="#">For you</a>
-          <a href="#">Following</a>
-          <a href="#">Your tags</a>
+          {/* <h4>For you</h4> */}
+          {/* <a href="#">Following</a> */}
+          {/* <a href="#">Your tags</a> */}
         </nav>
         <div className="search-bar">
-          <input type="text" placeholder="Search..." />
+          {/* <input type="text" placeholder="Search..." /> */}
         </div>
       </header>
 
@@ -241,6 +241,7 @@ console.log('ERRORS IN HOME PAGE',errors)
               <li><NavLink to={'/blog'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Blogs</NavLink></li>
               <li><NavLink to={'/comment'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Comments</NavLink></li>
               <li><NavLink to={'/like'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Likes</NavLink></li>
+              <li><NavLink to={'/follow'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Follows</NavLink></li>
               {/* <li><a href="#">Activity</a></li>
               <li><a href="#">Messages</a></li>
               <li><a href="#">Settings</a></li> */}
@@ -330,7 +331,7 @@ console.log('ERRORS IN HOME PAGE',errors)
                           {/* <button onClick={() => toggleComments(post.id)}>Reply</button> */}
                           <FaRegComment className='react-icon' title='Comment' onClick={() => toggleComments(post.id)} />
                           {/* <div onClick={() => handleReblog(post.id)}>Reblog</div> */}
-                          <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} />
+                          {/* <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} /> */}
                           {/* {post.user_id !== userId &&    */}
                           <span
                             style={{ cursor: 'pointer' }}
@@ -360,7 +361,7 @@ console.log('ERRORS IN HOME PAGE',errors)
                       <img style={{ width: '50px' }} src={post.user?.profileImage} />
                       <div>
                         <div className='post-author-follow-button'>
-                          <h3>{post.user?.username}{' '}Reblogged</h3>
+                          {/* <h3>{post.user?.username}{' '}Reblogged</h3> */}
                           {/* {post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.user_id)}>{isFollowed ? 'Following' : 'Follow'}</button>} */}
                         </div>
                         <span>{post.created_at}</span>
@@ -437,7 +438,7 @@ console.log('ERRORS IN HOME PAGE',errors)
                           {/* <button onClick={() => toggleComments(post?.id)}>Reply</button> */}
                           <FaRegComment className='react-icon' title='Comment' onClick={() => toggleComments(post.id)} />
                           {/* <div onClick={() => handleReblog(post.id)}>Reblog</div> */}
-                          <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} />
+                          {/* <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} /> */}
                           <span
                             style={{ cursor: 'pointer' }}
                             className="like-button"
@@ -464,12 +465,12 @@ console.log('ERRORS IN HOME PAGE',errors)
         </section>
 
         <aside className="right-column">
-          <h3>Suggested Blogs</h3>
+          {/* <h3>Suggested Blogs</h3> */}
           <ul>
-            <li><a href="#">Blog 1</a></li>
+            {/* <li><a href="#">Blog 1</a></li>
             <li><a href="#">Blog 2</a></li>
             <li><a href="#">Blog 3</a></li>
-            <li><a href="#">Blog 4</a></li>
+            <li><a href="#">Blog 4</a></li> */}
           </ul>
         </aside>
       </div>
