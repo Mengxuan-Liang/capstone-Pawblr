@@ -106,7 +106,7 @@ export default function Comment() {
           <h3>{username}</h3>
           <ul>
             <li><a href="#">Follower</a></li>
-            <li><a href="#">Activity</a></li>
+            {/* <li><a href="#">Activity</a></li> */}
           </ul>
         </aside>
       </div>

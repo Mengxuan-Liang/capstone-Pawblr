@@ -30,7 +30,8 @@ export default function HomePage() {
   // const profileImage = userInfo?.profileImage;
   const commments = useSelector(state => state.comment.comment)
   const [isloaded, setIsloaded] = useState(false)
-  const [text, setText] = useState('')
+  const [text, setText] = useState({})
+  // const [text, setText] = useState('')
   // const [searchTag, setSearchTag] = useState('');
   const [likedPosts, setLikedPosts] = useState(new Set());
   const [followStatus, setFollowStatus] = useState(new Set());
@@ -68,16 +69,34 @@ export default function HomePage() {
     e.preventDefault();
     const response = await dispatch(thunkAddComments({
       post_id,
-      text
+      text: text[post_id] || ''
     }));
     if (response.errors) {
-      setErrors(response)
+      setErrors(response);
     } else {
-      // navigate('/')
-      setText('')
-      setIsloaded(!isloaded)
+      setText(prev => ({ ...prev, [post_id]: '' }));
+      setIsloaded(!isloaded);
     }
-  }
+  };
+
+  const handleTextChange = (e, post_id) => {
+    const value = e.target.value;
+    setText(prev => ({ ...prev, [post_id]: value }));
+  };
+  // const handleSubmit = async (e, post_id) => {
+  //   e.preventDefault();
+  //   const response = await dispatch(thunkAddComments({
+  //     post_id,
+  //     text
+  //   }));
+  //   if (response.errors) {
+  //     setErrors(response)
+  //   } else {
+  //     // navigate('/')
+  //     setText('')
+  //     setIsloaded(!isloaded)
+  //   }
+  // }
   // DELETE COMMENT
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this comment?");
@@ -110,7 +129,6 @@ export default function HomePage() {
     const commentCount = commentContainer.dataset.commentCount || '0';
     notesHeader.textContent = isHidden ? `${commentCount} comments` : 'close comments';
   };
-
   // TOGGLE LIKES
   const toggleLike = async (postId) => {
     try {
@@ -279,8 +297,8 @@ export default function HomePage() {
                             <label>
                               <input
                                 type='text'
-                                value={text}
-                                onChange={e => setText(e.target.value)}
+                                value={text[post.id]||''}
+                                onChange={e => handleTextChange(e, post.id)}
                                 placeholder={`Comment as @${user}`}
                                 required
                               />
@@ -347,7 +365,8 @@ export default function HomePage() {
                       <div>
                         <div className='post-author-follow-button'>
                           <h3>{post.root_post.user?.username}{' '}</h3>
-                          {post.root_post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.root_post?.user_id)}>{isFollowed ? 'Following' : 'Follow'}</button>}
+                          {post.root_post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.root_post?.user_id)}>
+                            {followStatus.has(post.root_post.user_id) ? 'Following' : 'Follow'}</button>}
                         </div>
                         <span>{post.root_post.created_at}</span>
                       </div>
@@ -381,11 +400,11 @@ export default function HomePage() {
                         <ul className='comment-container hidden' data-comment-count={post.root_post.comments?.length}>
                           <form onSubmit={(e) => handleSubmit(e, post.root_post.id)}>
                             <label>
-                              <input
+                            <input
                                 type='text'
-                                value={text}
-                                onChange={e => setText(e.target.value)}
-                                placeholder={`Reply as @${user}`}
+                                value={text[post.root_post.id]||''}
+                                onChange={e => handleTextChange(e, post.root_post.id)}
+                                placeholder={`Comment as @${user}`}
                                 required
                               />
                             </label>

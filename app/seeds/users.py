@@ -10,10 +10,13 @@ def seed_users():
         username='Allan Poe', email='allan@aa.io', password='password', profileImage='https://res.cloudinary.com/dhukvbcqm/image/upload/v1724687622/capstone/28c2cdadd53140ed9a8ff8b0b37bbf9b_ywud0n.webp')
     emily = User(
         username='Emily Dickinson', email='emily@aa.io', password='password', profileImage='https://res.cloudinary.com/dhukvbcqm/image/upload/v1724687622/capstone/cute-dog-cartoon_54889-1289_zewbik.avif')
-
+    demo = User (
+        username='demo', email='demo@aa.io', password='password', profileImage='https://res.cloudinary.com/dhukvbcqm/image/upload/v1724973068/capstone/download_n3qjos.png'
+    )
     db.session.add(john)
     db.session.add(allan)
     db.session.add(emily)
+    db.session.add(demo)
     db.session.commit()
 
 

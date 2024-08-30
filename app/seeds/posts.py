@@ -7,17 +7,17 @@ def seed_posts():
         text = "As virtuous men passe mildly away, And whisper to their soules, to goe, Whilst some of their sad friends doe say, The breath goes now, and some say, no: So let us melt, and make no noise, No teare-floods, nor sigh-tempests move, T'were prophanation of our joyes To tell the layetie our love.",
         user_id = 1,
     )
-    post2 = Post(
+    post4 = Post(
         # title='some title in post 2',
         text = "Moving of th'earth brings harmes and fears, Men reckon what it did and meant, But trepidation of the spheares, Though greater farre, is innocent.",
         user_id = 1,
     )
-    post3 = Post(
+    post7 = Post(
         # title='some title in post 3',
         text = "Dull sublunary lovers love (Whose soul is sense) cannot admit Absence, because it doth remove Those things which elemented it.",
         user_id = 1,
     )
-    post4 = Post(
+    post2 = Post(
         # title='some title in post 3',
         text = "Once upon a midnight dreary, while I pondered, weak and weary, Over many a quaint and curious volume of forgotten lore",
         user_id = 2,
@@ -27,19 +27,19 @@ def seed_posts():
         text = "While I nodded, nearly napping, suddenly there came a tapping, As of some one gently rapping, rapping at my chamber door.",
         user_id = 2,
     )
-    post6 = Post(
+    post8 = Post(
         # title='some title in post 3',
         text = 'Tis some visiter, I muttered, tapping at my chamber door— Only this and nothing more.',
         user_id = 2,
         # img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1724805733/capstone/download_3_mq2d7d.jpg'
     )
-    post7 = Post(
+    post3 = Post(
         # title='some title in post 3',
         text = '“Hope” is the thing with feathers - That perches in the soul - And sings the tune without the words - And never stops - at all -',
         user_id = 3,
         #  img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1724805734/capstone/5a0d342841ff207b763869482e2ca816e2e592f0_tligx2.jpg'
     )
-    post8 = Post(
+    post6 = Post(
         # title='some title in post 3',
         text = 'And sweetest - in the Gale - is heard - And sore must be the storm - That could abash the little Bird That kept so many warm -',
         user_id = 3,
