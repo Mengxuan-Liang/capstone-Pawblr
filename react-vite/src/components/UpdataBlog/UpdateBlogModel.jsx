@@ -143,7 +143,22 @@ export default function UpdateBlogModal({ el }) {
                     <textarea
                         type="text"
                         value={text}
-                        onChange={(e) => setText(e.target.value)}
+                        // onChange={(e) => setText(e.target.value)}
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            setText(value);
+                        
+                            // Clear error if text is greater than 2 characters
+                            if (value.length >= 2) {
+                              setErrors((prevErrors) => ({
+                                ...prevErrors,
+                                errors: {
+                                  ...prevErrors.errors.errors,
+                                  text: null, // Clear the text error
+                                },
+                              }));
+                            }
+                          }}
                         required
                     />
                 </label>

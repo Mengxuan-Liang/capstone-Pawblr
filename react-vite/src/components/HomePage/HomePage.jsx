@@ -37,7 +37,7 @@ export default function HomePage() {
   const [followStatus, setFollowStatus] = useState(new Set());
   const [errors, setErrors] = useState({})
 
-
+console.log('ERRORS IN HOME PAGE',errors)
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(thunkGetPosts());
@@ -72,16 +72,22 @@ export default function HomePage() {
       text: text[post_id] || ''
     }));
     if (response.errors) {
-      setErrors(response);
+      setErrors(prev => ({ ...prev, [post_id]: response.errors }));
     } else {
       setText(prev => ({ ...prev, [post_id]: '' }));
+      setErrors(prev => ({ ...prev, [post_id]: null }));
       setIsloaded(!isloaded);
     }
   };
 
   const handleTextChange = (e, post_id) => {
     const value = e.target.value;
-    setText(prev => ({ ...prev, [post_id]: value }));
+    // Clear error if the input is valid (length between 2 and 50 characters)
+  if (value.length >= 2 && value.length <= 255) {
+    setErrors(prev => ({ ...prev, [post_id]: null }));
+  }
+
+  setText(prev => ({ ...prev, [post_id]: value }));
   };
   // const handleSubmit = async (e, post_id) => {
   //   e.preventDefault();
@@ -274,7 +280,6 @@ export default function HomePage() {
                       ))}
                     </div>
                     <br />
-
                     {
                       post.user_id === userId && <div style={{display:'flex', justifyContent:'flex-end', gap:'15px'}}>
                         <span ><UpdateBlogButton el={post} /></span>
@@ -282,8 +287,6 @@ export default function HomePage() {
                         <RiDeleteBin6Line className='react-icon' title='Delete' onClick={() => handleDeletePost(post.id)} />
                       </div>
                     }
-
-
                     <hr style={{ color: 'grey' }} />
                     <br></br>
                     <div className='notes-reply-like-update-delete-container'>
@@ -303,7 +306,7 @@ export default function HomePage() {
                                 required
                               />
                             </label>
-                            {errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.text}</p>} {' '}
+                            {errors[post.id]?.text && <p style={{ color: 'red' }}>{errors[post.id].text}</p>} {' '}
                             <button type="submit">send</button>
                           </form>
                           <br></br>
@@ -336,7 +339,7 @@ export default function HomePage() {
                           >
                             {isLiked ? (
                               // <FaHeart style={{ color: 'red' }} />
-                              <BiSolidLike className='react-icon' title='Unlike' />
+                              <BiSolidLike className='react-icon' title='Unlike' style={{ color: 'red' }}/>
                             ) : (
                               // <FaRegHeart />
                               <BiLike className='react-icon' title='Like' />
@@ -349,6 +352,9 @@ export default function HomePage() {
                       </span>
                     </div>
                   </>) :
+
+
+
                   <>
                     <div className="post-header">
                       <img style={{ width: '50px' }} src={post.user?.profileImage} />

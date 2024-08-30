@@ -114,8 +114,8 @@ console.log(imageURL)
 //       console.log('IMAGE', image)
 const stateImageUrl = useSelector(state => state.image?.img?.image?.image);
 
-  console.log('FILE', file)
-  console.log('imageURL', imageURL)
+//   console.log('FILE', file)
+//   console.log('imageURL', imageURL)
 
     return (
         <div id="container-create-blog-modal">
@@ -159,7 +159,22 @@ const stateImageUrl = useSelector(state => state.image?.img?.image?.image);
                     <textarea
                         type="text"
                         value={text}
-                        onChange={(e) => setText(e.target.value)}
+                        // onChange={(e) => setText(e.target.value)}
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            setText(value);
+                        
+                            // Clear error if text is greater than 2 characters
+                            if (value.length >= 2) {
+                              setErrors((prevErrors) => ({
+                                ...prevErrors,
+                                errors: {
+                                  ...prevErrors.errors,
+                                  text: null, // Clear the text error
+                                },
+                              }));
+                            }
+                          }}
                         placeholder="Go ahead, put anything..."
                         required
                     />
