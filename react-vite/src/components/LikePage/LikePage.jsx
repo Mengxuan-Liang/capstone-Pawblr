@@ -1,4 +1,4 @@
-import { useEffect, useId, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { thunkDeletePost, thunkGetPosts } from '../../redux/postReducer';
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -14,7 +14,7 @@ import { BiLike } from "react-icons/bi";
 
 
 
-export default function Comment() {
+export default function Like() {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const userInfo = useSelector(state => state.session.user)
@@ -35,16 +35,14 @@ export default function Comment() {
   const [likedPosts, setLikedPosts] = useState(new Set());
   const [followStatus, setFollowStatus] = useState(new Set());
   const [errors, setErrors] = useState({})
-
-  const allPosts = useSelector(state => state.post.post)
+  const allPosts = useSelector(state => state.post.post);
   const posts = allPosts?.map(el => {
-    // Filter the comments that match the userId
-    const filteredComments = el.comments.filter(ell => ell.user_id === userId);
-    if (filteredComments?.length > 0) {
-      return { ...el, comments: filteredComments };
+    const filteredLikes = el.likes?.filter(ell => ell.user_id === userId);
+    if(filteredLikes?.length > 0){
+        return {...el, likes: filteredLikes}
     }
     return null;
-  }).filter(post => post !== null);  
+  }).filter(post => post !== null)
 // console.log('post', posts)
   useEffect(() => {
     const fetchData = async () => {

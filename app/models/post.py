@@ -59,7 +59,7 @@ class Post(db.Model):
             "user": (
                 {
                     "profileImage": self.user.profileImage,
-                    "username": self.user.username,
+                    "username": self.user.username
                 }
                 if self.user
                 else None

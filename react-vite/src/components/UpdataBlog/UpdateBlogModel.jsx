@@ -129,11 +129,11 @@ export default function UpdateBlogModal({ el }) {
           accept="image/*"
           onChange={(e) => setImage(e.target.files[0])}
         /> */}
-                    <button style={{padding:'8px'}}type="submit">Please Confirm Image</button>
+                    <button style={{padding:'8px'}}type="submit"><h3>Please Confirm Image</h3></button>
                 </form>
 
 
-                {errors.server && <p>{errors.server}</p>}
+                {errors?.server && <p>{errors.server}</p>}
             </div>
             <br></br>
             <form id="container-signup-form"
@@ -153,7 +153,7 @@ export default function UpdateBlogModal({ el }) {
                               setErrors((prevErrors) => ({
                                 ...prevErrors,
                                 errors: {
-                                  ...prevErrors.errors.errors,
+                                  ...prevErrors?.errors?.errors,
                                   text: null, // Clear the text error
                                 },
                               }));

@@ -64,7 +64,10 @@ def follow_status():
     if not current_user.is_authenticated:
         return {"error": "User not authenticated"}, 401
     follows = current_user.following.all()
-    return jsonify({"follows": [user.to_dict() for user in follows]})
+    # get users that the current user is following
+    user = User.query.get(current_user.id)
+    following_users = user.following
+    return jsonify({"follows": [user.to_dict() for user in follows],'following':[user.to_dict() for user in following_users]})
     # return{'message':"hell"}
 
 

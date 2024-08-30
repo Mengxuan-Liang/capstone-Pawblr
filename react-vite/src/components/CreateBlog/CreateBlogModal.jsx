@@ -144,7 +144,7 @@ const stateImageUrl = useSelector(state => state.image?.img?.image?.image);
           accept="image/*"
           onChange={(e) => setImage(e.target.files[0])}
         /> */}
-                    <button style={{padding:'7px'}}type="submit">Please Confirm Image</button>
+                    <button style={{padding:'7px'}}type="submit"><h3>Please Confirm Image</h3></button>
                 </form>
 
 

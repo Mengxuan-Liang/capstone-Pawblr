@@ -7,18 +7,16 @@ import UpdateBlogButton from '../UpdataBlog/UpdateBlogButton';
 import { thunkAddComments, thunkDeleteComment, thunkGetComments } from '../../redux/commentReducer';
 import './HomePage.css';
 import ProfileButton from '../Navigation/ProfileButton';
-import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { FaRegComment } from "react-icons/fa";
-import { FaRegShareSquare } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { BiSolidLike } from "react-icons/bi";
 import { BiLike } from "react-icons/bi";
 
 export default function HomePage() {
-  const posts = useSelector(state => state.post.post);
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const userInfo = useSelector(state => state.session.user)
+  const posts = useSelector(state => state.post.post);
 
   useEffect(() => {
     if (!userInfo) {
