@@ -5,6 +5,7 @@ import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import CreateBlogModal from "./CreateBlogModal";
 import LoginFormModal from "../LoginFormModal/LoginFormModal";
 import SignupFormModal from "../SignupFormModal/SignupFormModal";
+import { FaPencilAlt } from "react-icons/fa";
 
 
 
@@ -43,7 +44,7 @@ export default function CreateBlogButton() {
         <>
           <button style={{ border: "none", backgroundColor: "transparent" }}>
             <OpenModalMenuItem
-              itemText="Create Blog"
+              itemText={<div className='react-icon'style={{display:'flex', gap:'5px'}}><FaPencilAlt /> <h4>Create</h4></div>}
               onItemClick={closeMenu}
               modalComponent={<CreateBlogModal />}
             />
