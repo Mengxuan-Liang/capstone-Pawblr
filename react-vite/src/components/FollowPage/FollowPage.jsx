@@ -1,61 +1,137 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { thunkDeletePost, thunkGetPosts } from '../../redux/postReducer';
+import { thunkGetPosts } from '../../redux/postReducer';
 import { NavLink, useNavigate } from 'react-router-dom';
 import CreateBlogButton from '../CreateBlog/CreateBlogButton';
-import UpdateBlogButton from '../UpdataBlog/UpdateBlogButton';
-import { thunkGetComments, thunkAddComments, thunkDeleteComment } from '../../redux/commentReducer';
+import { thunkGetComments } from '../../redux/commentReducer';
 import '../HomePage/HomePage';
 import ProfileButton from '../Navigation/ProfileButton';
-import { FaRegComment } from "react-icons/fa";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import { BiSolidLike } from "react-icons/bi";
-import { BiLike } from "react-icons/bi";
 
 export default function Follow() {
-    const [following, setFollowing] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userInfo = useSelector(state => state.session.user);
+  const userId = userInfo?.id;
+  const [isloaded, setIsloaded] = useState(false);
+  const [likedPosts, setLikedPosts] = useState(new Set());
+  const [followStatus, setFollowStatus] = useState(new Set());
+  const [following, setFollowing] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    useEffect(() => {
-        async function fetchFollowing() {
-            try {
-                const response = await fetch('/api/follow/status');
+  useEffect(() => {
+    if (!userInfo) {
+      navigate('/');
+    }
+  }, [userInfo, navigate]);
 
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                setFollowing(data);
-            } catch (error) {
-                setError(error.message);
-            } finally {
-                setLoading(false);
-            }
-        }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`/api/follow/status`);
+        const data = await response.json();
+        const followedUsers = new Set(data?.follows?.map(follow => follow.id));
+        setFollowStatus(followedUsers);
+        setFollowing(data?.follows || []); // Save followed users to display in the UI
+      } catch (error) {
+        console.error("Error checking follow status:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [dispatch, userId]);
 
-        fetchFollowing();
-    }, []);
+  // Follow/Unfollow Toggle
+  const handleFollow = async (followeeId) => {
+    if (followStatus.has(followeeId)) {
+      const res = await fetch('/api/follow', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ followee_id: followeeId }),
+      });
+      if (!res.ok) {
+        throw new Error('Failed to unfollow this user');
+      }
+      setFollowStatus(pre => {
+        const newSet = new Set(pre)
+        newSet.delete(followeeId)
+        return newSet
+      })
+    } else {
+      const res = await fetch('/api/follow', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ followee_id: followeeId }),
+      });
+      if (!res.ok) {
+        throw new Error('Failed to follow this user');
+      }
+      setFollowStatus(prev => new Set(prev).add(followeeId))
+    }
+  }
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error: {error}</p>;
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
-    if (following.follows.length === 0 ) return <h2>You are not following anyone at the moment.</h2>;
+  return (
+    <div>
+      <header className="header">
+        <div className="logo">Dumblr</div>
+        <nav className="navigation"></nav>
+        <div className="search-bar"></div>
+      </header>
 
-    return (
-        <div>
-            {following?.follows?
-                <>
-                    <h2>Users You Follow</h2>
-                    <ul>
-                        {following?.follows?.map(user => (
-                            <li key={user.id}>
-                                <img src={user.profileImage} alt={user.username} style={{ width: '50px', borderRadius: '50%' }} />
-                                <p>{user.username}</p>
-                            </li>
-                        ))}
-                    </ul>
-                </> : <h2>You are not following any user</h2>}
-        </div>
-    );
+      <div className="main-content">
+        <aside className="sidebar">
+          <div className="fixed-menu">
+            <div className='profile-button'>
+              <ProfileButton />
+            </div>
+            <ul>
+              <li><NavLink to={'/home'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Home</NavLink></li>
+              <li><NavLink to={'/blog'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Blogs</NavLink></li>
+              <li><NavLink to={'/comment'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Comments</NavLink></li>
+              <li><NavLink to={'/like'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Likes</NavLink></li>
+              <li><NavLink to={'/follow'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Following</NavLink></li>
+            </ul>
+            <div className='create-blog-button'><CreateBlogButton /></div>
+          </div>
+        </aside>
+
+        <section className="feed">
+          <div>
+            {following?.length > 0 ? (
+              <>
+                <h2>Users You Follow</h2>
+                <ul>
+                  {following.map(user => {
+                    const isFollowed = followStatus.has(user.id);
+
+                    return (
+                      <li key={user.id}>
+                        <img src={user.profileImage} alt={user.username} style={{ width: '50px', borderRadius: '50%' }} />
+                        <p>{user.username}</p>
+                        <button style={{zIndex:"1",position:'relative'}}className='follow-button' onClick={() => handleFollow(user.id)}>
+                          {isFollowed ? 'Following' : 'Follow'}
+                        </button>
+                        <br></br>
+                        <br></br>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </>
+            ) : (
+              <h2>You are not following any user at the moment.</h2>
+            )}
+          </div>
+        </section>
+
+        <aside className="right-column">
+          <ul></ul>
+        </aside>
+      </div>
+    </div>
+  );
 }

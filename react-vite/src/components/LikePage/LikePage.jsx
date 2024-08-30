@@ -95,20 +95,6 @@ export default function Like() {
 
   setText(prev => ({ ...prev, [post_id]: value }));
   };
-  // const handleSubmit = async (e, post_id) => {
-  //   e.preventDefault();
-  //   const response = await dispatch(thunkAddComments({
-  //     post_id,
-  //     text
-  //   }));
-  //   if (response.errors) {
-  //     setErrors(response)
-  //   } else {
-  //     // navigate('/')
-  //     setText('')
-  //     setIsloaded(!isloaded)
-  //   }
-  // }
   // DELETE COMMENT
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this comment?");
