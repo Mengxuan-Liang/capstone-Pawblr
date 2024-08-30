@@ -11,6 +11,7 @@ import { FaRegComment } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { BiSolidLike } from "react-icons/bi";
 import { BiLike } from "react-icons/bi";
+import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 
 
 
@@ -36,16 +37,20 @@ export default function Comment() {
   const [followStatus, setFollowStatus] = useState(new Set());
   const [errors, setErrors] = useState({})
 
-  const allPosts = useSelector(state => state.post.post)
+  const allPosts = useSelector(state => state.post?.post)
   const posts = allPosts?.map(el => {
     // Filter the comments that match the userId
-    const filteredComments = el.comments.filter(ell => ell.user_id === userId);
+    const filteredComments = el?.comments?.filter(ell => ell.user_id === userId);
     if (filteredComments?.length > 0) {
       return { ...el, comments: filteredComments };
     }
     return null;
-  }).filter(post => post !== null);  
+  })?.filter(post => post !== null);  
 // console.log('post', posts)
+// New state for the confirmation modal
+const [showModal, setShowModal] = useState(false);
+const [modalData, setModalData] = useState({});
+
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(thunkGetPosts());
@@ -97,32 +102,28 @@ export default function Comment() {
 
   setText(prev => ({ ...prev, [post_id]: value }));
   };
-  // const handleSubmit = async (e, post_id) => {
-  //   e.preventDefault();
-  //   const response = await dispatch(thunkAddComments({
-  //     post_id,
-  //     text
-  //   }));
-  //   if (response.errors) {
-  //     setErrors(response)
-  //   } else {
-  //     // navigate('/')
-  //     setText('')
-  //     setIsloaded(!isloaded)
-  //   }
-  // }
   // DELETE COMMENT
-  const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this comment?");
-    if (confirmDelete) {
-      const res = await dispatch(thunkDeleteComment(id))
-      if (res.errors) {
-        setErrors(res.errors)
-      } else {
-        setIsloaded(!isloaded)
-      }
+ const handleDelete = async (id) => {
+  setShowModal(true); // Show modal
+  setModalData({ id, type: 'comment' }); // Store ID and type
+};
+
+const handleConfirmDelete = async () => {
+  const { id, type } = modalData;
+
+  if (type === 'comment') {
+    const res = await dispatch(thunkDeleteComment(id));
+    if (res.errors) {
+      setErrors(res.errors);
+    } else {
+      setIsloaded(!isloaded);
     }
+  } else if (type === 'post') {
+    await dispatch(thunkDeletePost(id));
   }
+
+  setShowModal(false); // Close modal
+};
   // TOGGLE COMMENT
   const toggleComments = (postId) => {
     // Select the correct comments section using the postId
@@ -218,14 +219,20 @@ export default function Comment() {
 
   // DELETE POST
   const handleDeletePost = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this post?");
-    if (confirmDelete) {
-      await dispatch(thunkDeletePost(id));
-    }
-  }
+    setShowModal(true); // Show modal
+    setModalData({ id, type: 'post' }); // Store ID and type
+  };
+
 
   return (
     <div>
+       {/* Modal for confirmation */}
+       <ConfirmationModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={handleConfirmDelete}
+        message="Confirm Deletion"
+      />
       <header className="header">
         <div className="logo">Dumblr</div>
         <nav className="navigation">

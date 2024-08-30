@@ -11,6 +11,7 @@ import { FaRegComment } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { BiSolidLike } from "react-icons/bi";
 import { BiLike } from "react-icons/bi";
+import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 
 
 
@@ -36,7 +37,12 @@ export default function Blog() {
   const [followStatus, setFollowStatus] = useState(new Set());
   const [errors, setErrors] = useState({})
   const posts = useSelector(state => state.post.post?.filter(el => el.user_id == userId));
-console.log('post', posts)
+
+  //  New state for the confirmation modal
+  const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState({});
+
+
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(thunkGetPosts());
@@ -104,16 +110,26 @@ console.log('post', posts)
   // }
   // DELETE COMMENT
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this comment?");
-    if (confirmDelete) {
-      const res = await dispatch(thunkDeleteComment(id))
+    setShowModal(true); // Show modal
+    setModalData({ id, type: 'comment' }); // Store ID and type
+  };
+
+  const handleConfirmDelete = async () => {
+    const { id, type } = modalData;
+
+    if (type === 'comment') {
+      const res = await dispatch(thunkDeleteComment(id));
       if (res.errors) {
-        setErrors(res.errors)
+        setErrors(res.errors);
       } else {
-        setIsloaded(!isloaded)
+        setIsloaded(!isloaded);
       }
+    } else if (type === 'post') {
+      await dispatch(thunkDeletePost(id));
     }
-  }
+
+    setShowModal(false); // Close modal
+  };
   // TOGGLE COMMENT
   const toggleComments = (postId) => {
     // Select the correct comments section using the postId
@@ -209,14 +225,19 @@ console.log('post', posts)
 
   // DELETE POST
   const handleDeletePost = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this post?");
-    if (confirmDelete) {
-      await dispatch(thunkDeletePost(id));
-    }
-  }
+    setShowModal(true); // Show modal
+    setModalData({ id, type: 'post' }); // Store ID and type
+  };
 
   return (
     <div>
+      {/* Modal for confirmation */}
+      <ConfirmationModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={handleConfirmDelete}
+        message="Confirm Deletion"
+      />
       <header className="header">
         <div className="logo">Dumblr</div>
         <nav className="navigation">

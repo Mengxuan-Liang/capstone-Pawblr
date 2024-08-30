@@ -11,6 +11,7 @@ import { FaRegComment } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { BiSolidLike } from "react-icons/bi";
 import { BiLike } from "react-icons/bi";
+import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 
 
 
@@ -18,7 +19,7 @@ export default function Like() {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const userInfo = useSelector(state => state.session.user)
-  
+
   useEffect(() => {
     if (!userInfo) {
       navigate('/');
@@ -38,12 +39,15 @@ export default function Like() {
   const allPosts = useSelector(state => state.post.post);
   const posts = allPosts?.map(el => {
     const filteredLikes = el.likes?.filter(ell => ell.user_id === userId);
-    if(filteredLikes?.length > 0){
-        return {...el, likes: filteredLikes}
+    if (filteredLikes?.length > 0) {
+      return { ...el, likes: filteredLikes }
     }
     return null;
   }).filter(post => post !== null)
-// console.log('post', posts)
+  // console.log('post', posts)
+  const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState({});
+
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(thunkGetPosts());
@@ -89,24 +93,34 @@ export default function Like() {
   const handleTextChange = (e, post_id) => {
     const value = e.target.value;
     // Clear error if the input is valid (length between 2 and 50 characters)
-  if (value.length >= 2 && value.length <= 255) {
-    setErrors(prev => ({ ...prev, [post_id]: null }));
-  }
+    if (value.length >= 2 && value.length <= 255) {
+      setErrors(prev => ({ ...prev, [post_id]: null }));
+    }
 
-  setText(prev => ({ ...prev, [post_id]: value }));
+    setText(prev => ({ ...prev, [post_id]: value }));
   };
   // DELETE COMMENT
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this comment?");
-    if (confirmDelete) {
-      const res = await dispatch(thunkDeleteComment(id))
+    setShowModal(true); // Show modal
+    setModalData({ id, type: 'comment' }); // Store ID and type
+  };
+
+  const handleConfirmDelete = async () => {
+    const { id, type } = modalData;
+
+    if (type === 'comment') {
+      const res = await dispatch(thunkDeleteComment(id));
       if (res.errors) {
-        setErrors(res.errors)
+        setErrors(res.errors);
       } else {
-        setIsloaded(!isloaded)
+        setIsloaded(!isloaded);
       }
+    } else if (type === 'post') {
+      await dispatch(thunkDeletePost(id));
     }
-  }
+
+    setShowModal(false); // Close modal
+  };
   // TOGGLE COMMENT
   const toggleComments = (postId) => {
     // Select the correct comments section using the postId
@@ -204,14 +218,19 @@ export default function Like() {
 
   // DELETE POST
   const handleDeletePost = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this post?");
-    if (confirmDelete) {
-      await dispatch(thunkDeletePost(id));
-    }
-  }
+    setShowModal(true); // Show modal
+    setModalData({ id, type: 'post' }); // Store ID and type
+  };
 
   return (
     <div>
+      {/* Modal for confirmation */}
+      <ConfirmationModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={handleConfirmDelete}
+        message="Confirm Deletion"
+      />
       <header className="header">
         <div className="logo">Dumblr</div>
         <nav className="navigation">
@@ -276,7 +295,7 @@ export default function Like() {
                     </div>
                     <br />
                     {
-                      post.user_id === userId && <div style={{display:'flex', justifyContent:'flex-end', gap:'15px'}}>
+                      post.user_id === userId && <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '15px' }}>
                         <span ><UpdateBlogButton el={post} /></span>
                         {/* <span><button onClick={() => handleDeletePost(post.id)}>Delete</button></span> */}
                         <RiDeleteBin6Line className='react-icon' title='Delete' onClick={() => handleDeletePost(post.id)} />
@@ -295,7 +314,7 @@ export default function Like() {
                             <label>
                               <input
                                 type='text'
-                                value={text[post.id]||''}
+                                value={text[post.id] || ''}
                                 onChange={e => handleTextChange(e, post.id)}
                                 placeholder={`Comment as @${user}`}
                                 required
@@ -308,14 +327,14 @@ export default function Like() {
                           {post.comments?.map(comment => (
                             <div className='comment-details-container' key={comment.id}>
                               <span style={{ fontSize: 'small' }}>{comment.user?.username}</span>{' '}<span style={{ fontSize: 'small' }}>{comment.created_at}</span>
-                              <div style={{ display: 'flex', justifyContent: 'space-between', gap:'10px' }}>
-                              <div key={comment.id}>{comment.text}</div>
-                              {/* <button >reply</button> */}
-                              {
-                                userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>Delete</button>
-                              }
-                            </div>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
+                                <div key={comment.id}>{comment.text}</div>
+                                {/* <button >reply</button> */}
+                                {
+                                  userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>Delete</button>
+                                }
                               </div>
+                            </div>
                           ))}
                         </ul>
                       </span>
@@ -334,7 +353,7 @@ export default function Like() {
                           >
                             {isLiked ? (
                               // <FaHeart style={{ color: 'red' }} />
-                              <BiSolidLike className='react-icon' title='Unlike' style={{ color: 'red' }}/>
+                              <BiSolidLike className='react-icon' title='Unlike' style={{ color: 'red' }} />
                             ) : (
                               // <FaRegHeart />
                               <BiLike className='react-icon' title='Like' />
@@ -384,12 +403,12 @@ export default function Like() {
                     </div>
                     <br />
                     {
-                            post.user_id === userId && <div style={{display:'flex', justifyContent:'flex-end', gap:'15px'}}>
-                              <span ><UpdateBlogButton el={post} /></span>
-                              {/* <span><button onClick={() => handleDeletePost(post.id)}>Delete</button></span> */}
-                              <RiDeleteBin6Line className='react-icon' title='Delete' onClick={() => handleDeletePost(post.id)} />
-                            </div>
-                          }
+                      post.user_id === userId && <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '15px' }}>
+                        <span ><UpdateBlogButton el={post} /></span>
+                        {/* <span><button onClick={() => handleDeletePost(post.id)}>Delete</button></span> */}
+                        <RiDeleteBin6Line className='react-icon' title='Delete' onClick={() => handleDeletePost(post.id)} />
+                      </div>
+                    }
                     <hr style={{ color: 'grey' }} />
                     <br></br>
                     <div className='notes-reply-like-update-delete-container'>
@@ -401,9 +420,9 @@ export default function Like() {
                         <ul className='comment-container hidden' data-comment-count={post.root_post.comments?.length}>
                           <form onSubmit={(e) => handleSubmit(e, post.root_post.id)}>
                             <label>
-                            <input
+                              <input
                                 type='text'
-                                value={text[post.root_post.id]||''}
+                                value={text[post.root_post.id] || ''}
                                 onChange={e => handleTextChange(e, post.root_post.id)}
                                 placeholder={`Comment as @${user}`}
                                 required
@@ -416,7 +435,7 @@ export default function Like() {
                           {post.root_post.comments?.map(comment => (
                             <div className='comment-details-container' key={comment.id}>
                               <span style={{ fontSize: 'small' }}>{comment.user?.username}</span>{' '}<span style={{ fontSize: 'small' }}>{comment.created_at}</span>
-                              <div style={{ display: 'flex', justifyContent: 'space-between', gap:'10px' }}>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
                                 <div key={comment.id}>{comment.text}</div>
                                 {
                                   userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>Delete</button>
@@ -446,7 +465,7 @@ export default function Like() {
                               <BiLike title='Like' style={{ fontSize: '20px' }} />
                             )}
                           </span>
-                         
+
                         </div>
                       </span>
                     </div>
@@ -455,7 +474,7 @@ export default function Like() {
 
               </article>
             );
-          }):<h2>You haven't liked any blogs yet</h2>}
+          }) : <h2>You haven't liked any blogs yet</h2>}
         </section>
 
         <aside className="right-column">
