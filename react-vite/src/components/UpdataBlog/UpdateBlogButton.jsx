@@ -7,6 +7,8 @@ import LoginFormModal from "../LoginFormModal/LoginFormModal";
 import SignupFormModal from "../SignupFormModal/SignupFormModal";
 import '../Navigation/Navigation.css';
 import UpdateBlogModal from "./UpdateBlogModel";
+import { FaRegEdit } from "react-icons/fa";
+import '../HomePage/HomePage.css'
 
 
 
@@ -44,7 +46,8 @@ export default function UpdateBlogButton({el}) {
         <>
           <button style={{ border: "none", backgroundColor: "transparent" }}>
             <OpenModalMenuItem
-              itemText="Update"
+              // itemText="Update"
+              itemText={<FaRegEdit className='react-icon' title="Update"/>}
               onItemClick={closeMenu}
               modalComponent={<UpdateBlogModal el={el} />}
             />

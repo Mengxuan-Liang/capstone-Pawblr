@@ -201,12 +201,12 @@ const stateImageUrl = useSelector(state => state.image?.img?.image?.image);
                 {errors?.errors?.tags && <p style={{ color: 'red' }}>{errors?.errors?.tags}</p>}
                 <br />
                 <button type="submit">Create</button> {' '}
-                <button
+                {/* <button
 
                     onClick={() => {
                         setText('new blog')
                     }}
-                >Demo Blog</button>
+                >Demo Blog</button> */}
             </form>
         </div>
     );

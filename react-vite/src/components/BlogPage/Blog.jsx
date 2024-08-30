@@ -153,10 +153,10 @@ const toggleComments = (postId) => {
             < ProfileButton />
           </div>
           <ul>
-            <li><NavLink to={'/'}>Home</NavLink></li>
-            <li><NavLink to={'/blog'}>Blogs</NavLink></li>
-            <li><NavLink to={'/comment'}>Comments</NavLink></li>
-            {/* <li><a href="#">Likes</a></li> */}
+            <li><NavLink to={'/home'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Home</NavLink></li>
+            <li><NavLink to={'/blog'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Blogs</NavLink></li>
+            <li><NavLink to={'/comment'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Comments</NavLink></li>
+            <li><NavLink to={'/like'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Likes</NavLink></li>
             {/* <li><a href="#">Activity</a></li>
             <li><a href="#">Messages</a></li>
             <li><a href="#">Settings</a></li> */}

@@ -8,6 +8,11 @@ import { thunkAddComments, thunkDeleteComment, thunkGetComments } from '../../re
 import './HomePage.css';
 import ProfileButton from '../Navigation/ProfileButton';
 import { FaRegHeart, FaHeart } from "react-icons/fa";
+import { FaRegComment } from "react-icons/fa";
+import { FaRegShareSquare } from "react-icons/fa";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { BiSolidLike } from "react-icons/bi";
+import { BiLike } from "react-icons/bi";
 
 export default function HomePage() {
   const posts = useSelector(state => state.post.post);
@@ -103,7 +108,7 @@ export default function HomePage() {
 
     // Update the notes header text based on visibility
     const commentCount = commentContainer.dataset.commentCount || '0';
-    notesHeader.textContent = isHidden ? `${commentCount} notes` : 'close notes';
+    notesHeader.textContent = isHidden ? `${commentCount} comments` : 'close comments';
   };
 
   // TOGGLE LIKES
@@ -208,10 +213,10 @@ export default function HomePage() {
               < ProfileButton />
             </div>
             <ul>
-              <li><NavLink to={'/'}>Home</NavLink></li>
-              <li><NavLink to={'/blog'}>Blogs</NavLink></li>
-              <li><NavLink to={'/comment'}>Comments</NavLink></li>
-              {/* <li><a href="#">Likes</a></li> */}
+              <li><NavLink to={'/home'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Home</NavLink></li>
+              <li><NavLink to={'/blog'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Blogs</NavLink></li>
+              <li><NavLink to={'/comment'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Comments</NavLink></li>
+              <li><NavLink to={'/like'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Likes</NavLink></li>
               {/* <li><a href="#">Activity</a></li>
               <li><a href="#">Messages</a></li>
               <li><a href="#">Settings</a></li> */}
@@ -231,7 +236,7 @@ export default function HomePage() {
                 {!post?.root_post ? (
                   <>
                     <div className="post-header">
-                      <img style={{ width: '50px' }} src={post.user?.profileImage} />
+                      <img style={{ width: '50px' }} src={post.user?.profileImage ? post.user.profileImage : 'https://res.cloudinary.com/dhukvbcqm/image/upload/v1724973068/capstone/download_n3qjos.png'} />
                       <div>
                         <div className='post-author-follow-button'>
                           <h3>{post.user?.username}{' '}</h3>
@@ -251,12 +256,22 @@ export default function HomePage() {
                       ))}
                     </div>
                     <br />
+
+                    {
+                      post.user_id === userId && <div style={{display:'flex', justifyContent:'flex-end', gap:'15px'}}>
+                        <span ><UpdateBlogButton el={post} /></span>
+                        {/* <span><button onClick={() => handleDeletePost(post.id)}>Delete</button></span> */}
+                        <RiDeleteBin6Line className='react-icon' title='Delete' onClick={() => handleDeletePost(post.id)} />
+                      </div>
+                    }
+
+
                     <hr style={{ color: 'grey' }} />
                     <br></br>
                     <div className='notes-reply-like-update-delete-container'>
                       <span className="comments-section" id={`comments-section-${post.id}`}>
                         <h4 className='clickable-h4' onClick={() => toggleComments(post.id)}>
-                          {post.comments ? post.comments?.length : 0} notes
+                          {post.comments ? post.comments?.length : 0} comments
                         </h4>
                         <br></br>
                         <ul className='comment-container hidden' data-comment-count={post.comments?.length}>
@@ -266,7 +281,7 @@ export default function HomePage() {
                                 type='text'
                                 value={text}
                                 onChange={e => setText(e.target.value)}
-                                placeholder={`Reply as @${user}`}
+                                placeholder={`Comment as @${user}`}
                                 required
                               />
                             </label>
@@ -289,25 +304,27 @@ export default function HomePage() {
 
                       <span className="comments-row-container">
                         <div className="reply-like-container">
-                          <button onClick={() => toggleComments(post.id)}>Reply</button>
-                          <div onClick={() => handleReblog(post.id)}>Reblog</div>
+                          {/* <button onClick={() => toggleComments(post.id)}>Reply</button> */}
+                          <FaRegComment className='react-icon' title='Comment' onClick={() => toggleComments(post.id)} />
+                          {/* <div onClick={() => handleReblog(post.id)}>Reblog</div> */}
+                          <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} />
+                          {/* {post.user_id !== userId &&    */}
                           <span
                             style={{ cursor: 'pointer' }}
                             className="like-button"
                             onClick={() => toggleLike(post.id)}
                           >
                             {isLiked ? (
-                              <FaHeart style={{ color: 'red' }} />
+                              // <FaHeart style={{ color: 'red' }} />
+                              <BiSolidLike className='react-icon' title='Unlike' />
                             ) : (
-                              <FaRegHeart />
+                              // <FaRegHeart />
+                              <BiLike className='react-icon' title='Like' />
                             )}
                           </span>
-                          {
-                            post.user_id === userId && <>
-                              <span className='update-post-button'><UpdateBlogButton el={post} /></span>
-                              <span><button onClick={() => handleDeletePost(post.id)}>Delete</button></span>
-                            </>
-                          }
+                          {/* // } */}
+
+
                         </div>
                       </span>
                     </div>
@@ -344,12 +361,19 @@ export default function HomePage() {
                       ))}
                     </div>
                     <br />
+                    {
+                            post.user_id === userId && <div style={{display:'flex', justifyContent:'flex-end', gap:'15px'}}>
+                              <span ><UpdateBlogButton el={post} /></span>
+                              {/* <span><button onClick={() => handleDeletePost(post.id)}>Delete</button></span> */}
+                              <RiDeleteBin6Line className='react-icon' title='Delete' onClick={() => handleDeletePost(post.id)} />
+                            </div>
+                          }
                     <hr style={{ color: 'grey' }} />
                     <br></br>
                     <div className='notes-reply-like-update-delete-container'>
                       <span className="comments-section" id={`comments-section-${post.id}`}>
                         <h4 className='clickable-h4' onClick={() => toggleComments(post.id)}>
-                          {post.root_post.comments ? post.root_post.comments?.length : 0} notes
+                          {post.root_post.comments ? post.root_post.comments?.length : 0} comments
                         </h4>
                         <br></br>
                         <ul className='comment-container hidden' data-comment-count={post.root_post.comments?.length}>
@@ -370,7 +394,7 @@ export default function HomePage() {
                           {post.root_post.comments?.map(comment => (
                             <div className='comment-details-container' key={comment.id}>
                               <span style={{ fontSize: 'small' }}>{comment.user?.username}</span>{' '}<span style={{ fontSize: 'small' }}>{comment.created_at}</span>
-                              <div style={{display:'flex', justifyContent:'space-between'}}>
+                              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <div key={comment.id}>{comment.text}</div>
                                 {
                                   userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>delete</button>
@@ -383,25 +407,24 @@ export default function HomePage() {
 
                       <span className="comments-row-container">
                         <div className="reply-like-container">
-                          <button onClick={() => toggleComments(post?.id)}>Reply</button>
-                          <div onClick={() => handleReblog(post.id)}>Reblog</div>
+                          {/* <button onClick={() => toggleComments(post?.id)}>Reply</button> */}
+                          <FaRegComment className='react-icon' title='Comment' onClick={() => toggleComments(post.id)} />
+                          {/* <div onClick={() => handleReblog(post.id)}>Reblog</div> */}
+                          <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} />
                           <span
                             style={{ cursor: 'pointer' }}
                             className="like-button"
                             onClick={() => toggleLike(post.id)}
                           >
                             {isLiked ? (
-                              <FaHeart style={{ color: 'red' }} />
+                              // <FaHeart style={{ color: 'red' }} />
+                              <BiSolidLike title='Unlike' style={{ color: 'red', fontSize: '20px' }} />
                             ) : (
-                              <FaRegHeart />
+                              // <FaRegHeart />
+                              <BiLike title='Like' style={{ fontSize: '20px' }} />
                             )}
                           </span>
-                          {
-                            post.user_id === userId && <>
-                              <span className='update-post-button'><UpdateBlogButton el={post} /></span>
-                              <span><button onClick={() => handleDeletePost(post.id)}>Delete</button></span>
-                            </>
-                          }
+                         
                         </div>
                       </span>
                     </div>

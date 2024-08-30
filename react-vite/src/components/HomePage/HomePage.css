@@ -68,6 +68,36 @@ body {
   text-decoration: none;
   color: #333;
 }
+
+.fixed-menu ul {
+  list-style: none;
+  padding: 0;
+}
+
+.fixed-menu ul li {
+  margin-bottom: 10px;
+}
+
+.fixed-menu ul li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  padding: 10px;
+  display: block;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+  width: fit-content;
+}
+
+.fixed-menu ul li a:hover {
+  background-color: purple;
+  color: white;
+}
+
+.fixed-menu ul li a.active-tab {
+  background-color: purple;
+  color: white;
+}
 .model-button-sidebar{
   display: flex;
   /* border: 2px rebeccapurple solid; */
@@ -268,22 +298,32 @@ li {
 
 .like-button {
   cursor: pointer;
-  color: gray;
-  font-weight: bold;
   transition: color 0.3s ease;
-  margin-left: 10px;
-  user-select: none; /* Prevent text selection when clicking */
+  font-size: 20px;
 }
 
-.like-button:hover {
-  color: #007bff; /* Change color on hover */
-}
 
 .like-button.liked {
-  color: #ff4500; /* Color for liked state (e.g., red/orange) */
+  color: #ff4500; 
 }
 
 .like-button:active {
-  transform: scale(0.95); /* Add a subtle click effect */
+  transform: scale(0.95); 
+  font-size: 30px;
 }
 
+.like-button:hover {
+  cursor: pointer;
+  transition: color 0.3s ease;
+  color: blue;
+  font-size: 30px;
+}
+.react-icon {
+  font-size: 20px;
+}
+.react-icon:hover{
+  cursor: pointer;
+  transition: color 0.3s ease;
+  color: blue;
+  font-size: 25px;
+}
