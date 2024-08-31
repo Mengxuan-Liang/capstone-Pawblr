@@ -39,23 +39,11 @@ export default function MainPage() {
         <div className='wrapper'>
             <header className="header">
                 <div className="logo">Dumblr</div>
-                {/* <nav className="navigation">
-                    <a href="#">Trending</a>
-                    <a href="#">Staff Picks</a>
-                </nav>
-                <div className="search-bar">
-                    <input type="text" placeholder="Search Tumblr" />
-                </div> */}
             </header>
 
             <div className="main-content">
                 <aside className="sidebar">
                     <div className="fixed-menu">
-                        <ul>
-                            {/* <li><NavLink to={'/'}>Explore</NavLink></li>
-                            <li><NavLink to={'/blog'}>Change palette</NavLink></li> */}
-
-                        </ul>
                         <div className='model-button-sidebar'>
                         <ModelButton/>
                         </div>
