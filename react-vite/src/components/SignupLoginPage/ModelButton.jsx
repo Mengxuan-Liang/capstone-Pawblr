@@ -6,8 +6,8 @@ import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal/LoginFormModal";
 import SignupFormModal from "../SignupFormModal/SignupFormModal";
 // import ModalPage from "./ModelPage";
-import HomePage from "../HomePage/HomePage";
-
+// import HomePage from "../HomePage/HomePage";
+import MainPage from "./MainPage.css";
 
 
 
@@ -39,7 +39,7 @@ export default function ModelButton() {
           <HomePage />
         </>
       ) : (
-        <>
+        <div className="sign-log-button-container">
           <button className="tumblr-button">
             <OpenModalMenuItem
               itemText="Log In"
@@ -54,7 +54,7 @@ export default function ModelButton() {
               modalComponent={<SignupFormModal />}
             />
           </button>
-        </>
+        </div>
       )}
     </nav>
   );

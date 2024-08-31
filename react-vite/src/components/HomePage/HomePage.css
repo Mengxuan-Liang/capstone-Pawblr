@@ -271,7 +271,7 @@ body {
 
 
 .tumblr-button {
-  margin: 25px;
+  /* margin: 25px; */
   background-color:rgb(172, 157, 192); /* Tumblr dark blue background */
   border-radius: 5px; /* Rounded corners */
   padding: 10px 50px; /* Padding for button size */

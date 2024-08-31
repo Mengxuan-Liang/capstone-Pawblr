@@ -1,20 +1,14 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { thunkGetPosts } from '../../redux/postReducer';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
-// import CreateBlogButton from '../CreateBlog/CreateBlogButton';
-// import UpdateBlogButton from '../UpdataBlog/UpdateBlogButton';
-// import { thunkAddComments, thunkDeleteComment, thunkGetComments } from '../../redux/commentReducer';
-import '../HomePage/HomePage.css'
-// import SignupFormModal from '../SignupFormModal/SignupFormModal';
 import ModelButton from './ModelButton';
-// import LoginFormModal from '../LoginFormModal/LoginFormModal';
-// import ProfileButton from '../Navigation/ProfileButton';
-// import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
+import '../../../public/logo.png'
+import '../../../public/anidog.gif'
+import './MainPage.css'
+// import '../HomePage/HomePage.css'
+
 
 export default function MainPage() {
-    const dispatch = useDispatch();
-   
     const user = useSelector((store) => store.session.user);
     const navigate = useNavigate();
 
@@ -23,97 +17,23 @@ export default function MainPage() {
             navigate('/home');
         }
     }, [user, navigate]);
-  
-    const [isloaded, setIsloaded] = useState(false)
- 
-    useEffect(() => {
-        const fetchData = async () => {
-            await dispatch(thunkGetPosts());
-        };
-        fetchData();
-    }, [dispatch, isloaded]);
-
-    const posts = useSelector(state => state.post.post);
 
     return (
         <div className='wrapper'>
             <header className="header">
-                <div className="logo">Dumblr</div>
+                <img src='logo.png' style={{ width: '3.4%' }} />
+                <div className="running-dog-container">
+                    <img src="anidog.gif" alt="Running Dog" className="running-dog" />
+                <ModelButton />
+                </div>
+                {/* <h3>Join over 100 million dogs using Dumblr to sniff out their pack and make new furry friends.</h3> */}
             </header>
 
-            <div className="main-content">
-                <aside className="sidebar">
-                    <div className="fixed-menu">
-                        <div className='model-button-sidebar'>
-                        <ModelButton/>
-                        </div>
-                    </div>
-                </aside>
-
-                <section className="feed">
-                    {posts?.map(post => {
-
-                        return (
-                            <article className="post" key={post.id}>
-                                <div className="post-header">
-                                <img style={{width:'50px'}}src={post.user?.profileImage}/>
-                  <div>
-                  <h3>{post.user?.username}{' '}</h3>
-                  <span>{post.created_at}</span>
-
-                  </div>
-                                </div>
-                                <div className="post-content">
-                                {post?.img && <img src={post.img} alt="Post" style={{width:'40%'}}/> }
-                                    <p style={{ marginTop: '20px' }}>{post.text}</p>
-                                    <br />
-                                    {post.labels?.map(label => (
-                                        <span key={label.id} style={{ color: 'gray' }}>
-                                            #{label.name} {' '}
-                                        </span>
-                                    ))}
-                                </div>
-                                <br />
-                                {/* <hr style={{ color: 'grey' }} />
-                                <div className='comment-like-reply-container'>
-                                    <span className="comments-section">
-                                        <h4 className='clickable-h4' onClick={() => handleClick()}>
-                                            {post.comments ? post.comments?.length : 0} notes
-                                        </h4>
-                                    </span>
-                                    <div className="reply-like-container">
-                                        <span>reply</span>
-                                        <span>like</span>
-                                    </div>
-                                </div> */}
-
-                            </article>
-                        );
-                    })}
-                </section>
-
-                <aside className="right-column">
-                    {/* <h3>Trending Blogs</h3>
-                    <ul>
-                       {
-                        posts?.map(el => {
-                            return (
-                            <div key={el.id}>
-                                <span>{el.user.username}</span> {' '}
-                                <NavLink>Follow</NavLink>
-                            </div>
-
-                            )
-                        })
-                       }
-                    </ul> */}
-                </aside>
-            </div>
-            <footer className="sticky-footer">
-                <p>Join over 100 million dogs using Tumblr to find their communities and make friends.</p>
-              {/* <button onClick={()=>handleClick()}>Sign up</button>
-              {isModalOpen && <ModelButton />} */}
-              <ModelButton/>
+            <footer className="sign-in-footer">
+                <span>Terms</span>{' '}
+                <span>Privacy</span>{' '}
+                <span>Support</span>{' '}
+                <span>About</span>{' '}
             </footer>
         </div>
     );
