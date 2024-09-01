@@ -12,6 +12,8 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { BiSolidLike } from "react-icons/bi";
 import { BiLike } from "react-icons/bi";
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
+import NavBar from '../NavSideBar/NavBar';
+import SideBar from '../NavSideBar/SideBar';
 
 export default function HomePage() {
   const dispatch = useDispatch();
@@ -86,11 +88,11 @@ export default function HomePage() {
   const handleTextChange = (e, post_id) => {
     const value = e.target.value;
     // Clear error if the input is valid (length between 2 and 50 characters)
-  if (value.length >= 2 && value.length <= 255) {
-    setErrors(prev => ({ ...prev, [post_id]: null }));
-  }
+    if (value.length >= 2 && value.length <= 255) {
+      setErrors(prev => ({ ...prev, [post_id]: null }));
+    }
 
-  setText(prev => ({ ...prev, [post_id]: value }));
+    setText(prev => ({ ...prev, [post_id]: value }));
   };
   // DELETE COMMENT
   const handleDelete = async (id) => {
@@ -114,17 +116,6 @@ export default function HomePage() {
 
     setShowModal(false); // Close modal
   };
-  // const handleDelete = async (id) => {
-  //   const confirmDelete = window.confirm("Are you sure you want to delete this comment?");
-  //   if (confirmDelete) {
-  //     const res = await dispatch(thunkDeleteComment(id))
-  //     if (res.errors) {
-  //       setErrors(res.errors)
-  //     } else {
-  //       setIsloaded(!isloaded)
-  //     }
-  //   }
-  // }
   // TOGGLE COMMENT
   const toggleComments = (postId) => {
     // Select the correct comments section using the postId
@@ -223,17 +214,10 @@ export default function HomePage() {
     setShowModal(true); // Show modal
     setModalData({ id, type: 'post' }); // Store ID and type
   };
-  // const handleDeletePost = async (id) => {
-  //   const confirmDelete = window.confirm("Are you sure you want to delete this post?");
-  //   if (confirmDelete) {
-  //     await dispatch(thunkDeletePost(id));
-  //   }
-  // }
 
   return (
     <div>
-       {/* Modal for confirmation */}
-       <ConfirmationModal
+      <ConfirmationModal
         show={showModal}
         onClose={() => setShowModal(false)}
         onConfirm={handleConfirmDelete}
@@ -241,35 +225,12 @@ export default function HomePage() {
       />
 
       <header className="header">
-        <div className="logo">Dumblr</div>
-        <nav className="navigation">
-          {/* <h4>For you</h4> */}
-          {/* <a href="#">Following</a> */}
-          {/* <a href="#">Your tags</a> */}
-        </nav>
-        <div className="search-bar">
-          {/* <input type="text" placeholder="Search..." /> */}
-        </div>
+        <NavBar />
       </header>
 
       <div className="main-content">
         <aside className="sidebar">
-          <div className="fixed-menu">
-            <div className='profile-button'>
-              < ProfileButton />
-            </div>
-            <ul>
-              <li><NavLink to={'/home'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Home</NavLink></li>
-              <li><NavLink to={'/blog'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Blogs</NavLink></li>
-              <li><NavLink to={'/comment'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Comments</NavLink></li>
-              <li><NavLink to={'/like'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Likes</NavLink></li>
-              <li><NavLink to={'/follow'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Following</NavLink></li>
-              {/* <li><a href="#">Activity</a></li>
-              <li><a href="#">Messages</a></li>
-              <li><a href="#">Settings</a></li> */}
-            </ul>
-            <div className='create-blog-button'><CreateBlogButton /></div>
-          </div>
+          <SideBar />
         </aside>
 
         <section className="feed">
@@ -304,7 +265,7 @@ export default function HomePage() {
                     </div>
                     <br />
                     {
-                      post.user_id === userId && <div style={{display:'flex', justifyContent:'flex-end', gap:'15px'}}>
+                      post.user_id === userId && <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '15px' }}>
                         <span ><UpdateBlogButton el={post} /></span>
                         {/* <span><button onClick={() => handleDeletePost(post.id)}>Delete</button></span> */}
                         <RiDeleteBin6Line className='react-icon' title='Delete' onClick={() => handleDeletePost(post.id)} />
@@ -323,7 +284,7 @@ export default function HomePage() {
                             <label>
                               <input
                                 type='text'
-                                value={text[post.id]||''}
+                                value={text[post.id] || ''}
                                 onChange={e => handleTextChange(e, post.id)}
                                 placeholder={`Comment as @${user}`}
                                 required
@@ -336,14 +297,14 @@ export default function HomePage() {
                           {post.comments?.map(comment => (
                             <div className='comment-details-container' key={comment.id}>
                               <span style={{ fontSize: 'small' }}>{comment.user?.username}</span>{' '}<span style={{ fontSize: 'small' }}>{comment.created_at}</span>
-                              <div style={{ display: 'flex', justifyContent: 'space-between', gap:'10px' }}>
-                              <div key={comment.id}>{comment.text}</div>
-                              {/* <button >reply</button> */}
-                              {
-                                userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>Delete</button>
-                              }
-                            </div>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
+                                <div key={comment.id}>{comment.text}</div>
+                                {/* <button >reply</button> */}
+                                {
+                                  userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>Delete</button>
+                                }
                               </div>
+                            </div>
                           ))}
                         </ul>
                       </span>
@@ -362,7 +323,7 @@ export default function HomePage() {
                           >
                             {isLiked ? (
                               // <FaHeart style={{ color: 'red' }} />
-                              <BiSolidLike className='react-icon' title='Unlike' style={{ color: 'red' }}/>
+                              <BiSolidLike className='react-icon' title='Unlike' style={{ color: 'red' }} />
                             ) : (
                               // <FaRegHeart />
                               <BiLike className='react-icon' title='Like' />
@@ -412,12 +373,12 @@ export default function HomePage() {
                     </div>
                     <br />
                     {
-                            post.user_id === userId && <div style={{display:'flex', justifyContent:'flex-end', gap:'15px'}}>
-                              <span ><UpdateBlogButton el={post} /></span>
-                              {/* <span><button onClick={() => handleDeletePost(post.id)}>Delete</button></span> */}
-                              <RiDeleteBin6Line className='react-icon' title='Delete' onClick={() => handleDeletePost(post.id)} />
-                            </div>
-                          }
+                      post.user_id === userId && <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '15px' }}>
+                        <span ><UpdateBlogButton el={post} /></span>
+                        {/* <span><button onClick={() => handleDeletePost(post.id)}>Delete</button></span> */}
+                        <RiDeleteBin6Line className='react-icon' title='Delete' onClick={() => handleDeletePost(post.id)} />
+                      </div>
+                    }
                     <hr style={{ color: 'grey' }} />
                     <br></br>
                     <div className='notes-reply-like-update-delete-container'>
@@ -429,9 +390,9 @@ export default function HomePage() {
                         <ul className='comment-container hidden' data-comment-count={post.root_post.comments?.length}>
                           <form onSubmit={(e) => handleSubmit(e, post.root_post.id)}>
                             <label>
-                            <input
+                              <input
                                 type='text'
-                                value={text[post.root_post.id]||''}
+                                value={text[post.root_post.id] || ''}
                                 onChange={e => handleTextChange(e, post.root_post.id)}
                                 placeholder={`Comment as @${user}`}
                                 required
@@ -444,7 +405,7 @@ export default function HomePage() {
                           {post.root_post.comments?.map(comment => (
                             <div className='comment-details-container' key={comment.id}>
                               <span style={{ fontSize: 'small' }}>{comment.user?.username}</span>{' '}<span style={{ fontSize: 'small' }}>{comment.created_at}</span>
-                              <div style={{ display: 'flex', justifyContent: 'space-between', gap:'10px' }}>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
                                 <div key={comment.id}>{comment.text}</div>
                                 {
                                   userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>Delete</button>
@@ -474,7 +435,7 @@ export default function HomePage() {
                               <BiLike title='Like' style={{ fontSize: '20px' }} />
                             )}
                           </span>
-                         
+
                         </div>
                       </span>
                     </div>
@@ -496,6 +457,12 @@ export default function HomePage() {
           </ul>
         </aside>
       </div>
+      <footer className="sign-in-footer" >
+        <span>Terms</span>{' '}
+        <span>Privacy</span>{' '}
+        <span>Support</span>{' '}
+        <span>About</span>{' '}
+      </footer>
     </div>
   );
 }

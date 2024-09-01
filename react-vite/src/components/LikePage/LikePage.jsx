@@ -12,6 +12,8 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { BiSolidLike } from "react-icons/bi";
 import { BiLike } from "react-icons/bi";
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
+import NavBar from '../NavSideBar/NavBar';
+import SideBar from '../NavSideBar/SideBar';
 
 
 
@@ -232,34 +234,13 @@ export default function Like() {
         message="Confirm Deletion"
       />
       <header className="header">
-        <div className="logo">Dumblr</div>
-        <nav className="navigation">
-          {/* <h4>For you</h4> */}
-          {/* <a href="#">Following</a> */}
-          {/* <a href="#">Your tags</a> */}
-        </nav>
-        <div className="search-bar">
-          {/* <input type="text" placeholder="Search..." /> */}
-        </div>
+        <NavBar/>
       </header>
 
       <div className="main-content">
         <aside className="sidebar">
           <div className="fixed-menu">
-            <div className='profile-button'>
-              < ProfileButton />
-            </div>
-            <ul>
-              <li><NavLink to={'/home'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Home</NavLink></li>
-              <li><NavLink to={'/blog'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Blogs</NavLink></li>
-              <li><NavLink to={'/comment'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Comments</NavLink></li>
-              <li><NavLink to={'/like'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Likes</NavLink></li>
-              <li><NavLink to={'/follow'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Following</NavLink></li>
-              {/* <li><a href="#">Activity</a></li>
-              <li><a href="#">Messages</a></li>
-              <li><a href="#">Settings</a></li> */}
-            </ul>
-            <div className='create-blog-button'><CreateBlogButton /></div>
+           <SideBar/>
           </div>
         </aside>
 
@@ -487,6 +468,12 @@ export default function Like() {
           </ul>
         </aside>
       </div>
+      <footer className="sign-in-footer" >
+        <span>Terms</span>{' '}
+        <span>Privacy</span>{' '}
+        <span>Support</span>{' '}
+        <span>About</span>{' '}
+      </footer>
     </div>
   );
 }

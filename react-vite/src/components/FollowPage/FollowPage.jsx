@@ -6,6 +6,8 @@ import CreateBlogButton from '../CreateBlog/CreateBlogButton';
 import { thunkGetComments } from '../../redux/commentReducer';
 import '../HomePage/HomePage';
 import ProfileButton from '../Navigation/ProfileButton';
+import NavBar from '../NavSideBar/NavBar';
+import SideBar from '../NavSideBar/SideBar';
 
 export default function Follow() {
   const dispatch = useDispatch();
@@ -85,25 +87,13 @@ export default function Follow() {
   return (
     <div>
       <header className="header">
-        <div className="logo">Dumblr</div>
-        <nav className="navigation"></nav>
-        <div className="search-bar"></div>
+        <NavBar/>
       </header>
 
       <div className="main-content">
         <aside className="sidebar">
           <div className="fixed-menu">
-            <div className='profile-button'>
-              <ProfileButton />
-            </div>
-            <ul>
-              <li><NavLink to={'/home'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Home</NavLink></li>
-              <li><NavLink to={'/blog'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Blogs</NavLink></li>
-              <li><NavLink to={'/comment'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Comments</NavLink></li>
-              <li><NavLink to={'/like'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Likes</NavLink></li>
-              <li><NavLink to={'/follow'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Following</NavLink></li>
-            </ul>
-            <div className='create-blog-button'><CreateBlogButton /></div>
+            <SideBar/>
           </div>
         </aside>
 
@@ -140,6 +130,12 @@ export default function Follow() {
           <ul></ul>
         </aside>
       </div>
+      <footer className="sign-in-footer" >
+        <span>Terms</span>{' '}
+        <span>Privacy</span>{' '}
+        <span>Support</span>{' '}
+        <span>About</span>{' '}
+      </footer>
     </div>
   );
 }

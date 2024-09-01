@@ -29,9 +29,8 @@ function LoginFormModal() {
   };
 
   return (
-    <div className="modal-container">
-      <h1>Dumblr</h1>
-      {/* <h4 className="modal-title">Log in, you'll never be board again.</h4> */}
+    <div className="modal-container" style={{borderRadius:'7px'}}>
+      <h1>Pawblr</h1>
       <br></br>
       <form className="form" onSubmit={handleSubmit}>
         <label className="form-label">
@@ -59,7 +58,7 @@ function LoginFormModal() {
           <p className="form-error">{errors.password}</p>
         )}
         <button className="form-button" type="submit">
-          Log In
+          Paw In
         </button>
         <br></br>
         <br></br>
@@ -68,7 +67,7 @@ function LoginFormModal() {
             setEmail('demo@aa.io')
             setPassword('password')
           }}
-        >Log in as demo user</button>
+        >Demo user</button>
       </form>
     </div>
   );

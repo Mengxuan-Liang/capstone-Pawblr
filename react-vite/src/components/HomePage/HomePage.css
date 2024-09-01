@@ -28,7 +28,6 @@ body {
 }
 
 .navigation a {
-  color: white;
   margin: 0 15px;
   text-decoration: none;
 }
@@ -38,11 +37,14 @@ body {
   border-radius: 20px;
   border: none;
 }
-
+.search-bar input:focus {
+  border-color: rgba(254, 212, 4, 255);
+  outline: none;
+}
 
 .main-content {
   display: flex;
-  margin-top: 20px;
+  margin-top: 60px;
   padding: 0 20px;
   justify-content: space-between;
 }
@@ -90,12 +92,12 @@ body {
 }
 
 .fixed-menu ul li a:hover {
-  background-color: purple;
+  background-color:  rgb(248, 172, 10);
   color: white;
 }
 
 .fixed-menu ul li a.active-tab {
-  background-color: purple;
+  background-color: rgba(254, 212, 4, 255);
   color: white;
 }
 .model-button-sidebar{
@@ -113,14 +115,15 @@ body {
   margin-bottom: 100px;
 }
 .create-blog-button {
-  background: lightgray;
+  background: rgb(248, 172, 10);
   width: fit-content;
   padding: 10px;
   border-radius: 7px;
 }
 .create-blog-button:hover {
-  background-color: rgb(181, 180, 180);
+  background-color:rgba(254, 212, 4, 255);
   cursor: pointer;
+  color: white;
 }
 
 .feed {
@@ -315,7 +318,7 @@ li {
 .like-button:hover {
   cursor: pointer;
   transition: color 0.3s ease;
-  color: blue;
+  color: rgb(248, 172, 10);
   font-size: 30px;
 }
 .react-icon {
@@ -324,6 +327,6 @@ li {
 .react-icon:hover{
   cursor: pointer;
   transition: color 0.3s ease;
-  color: blue;
+  color: rgb(248, 172, 10);
   font-size: 25px;
 }
