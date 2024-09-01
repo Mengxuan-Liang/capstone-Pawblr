@@ -129,7 +129,7 @@ export default function UpdateBlogModal({ el }) {
           accept="image/*"
           onChange={(e) => setImage(e.target.files[0])}
         /> */}
-                    <button style={{padding:'8px'}}type="submit"><h3>Please Confirm Image</h3></button>
+                    <button style={{border:'1px solid lightgrey', padding:'10px', borderRadius:'7px'}} type="submit"><h3 style={{color:'black'}}>Please Confirm Image</h3></button>
                 </form>
 
 
@@ -218,7 +218,7 @@ export default function UpdateBlogModal({ el }) {
                 {errors?.errors?.tags && <p style={{ color: 'red' }}>{errors?.errors?.tags}</p>}
                 <br />
 
-                <button type="submit">Update</button>
+                <button type="submit" style={{border:'none', padding:'10px', borderRadius:'7px',backgroundColor:'rgba(254, 212, 4, 255)', fontWeight:'bold',fontSize:'large'}}>Update</button>
 
             </form>
         </div>

@@ -144,7 +144,7 @@ const stateImageUrl = useSelector(state => state.image?.img?.image?.image);
           accept="image/*"
           onChange={(e) => setImage(e.target.files[0])}
         /> */}
-                    <button style={{padding:'7px'}}type="submit"><h3>Please Confirm Image</h3></button>
+                    <button style={{border:'1px solid lightgrey', padding:'10px', borderRadius:'7px'}}type="submit"><h3 style={{color:'black'}}>Please Confirm Image</h3></button>
                 </form>
 
 
@@ -215,7 +215,7 @@ const stateImageUrl = useSelector(state => state.image?.img?.image?.image);
                 </div> */}
                 {errors?.errors?.tags && <p style={{ color: 'red' }}>{errors?.errors?.tags}</p>}
                 <br />
-                <button type="submit">Create</button> {' '}
+                <button type="submit" style={{border:'none', padding:'10px', borderRadius:'7px',backgroundColor:'rgba(254, 212, 4, 255)', fontWeight:'bold',fontSize:'large'}}>Create</button> {' '}
                 {/* <button
 
                     onClick={() => {

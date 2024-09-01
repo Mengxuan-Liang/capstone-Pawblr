@@ -110,6 +110,10 @@ body {
   position: fixed;
   top: 180px;
   width: 25%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin-left: 100px;
 }
 .profile-button {
   margin-bottom: 100px;
@@ -161,12 +165,16 @@ body {
 }
 .follow-button {
   border: none;
-  background-color: lightgray;
+  /* background-color: lightgray; */
   border-radius: 7px;
   padding: 5px;
 }
 .follow-button:hover {
   cursor: pointer;
+}
+.comment-container{
+  /* border: 2px red solid; */
+  margin-left: 100px;
 }
 .notes-reply-like-update-delete-container {
   display: flex;
@@ -192,7 +200,7 @@ body {
   /* border: 1px black solid; */
   width: fit-content;
   padding: 5px;
-  background-color: lightgray;
+  /* background-color: lightgray; */
   border-radius: 7px;
 }
 .clickable-h4:hover {
@@ -206,9 +214,10 @@ body {
 
 .comment-details-container {
   /* border: 2px rebeccapurple solid; */
-  background-color: rgb(233, 233, 233);
+  background-color: rgba(254, 212, 4, 255);
   margin-top: 5px;
   padding: 5px;
+  border-radius: 7px;
 }
 .reply-like-container {
   display: flex;

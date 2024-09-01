@@ -8,13 +8,13 @@ function ConfirmationModal({ show, onClose, onConfirm, message }) {
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content">
+      <div className="modal-content" style={{textAlign:'center'}}>
         <p>{message}</p>
         <br></br>
         <div className="modal-buttons">
-          <button onClick={onConfirm}>Yes</button>
+          <button onClick={onConfirm} style={{padding:'10px 15px', borderRadius:'7px'}}>Yes</button>
           {' '}
-          <button onClick={onClose}>No</button>
+          <button onClick={onClose} style={{padding:'10px 15px', borderRadius:'7px'}}>No</button>
         </div>
       </div>
     </div>

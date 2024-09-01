@@ -223,14 +223,14 @@ export default function HomePage() {
         onConfirm={handleConfirmDelete}
         message="Confirm Deletion"
       />
-
+    
       <header className="header">
-        <NavBar />
+     <NavBar/>
       </header>
 
       <div className="main-content">
         <aside className="sidebar">
-          <SideBar />
+          <SideBar/>
         </aside>
 
         <section className="feed">
@@ -291,7 +291,7 @@ export default function HomePage() {
                               />
                             </label>
                             {errors[post.id]?.text && <p style={{ color: 'red' }}>{errors[post.id].text}</p>} {' '}
-                            <button type="submit">send</button>
+                            <button style={{backgroundColor:'rgba(254, 212, 4, 255)', border:'none',padding:'5px',borderRadius:'7px'}} type="submit">Send</button>
                           </form>
                           <br></br>
                           {post.comments?.map(comment => (
@@ -301,7 +301,7 @@ export default function HomePage() {
                                 <div key={comment.id}>{comment.text}</div>
                                 {/* <button >reply</button> */}
                                 {
-                                  userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>Delete</button>
+                                  userId === comment.user_id && <button style={{ border:'none',padding:'5px',borderRadius:'7px',boxShadow:'0 4px 6px rgba(0, 0, 0, 0.1)'}} onClick={() => handleDelete(comment.id)}>Delete</button>
                                 }
                               </div>
                             </div>
@@ -458,11 +458,11 @@ export default function HomePage() {
         </aside>
       </div>
       <footer className="sign-in-footer" >
-        <span>Terms</span>{' '}
-        <span>Privacy</span>{' '}
-        <span>Support</span>{' '}
-        <span>About</span>{' '}
-      </footer>
+                <span>Terms</span>{' '}
+                <span>Privacy</span>{' '}
+                <span>Support</span>{' '}
+                <span>About</span>{' '}
+            </footer>
     </div>
   );
 }
