@@ -14,6 +14,7 @@ import { BiLike } from "react-icons/bi";
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 import NavBar from '../NavSideBar/NavBar';
 import SideBar from '../NavSideBar/SideBar';
+import { FaRegShareSquare } from "react-icons/fa";
 
 export default function HomePage() {
   const dispatch = useDispatch();
@@ -223,14 +224,12 @@ export default function HomePage() {
         onConfirm={handleConfirmDelete}
         message="Confirm Deletion"
       />
-    
       <header className="header">
-     <NavBar/>
+        <NavBar />
       </header>
-
       <div className="main-content">
         <aside className="sidebar">
-          <SideBar/>
+          <SideBar />
         </aside>
 
         <section className="feed">
@@ -238,7 +237,6 @@ export default function HomePage() {
             // Determine if the current post is liked, post's author is followed
             const isLiked = likedPosts.has(post.id);
             const isFollowed = followStatus.has(post.user_id);
-
             return (
               <article className="post" key={post.id}>
                 {!post?.root_post ? (
@@ -291,7 +289,7 @@ export default function HomePage() {
                               />
                             </label>
                             {errors[post.id]?.text && <p style={{ color: 'red' }}>{errors[post.id].text}</p>} {' '}
-                            <button style={{backgroundColor:'rgba(254, 212, 4, 255)', border:'none',padding:'5px',borderRadius:'7px'}} type="submit">Send</button>
+                            <button  type="submit">Send</button>
                           </form>
                           <br></br>
                           {post.comments?.map(comment => (
@@ -301,7 +299,7 @@ export default function HomePage() {
                                 <div key={comment.id}>{comment.text}</div>
                                 {/* <button >reply</button> */}
                                 {
-                                  userId === comment.user_id && <button style={{ border:'none',padding:'5px',borderRadius:'7px',boxShadow:'0 4px 6px rgba(0, 0, 0, 0.1)'}} onClick={() => handleDelete(comment.id)}>Delete</button>
+                                  userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>Delete</button>
                                 }
                               </div>
                             </div>
@@ -314,22 +312,20 @@ export default function HomePage() {
                           {/* <button onClick={() => toggleComments(post.id)}>Reply</button> */}
                           <FaRegComment className='react-icon' title='Comment' onClick={() => toggleComments(post.id)} />
                           {/* <div onClick={() => handleReblog(post.id)}>Reblog</div> */}
-                          {/* <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} /> */}
-                          {/* {post.user_id !== userId &&    */}
+                          <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} />
+                          {post.user_id !== userId &&   
                           <span
                             style={{ cursor: 'pointer' }}
                             className="like-button"
                             onClick={() => toggleLike(post.id)}
                           >
                             {isLiked ? (
-                              // <FaHeart style={{ color: 'red' }} />
                               <BiSolidLike className='react-icon' title='Unlike' style={{ color: 'red' }} />
                             ) : (
-                              // <FaRegHeart />
                               <BiLike className='react-icon' title='Like' />
                             )}
                           </span>
-                          {/* // } */}
+                          } 
 
 
                         </div>
@@ -344,7 +340,7 @@ export default function HomePage() {
                       <img style={{ width: '50px' }} src={post.user?.profileImage} />
                       <div>
                         <div className='post-author-follow-button'>
-                          {/* <h3>{post.user?.username}{' '}Reblogged</h3> */}
+                          <h3>{post.user?.username}{' '}Reblogged</h3>
                           {/* {post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.user_id)}>{isFollowed ? 'Following' : 'Follow'}</button>} */}
                         </div>
                         <span>{post.created_at}</span>
@@ -374,7 +370,7 @@ export default function HomePage() {
                     <br />
                     {
                       post.user_id === userId && <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '15px' }}>
-                        <span ><UpdateBlogButton el={post} /></span>
+                        {/* <span ><UpdateBlogButton el={post} /></span> */}
                         {/* <span><button onClick={() => handleDeletePost(post.id)}>Delete</button></span> */}
                         <RiDeleteBin6Line className='react-icon' title='Delete' onClick={() => handleDeletePost(post.id)} />
                       </div>
@@ -399,7 +395,7 @@ export default function HomePage() {
                               />
                             </label>
                             {errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.text}</p>} {' '}
-                            <button type="submit">send</button>
+                            <button type="submit">Send</button>
                           </form>
                           <br></br>
                           {post.root_post.comments?.map(comment => (
@@ -421,17 +417,15 @@ export default function HomePage() {
                           {/* <button onClick={() => toggleComments(post?.id)}>Reply</button> */}
                           <FaRegComment className='react-icon' title='Comment' onClick={() => toggleComments(post.id)} />
                           {/* <div onClick={() => handleReblog(post.id)}>Reblog</div> */}
-                          {/* <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} /> */}
+                          <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} />
                           <span
                             style={{ cursor: 'pointer' }}
                             className="like-button"
                             onClick={() => toggleLike(post.id)}
                           >
                             {isLiked ? (
-                              // <FaHeart style={{ color: 'red' }} />
                               <BiSolidLike title='Unlike' style={{ color: 'red', fontSize: '20px' }} />
                             ) : (
-                              // <FaRegHeart />
                               <BiLike title='Like' style={{ fontSize: '20px' }} />
                             )}
                           </span>
@@ -458,11 +452,11 @@ export default function HomePage() {
         </aside>
       </div>
       <footer className="sign-in-footer" >
-                <span>Terms</span>{' '}
-                <span>Privacy</span>{' '}
-                <span>Support</span>{' '}
-                <span>About</span>{' '}
-            </footer>
+        <span>Terms</span>{' '}
+        <span>Privacy</span>{' '}
+        <span>Support</span>{' '}
+        <span>About</span>{' '}
+      </footer>
     </div>
   );
 }

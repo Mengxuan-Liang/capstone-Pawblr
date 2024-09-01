@@ -14,6 +14,7 @@ import { BiLike } from "react-icons/bi";
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 import NavBar from '../NavSideBar/NavBar';
 import SideBar from '../NavSideBar/SideBar';
+import { FaRegShareSquare } from "react-icons/fa";
 
 
 
@@ -317,22 +318,22 @@ export default function Blog() {
                           {/* <button onClick={() => toggleComments(post.id)}>Reply</button> */}
                           <FaRegComment className='react-icon' title='Comment' onClick={() => toggleComments(post.id)} />
                           {/* <div onClick={() => handleReblog(post.id)}>Reblog</div> */}
-                          {/* <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} /> */}
-                          {/* {post.user_id !== userId &&    */}
+                          <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} />
+                          {post.user_id !== userId &&   
                           <span
                             style={{ cursor: 'pointer' }}
                             className="like-button"
                             onClick={() => toggleLike(post.id)}
                           >
                             {isLiked ? (
-                              // <FaHeart style={{ color: 'red' }} />
+                   
                               <BiSolidLike className='react-icon' title='Unlike' style={{ color: 'red' }}/>
                             ) : (
-                              // <FaRegHeart />
+                          
                               <BiLike className='react-icon' title='Like' />
                             )}
                           </span>
-                          {/* // } */}
+                         }
 
 
                         </div>
@@ -347,7 +348,7 @@ export default function Blog() {
                       <img style={{ width: '50px' }} src={post.user?.profileImage} />
                       <div>
                         <div className='post-author-follow-button'>
-                          {/* <h3>{post.user?.username}{' '}Reblogged</h3> */}
+                          <h3>{post.user?.username}{' '}Reblogged</h3>
                           {/* {post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.user_id)}>{isFollowed ? 'Following' : 'Follow'}</button>} */}
                         </div>
                         <span>{post.created_at}</span>
@@ -377,7 +378,7 @@ export default function Blog() {
                     <br />
                     {
                             post.user_id === userId && <div style={{display:'flex', justifyContent:'flex-end', gap:'15px'}}>
-                              <span ><UpdateBlogButton el={post} /></span>
+                              {/* <span ><UpdateBlogButton el={post} /></span> */}
                               {/* <span><button onClick={() => handleDeletePost(post.id)}>Delete</button></span> */}
                               <RiDeleteBin6Line className='react-icon' title='Delete' onClick={() => handleDeletePost(post.id)} />
                             </div>
@@ -402,7 +403,7 @@ export default function Blog() {
                               />
                             </label>
                             {errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.text}</p>} {' '}
-                            <button type="submit">send</button>
+                            <button type="submit">Send</button>
                           </form>
                           <br></br>
                           {post.root_post.comments?.map(comment => (
@@ -424,17 +425,15 @@ export default function Blog() {
                           {/* <button onClick={() => toggleComments(post?.id)}>Reply</button> */}
                           <FaRegComment className='react-icon' title='Comment' onClick={() => toggleComments(post.id)} />
                           {/* <div onClick={() => handleReblog(post.id)}>Reblog</div> */}
-                          {/* <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} /> */}
+                          <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} />
                           <span
                             style={{ cursor: 'pointer' }}
                             className="like-button"
                             onClick={() => toggleLike(post.id)}
                           >
                             {isLiked ? (
-                              // <FaHeart style={{ color: 'red' }} />
                               <BiSolidLike title='Unlike' style={{ color: 'red', fontSize: '20px' }} />
                             ) : (
-                              // <FaRegHeart />
                               <BiLike title='Like' style={{ fontSize: '20px' }} />
                             )}
                           </span>

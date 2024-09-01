@@ -165,12 +165,13 @@ body {
 }
 .follow-button {
   border: none;
-  /* background-color: lightgray; */
+  background-color:white;
   border-radius: 7px;
   padding: 5px;
 }
 .follow-button:hover {
   cursor: pointer;
+  color:rgb(248, 172, 10);
 }
 .comment-container{
   /* border: 2px red solid; */
@@ -216,7 +217,7 @@ body {
   /* border: 2px rebeccapurple solid; */
   background-color: rgba(254, 212, 4, 255);
   margin-top: 5px;
-  padding: 5px;
+  padding: 10px;
   border-radius: 7px;
 }
 .reply-like-container {
@@ -231,6 +232,17 @@ body {
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
+}
+.comment-container button {
+  background-color:rgb(248, 172, 10);
+  border: none;
+  padding: 5px;
+  border-radius: 7px;
+}
+.comment-container button:hover {
+  cursor: pointer;
+  font-size: large;
+
 }
 .update-post-button {
   background-color: lightgray;

@@ -385,7 +385,7 @@ export default function Like() {
                     <br />
                     {
                       post.user_id === userId && <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '15px' }}>
-                        <span ><UpdateBlogButton el={post} /></span>
+                        {/* <span ><UpdateBlogButton el={post} /></span> */}
                         {/* <span><button onClick={() => handleDeletePost(post.id)}>Delete</button></span> */}
                         <RiDeleteBin6Line className='react-icon' title='Delete' onClick={() => handleDeletePost(post.id)} />
                       </div>
@@ -410,7 +410,7 @@ export default function Like() {
                               />
                             </label>
                             {errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.text}</p>} {' '}
-                            <button type="submit">send</button>
+                            <button type="submit">Send</button>
                           </form>
                           <br></br>
                           {post.root_post.comments?.map(comment => (

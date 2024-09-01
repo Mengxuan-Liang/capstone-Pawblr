@@ -110,7 +110,7 @@ export default function Follow() {
                       <li key={user.id}>
                         <img src={user.profileImage} alt={user.username} style={{ width: '50px', borderRadius: '50%' }} />
                         <p>{user.username}</p>
-                        <button style={{zIndex:"1",position:'relative'}}className='follow-button' onClick={() => handleFollow(user.id)}>
+                        <button style={{zIndex:"1",position:'relative',backgroundColor:'rgba(254, 212, 4, 255)'}}className='follow-button' onClick={() => handleFollow(user.id)}>
                           {isFollowed ? 'Following' : 'Follow'}
                         </button>
                         <br></br>
