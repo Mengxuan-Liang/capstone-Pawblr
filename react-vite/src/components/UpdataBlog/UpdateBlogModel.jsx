@@ -20,13 +20,13 @@ export default function UpdateBlogModal({ el }) {
 
     // TAGS
     const allTags = useSelector(state => state.tag)
-    console.log('all tags', allTags)
+    // console.log('all tags', allTags)
     const [selectedTags, setSelectedTags] = useState(el?.labels?.map(tag => tag.id) || []);
     useEffect(() => {
         const func = async () => await dispatch(thunkGetTags())
         func()
-    }, [dispatch,selectedTags])
-    
+    }, [dispatch, selectedTags])
+
     const handleTagClick = (tagId) => {
         setSelectedTags(prevTags => {
             if (prevTags.includes(tagId)) {
@@ -39,7 +39,7 @@ export default function UpdateBlogModal({ el }) {
         });
     };
     const unselectedTags = allTags?.tag?.filter(tag => !selectedTags.includes(tag.id));
-    console.log('SELECTED TAGS!!!!!!', selectedTags)
+    // console.log('SELECTED TAGS!!!!!!', selectedTags)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -48,11 +48,11 @@ export default function UpdateBlogModal({ el }) {
                 user_id: userId,
                 post_id: el.id,
                 text,
-                img,
+                img:imageURL,
                 tags: selectedTags
             })
         );
-        console.log('server response!!!!!', serverResponse)
+        // console.log('server response!!!!!', serverResponse)
         if (!serverResponse.errors) {
             closeModal();
             navigate('/home');
@@ -117,7 +117,7 @@ export default function UpdateBlogModal({ el }) {
                 <div className="file-inputs-optional">{optional}</div>
                 {/* <label htmlFor="post-image-input" className="file-input-labels">Choose File</label> */}
             </div>
-<br></br>
+            <br></br>
             <div >
                 <form
                     onSubmit={handleSubmitImg}
@@ -129,15 +129,16 @@ export default function UpdateBlogModal({ el }) {
           accept="image/*"
           onChange={(e) => setImage(e.target.files[0])}
         /> */}
-                    <button style={{border:'1px solid lightgrey', padding:'10px', borderRadius:'7px'}} type="submit"><h3 style={{color:'black'}}>Please Confirm Image</h3></button>
+                    {/* <button style={{border:'1px solid lightgrey', padding:'10px', borderRadius:'7px'}} type="submit"><h3 style={{color:'black'}}>Please Confirm Image</h3></button> */}
                 </form>
 
 
                 {errors?.server && <p>{errors.server}</p>}
             </div>
-            <br></br>
+        
             <form id="container-signup-form"
-                onSubmit={handleSubmit}
+                onSubmit={(e) => { handleSubmit(e); handleSubmitImg(e) }}
+                encType="multipart/form-data"
             >
                 <label>
                     <textarea
@@ -147,18 +148,18 @@ export default function UpdateBlogModal({ el }) {
                         onChange={(e) => {
                             const value = e.target.value;
                             setText(value);
-                        
+
                             // Clear error if text is greater than 2 characters
                             if (value.length >= 2) {
-                              setErrors((prevErrors) => ({
-                                ...prevErrors,
-                                errors: {
-                                  ...prevErrors?.errors?.errors,
-                                  text: null, // Clear the text error
-                                },
-                              }));
+                                setErrors((prevErrors) => ({
+                                    ...prevErrors,
+                                    errors: {
+                                        ...prevErrors?.errors?.errors,
+                                        text: null, // Clear the text error
+                                    },
+                                }));
                             }
-                          }}
+                        }}
                         required
                     />
                 </label>
@@ -172,7 +173,7 @@ export default function UpdateBlogModal({ el }) {
                         type="button"
                         onClick={() => handleTagClick(tag)}
                         style={{
-                            backgroundColor: selectedTags.includes(tag) ? 'lightblue' : 'white',
+                            backgroundColor: selectedTags.includes(tag) ? 'rgb(248, 172, 10)' : 'white',
                             border: '1px solid #ddd',
                             borderRadius: '4px',
                             padding: '5px 10px',
@@ -190,6 +191,7 @@ export default function UpdateBlogModal({ el }) {
                 <div>
                     {unselectedTags?.map(tag => (
                         <button
+                        className="tag-button"
                             key={tag.id}
                             type="button"
                             onClick={() => handleTagClick(tag.id)}
@@ -218,7 +220,7 @@ export default function UpdateBlogModal({ el }) {
                 {errors?.errors?.tags && <p style={{ color: 'red' }}>{errors?.errors?.tags}</p>}
                 <br />
 
-                <button type="submit" style={{border:'none', padding:'10px', borderRadius:'7px',backgroundColor:'rgba(254, 212, 4, 255)', fontWeight:'bold',fontSize:'large'}}>Update</button>
+                <button className='create-blog-button' type="submit" style={{ border: 'none', padding: '10px', borderRadius: '7px', backgroundColor: 'rgba(254, 212, 4, 255)', fontWeight: 'bold', fontSize: 'large' }}>Update</button>
 
             </form>
         </div>

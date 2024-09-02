@@ -32,7 +32,7 @@ export default function CreateBlogModal() {
         // console.log('does useeffect run??')
     }, [dispatch])
 
-    const [selectedTags, setSelectedTags] = useState([]); 
+    const [selectedTags, setSelectedTags] = useState([]);
     const handleTagClick = (tagId) => {
         setSelectedTags(prevTags => {
             if (prevTags.includes(tagId)) {
@@ -93,43 +93,44 @@ export default function CreateBlogModal() {
     // --------------aws----posting
     const handleSubmitImg = async (e) => {
         e.preventDefault();
-    const formData = new FormData();
-    formData.append("image", file);
-    // console.log('IMG', image)
-    // console.log('FORMDATA', formData)
+        const formData = new FormData();
+        formData.append("image", file);
+        // console.log('IMG', image)
+        // console.log('FORMDATA', formData)
 
-    setImageLoading(true);
-    const response = await dispatch(createImage(formData));
-    console.log('response', response)
-    if (response) {
-      // const data = await response.json();
-      // console.log('data', data)
-      const awsImageUrl = response.image.image;  
-      console.log('aws images!!!!!!!', awsImageUrl)
-      setImageURL(awsImageUrl);  // Use the actual AWS URL here
+        setImageLoading(true);
+        const response = await dispatch(createImage(formData));
+        console.log('response', response)
+        if (response) {
+            // const data = await response.json();
+            // console.log('data', data)
+            const awsImageUrl = response.image.image;
+            console.log('aws images!!!!!!!', awsImageUrl)
+            setImageURL(awsImageUrl);  // Use the actual AWS URL here
+        }
+        console.log(imageURL)
+        setImageLoading(false);
     }
-console.log(imageURL)
-    setImageLoading(false);
-    }
-//       console.log('IMAGE', image)
-const stateImageUrl = useSelector(state => state.image?.img?.image?.image);
+    //       console.log('IMAGE', image)
+    const stateImageUrl = useSelector(state => state.image?.img?.image?.image);
 
-//   console.log('FILE', file)
-//   console.log('imageURL', imageURL)
+    //   console.log('FILE', file)
+    //   console.log('imageURL', imageURL)
 
     return (
         <div id="container-create-blog-modal">
             <h2>Create Blog</h2>
+            <br></br>
             <p style={{ color: 'grey', fontSize: "15px" }}>Upload image(optional)</p>
             <div className="file-inputs-container">
-                <div><img src={imageURL} style={{ width: "70px" }} className="thumbnails"></img></div>
+                <div><img src={imageURL} style={{ width: "150px" }} className="thumbnails"></img></div>
                 <div className="file-inputs-filename" style={{ color: filename === maxFileError ? "red" : "#B7BBBF" }}>{filename}</div>
                 <input type="file" accept="image/png, image/jpeg, image/jpg" id="post-image-input" onChange={fileWrap}></input>
                 <div className="file-inputs-optional">{optional}</div>
                 {/* <label htmlFor="post-image-input" className="file-input-labels">Choose File</label> */}
             </div>
 
-<br></br>
+            <br></br>
 
             {/* <p style={{ color: 'grey', fontSize: "15px" }}>Choose your profile image(optional)</p>
       {(imageLoading) && <img style={{ width: '20%' }} src={imageURL}></img>} */}
@@ -144,7 +145,7 @@ const stateImageUrl = useSelector(state => state.image?.img?.image?.image);
           accept="image/*"
           onChange={(e) => setImage(e.target.files[0])}
         /> */}
-                    <button style={{border:'1px solid lightgrey', padding:'10px', borderRadius:'7px'}}type="submit"><h3 style={{color:'black'}}>Please Confirm Image</h3></button>
+                    {/* <button style={{border:'1px solid lightgrey', padding:'10px', borderRadius:'7px'}}type="submit"><h3 style={{color:'black'}}>Please Confirm Image</h3></button> */}
                 </form>
 
 
@@ -153,7 +154,8 @@ const stateImageUrl = useSelector(state => state.image?.img?.image?.image);
             <br></br>
 
             <form id="container-create-blog-form"
-                onSubmit={handleSubmit}
+                onSubmit={(e) => { handleSubmit(e); handleSubmitImg(e)}}
+                encType="multipart/form-data"
             >
                 <label>
                     <textarea
@@ -163,36 +165,37 @@ const stateImageUrl = useSelector(state => state.image?.img?.image?.image);
                         onChange={(e) => {
                             const value = e.target.value;
                             setText(value);
-                        
+
                             // Clear error if text is greater than 2 characters
                             if (value.length >= 2) {
-                              setErrors((prevErrors) => ({
-                                ...prevErrors,
-                                errors: {
-                                  ...prevErrors.errors,
-                                  text: null, // Clear the text error
-                                },
-                              }));
+                                setErrors((prevErrors) => ({
+                                    ...prevErrors,
+                                    errors: {
+                                        ...prevErrors.errors,
+                                        text: null, // Clear the text error
+                                    },
+                                }));
                             }
-                          }}
+                        }}
                         placeholder="Go ahead, put anything..."
                         required
                     />
                 </label>
                 {errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.text}</p>}
                 <br></br>
-<br></br>
+                <br></br>
                 <label style={{ color: 'grey' }}>
                     # Add tags to help people find your post
                 </label>
                 <div>
-                {allTags?.tag?.map(tag => (
+                    {allTags?.tag?.map(tag => (
                         <button
+                            className="tag-button"
                             key={tag.id}
                             type="button"
                             onClick={() => handleTagClick(tag.id)}
                             style={{
-                                backgroundColor: selectedTags.includes(tag.id) ? 'lightblue' : 'white',
+                                backgroundColor: selectedTags.includes(tag.id) ? 'rgb(248, 172, 10)' : 'white',
                                 border: '1px solid #ddd',
                                 borderRadius: '4px',
                                 padding: '5px 10px',
@@ -215,7 +218,7 @@ const stateImageUrl = useSelector(state => state.image?.img?.image?.image);
                 </div> */}
                 {errors?.errors?.tags && <p style={{ color: 'red' }}>{errors?.errors?.tags}</p>}
                 <br />
-                <button type="submit" style={{border:'none', padding:'10px', borderRadius:'7px',backgroundColor:'rgba(254, 212, 4, 255)', fontWeight:'bold',fontSize:'large'}}>Create</button> {' '}
+                <button className='create-blog-button' type="submit" style={{ border: 'none', padding: '10px', borderRadius: '7px', backgroundColor: 'rgba(254, 212, 4, 255)', fontWeight: 'bold', fontSize: 'large' }}>Create</button> {' '}
                 {/* <button
 
                     onClick={() => {

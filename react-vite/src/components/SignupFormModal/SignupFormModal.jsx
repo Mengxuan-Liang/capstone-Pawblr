@@ -21,19 +21,14 @@ function SignupFormModal() {
 
   const validateForm = () => {
     const newErrors = {};
-
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     if (!emailRegex.test(email)) {
       newErrors.email = "Please enter a valid email address.";
     }
-
-    // Username validation (e.g., min length 4)
     if (username.length < 2) {
       newErrors.username = "Username must be at least 2 characters long.";
     }
-
-    // Password validation (e.g., min length 6, can add complexity rules)
     if (password.length < 2) {
       newErrors.password = "Password must be at least 2 characters long.";
     }
@@ -43,8 +38,6 @@ function SignupFormModal() {
     }
 
     setErrors(newErrors);
-
-    // Return whether the form is valid
     return Object.keys(newErrors).length === 0;
   };
 
@@ -146,7 +139,6 @@ function SignupFormModal() {
       {/* <p style={{ color: 'grey', fontSize: "15px" }}>Choose your profile image(optional)</p>
       {(imageLoading) && <img style={{ width: '20%' }} src={imageURL}></img>} */}
       <div >
-
         <form
           onSubmit={handleSubmitImg}
           encType="multipart/form-data"
@@ -157,13 +149,14 @@ function SignupFormModal() {
           accept="image/*"
           onChange={(e) => setImage(e.target.files[0])}
         /> */}
-          <button type="submit">Confirm Profile Image</button>
+          {/* <button type="submit">Confirm Profile Image</button> */}
         </form>
-
 
         {errors?.server && <p>{errors.server}</p>}
       </div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(e) => { handleSubmit(e); handleSubmitImg(e); }}
+      encType="multipart/form-data"
+      >
         <label>
           Email
           <input
