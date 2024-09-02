@@ -44,7 +44,7 @@ body {
 
 .main-content {
   display: flex;
-  margin-top: 60px;
+  margin-top: 70px;
   padding: 0 20px;
   justify-content: space-between;
 }
@@ -175,7 +175,8 @@ body {
 }
 .comment-container{
   /* border: 2px red solid; */
-  margin-left: 100px;
+  margin-left: 150px;
+  /* margin-right: 150px; */
 }
 .notes-reply-like-update-delete-container {
   display: flex;

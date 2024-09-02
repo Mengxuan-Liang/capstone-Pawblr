@@ -48,19 +48,40 @@ function SignupFormModal() {
       return;
     }
 
-    // if (password !== confirmPassword) {
-    //   return setErrors({
-    //     confirmPassword:
-    //       "Confirm Password field must be the same as the Password field",
-    //   });
-    // }
-
+    const handleSubmitImg = async (e) => {
+      e.preventDefault();
+      const formData = new FormData();
+      formData.append("image", file);
+      // console.log('IMG', image)
+      // console.log('FORMDATA', formData)
+  
+      setImageLoading(true);
+      const response = await dispatch(createImage(formData));
+      // console.log('response', response)
+      if (response) {
+        // const data = await response.json();
+        // console.log('data', data)
+        const awsImageUrl = response?.image?.image;
+        // console.log('aws images real in sign up!!!!!!!', awsImageUrl)
+        setImageURL(awsImageUrl);  // Use the actual AWS URL here
+        return response;
+      }
+  
+      setImageLoading(false);
+  
+    }
+    const imgRes = await handleSubmitImg(e)
+    // console.log('handle sumit image in handle submit????', imgRes)
+    if(!imgRes.succss){
+      return;
+    }
+    const imageInUse = imgRes?.succss?.image?.image;
     const serverResponse = await dispatch(
       thunkSignup({
         email,
         username,
         password,
-        profileImage: imageURL
+        profileImage: imageInUse
       })
     );
 
@@ -92,27 +113,28 @@ function SignupFormModal() {
     setOptional("");
   }
   // --------------aws----posting
-  const handleSubmitImg = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("image", file);
-    // console.log('IMG', image)
-    // console.log('FORMDATA', formData)
+  // const handleSubmitImg = async (e) => {
+  //   e.preventDefault();
+  //   const formData = new FormData();
+  //   formData.append("image", file);
+  //   // console.log('IMG', image)
+  //   // console.log('FORMDATA', formData)
 
-    setImageLoading(true);
-    const response = await dispatch(createImage(formData));
-    // console.log('response', response)
-    if (response) {
-      // const data = await response.json();
-      // console.log('data', data)
-      const awsImageUrl = response?.image?.image; 
-      // console.log('aws images!!!!!!!', awsImageUrl)
-      setImageURL(awsImageUrl);  // Use the actual AWS URL here
-    }
+  //   setImageLoading(true);
+  //   const response = await dispatch(createImage(formData));
+  //   // console.log('response', response)
+  //   if (response) {
+  //     // const data = await response.json();
+  //     // console.log('data', data)
+  //     const awsImageUrl = response?.image?.image;
+  //     console.log('aws images real in sign up!!!!!!!', awsImageUrl)
+  //     setImageURL(awsImageUrl);  // Use the actual AWS URL here
+  //     return response;
+  //   }
 
-    setImageLoading(false);
+  //   setImageLoading(false);
 
-  }
+  // }
 
   const stateImageUrl = useSelector(state => state.image?.img?.image?.image);
   // console.log('IMAGE', image)
@@ -140,8 +162,8 @@ function SignupFormModal() {
       {(imageLoading) && <img style={{ width: '20%' }} src={imageURL}></img>} */}
       <div >
         <form
-          onSubmit={handleSubmitImg}
-          encType="multipart/form-data"
+          // onSubmit={handleSubmitImg}
+          // encType="multipart/form-data"
         >
           {/* <input
          style={{visibility:'hidden'}}
@@ -154,8 +176,8 @@ function SignupFormModal() {
 
         {errors?.server && <p>{errors.server}</p>}
       </div>
-      <form onSubmit={(e) => { handleSubmit(e); handleSubmitImg(e); }}
-      encType="multipart/form-data"
+      <form onSubmit={handleSubmit}
+        encType="multipart/form-data"
       >
         <label>
           Email
@@ -166,7 +188,7 @@ function SignupFormModal() {
             onChange={(e) => {
               const value = e.target.value;
               setEmail(value);
-        
+
               // Validate email format and clear error if valid
               const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
               setErrors((prevErrors) => ({
@@ -187,7 +209,7 @@ function SignupFormModal() {
             onChange={(e) => {
               const value = e.target.value;
               setUsername(value);
-          
+
               // Clear error if text is greater than 2 characters
               setErrors((prevErrors) => ({
                 ...prevErrors,
@@ -207,7 +229,7 @@ function SignupFormModal() {
             onChange={(e) => {
               const value = e.target.value;
               setPassword(value);
-        
+
               // Clear error if the password is valid
               setErrors((prevErrors) => ({
                 ...prevErrors,
@@ -227,7 +249,7 @@ function SignupFormModal() {
             onChange={(e) => {
               const value = e.target.value;
               setConfirmPassword(value);
-        
+
               // Clear error if passwords match
               setErrors((prevErrors) => ({
                 ...prevErrors,

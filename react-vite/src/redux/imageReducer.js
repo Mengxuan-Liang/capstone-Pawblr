@@ -12,7 +12,8 @@ const addPost = (post) => ({
 
 
 export const createImage = (post) => async (dispatch) => {
-    console.log('post in createImage thunk!!!!!!!', post)
+    const {image} = post
+    console.log('img in createImage thunk!!!!!!!', image)
     const response = await fetch(`/api/images/`, {
       method: "POST",
       body: post
@@ -22,7 +23,7 @@ export const createImage = (post) => async (dispatch) => {
         const resPost  = await response.json();
         console.log('RES POST ???',resPost)
         dispatch(addPost(resPost));
-        return resPost;
+        return {'succss': resPost}
     } else {
         console.log("There was an error making your post!")
     }

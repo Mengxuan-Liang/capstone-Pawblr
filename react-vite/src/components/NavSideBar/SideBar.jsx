@@ -1,6 +1,7 @@
 import ProfileButton from "../Navigation/ProfileButton"
 import { NavLink } from "react-router-dom"
 import CreateBlogButton from "../CreateBlog/CreateBlogButton"
+import './SideBar.css'
 
 
 export default function SideBar (){
@@ -9,7 +10,7 @@ export default function SideBar (){
             <div className='profile-button'>
               < ProfileButton />
             </div>
-            <ul>
+            <ul className="home-blog-comment-like-container">
               <li><NavLink to={'/home'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Home</NavLink></li>
               <li><NavLink to={'/blog'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Blogs</NavLink></li>
               <li><NavLink to={'/comment'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Comments</NavLink></li>

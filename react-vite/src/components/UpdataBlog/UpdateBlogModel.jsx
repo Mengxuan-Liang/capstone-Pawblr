@@ -43,12 +43,43 @@ export default function UpdateBlogModal({ el }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const handleSubmitImg = async (e) => {
+            e.preventDefault();
+            const formData = new FormData();
+            formData.append("image", file);
+            // console.log('IMG', image)
+            // console.log('FORMDATA', formData)
+
+            setImageLoading(true);
+            const response = await dispatch(createImage(formData));
+            // console.log('response', response)
+            if (response) {
+                // const data = await response.json();
+                // console.log('data', data)
+                const awsImageUrl = response?.image?.image;
+                // console.log('aws images real in sign up!!!!!!!', awsImageUrl)
+                setImageURL(awsImageUrl);  // Use the actual AWS URL here
+                return response;
+            }
+
+            setImageLoading(false);
+
+        }
+        const imgRes = await handleSubmitImg(e)
+        // console.log('handle sumit image in handle submit????', imgRes)
+        if (!imgRes.succss) {
+            return;
+        }
+        const imageInUse = imgRes?.succss?.image?.image;
+
+
         const serverResponse = await dispatch(
             thunkUpdatePost({
                 user_id: userId,
                 post_id: el.id,
                 text,
-                img:imageURL,
+                img:imageInUse,
                 tags: selectedTags
             })
         );
@@ -83,25 +114,25 @@ export default function UpdateBlogModal({ el }) {
         setOptional("");
     }
     // --------------aws----posting
-    const handleSubmitImg = async (e) => {
-        e.preventDefault();
-        const formData = new FormData();
-        formData.append("image", file);
-        // console.log('IMG', image)
-        // console.log('FORMDATA', formData)
-        setImageLoading(true);
-        const response = await dispatch(createImage(formData));
-        // console.log('response', response)
-        if (response) {
-            // const data = await response.json();
-            // console.log('data', data)
-            const awsImageUrl = response.image.image;  // Assuming the URL is returned in the response
-            // console.log('aws images!!!!!!!', awsImageUrl)
-            setImageURL(awsImageUrl);  // Use the actual AWS URL here
-            setImg(awsImageUrl)
-        }
-        setImageLoading(false);
-    }
+    // const handleSubmitImg = async (e) => {
+    //     e.preventDefault();
+    //     const formData = new FormData();
+    //     formData.append("image", file);
+    //     // console.log('IMG', image)
+    //     // console.log('FORMDATA', formData)
+    //     setImageLoading(true);
+    //     const response = await dispatch(createImage(formData));
+    //     // console.log('response', response)
+    //     if (response) {
+    //         // const data = await response.json();
+    //         // console.log('data', data)
+    //         const awsImageUrl = response.image.image;  // Assuming the URL is returned in the response
+    //         // console.log('aws images!!!!!!!', awsImageUrl)
+    //         setImageURL(awsImageUrl);  // Use the actual AWS URL here
+    //         setImg(awsImageUrl)
+    //     }
+    //     setImageLoading(false);
+    // }
     const stateImageUrl = useSelector(state => state.image?.img?.image?.image);
 
     return (
@@ -120,8 +151,8 @@ export default function UpdateBlogModal({ el }) {
             <br></br>
             <div >
                 <form
-                    onSubmit={handleSubmitImg}
-                    encType="multipart/form-data"
+                    // onSubmit={handleSubmitImg}
+                    // encType="multipart/form-data"
                 >
                     {/* <input
          style={{visibility:'hidden'}}
@@ -137,7 +168,7 @@ export default function UpdateBlogModal({ el }) {
             </div>
         
             <form id="container-signup-form"
-                onSubmit={(e) => { handleSubmit(e); handleSubmitImg(e) }}
+                onSubmit={handleSubmit}
                 encType="multipart/form-data"
             >
                 <label>

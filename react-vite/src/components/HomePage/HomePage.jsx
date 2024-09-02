@@ -289,6 +289,8 @@ export default function HomePage() {
                               />
                             </label>
                             {errors[post.id]?.text && <p style={{ color: 'red' }}>{errors[post.id].text}</p>} {' '}
+                            <button onClick={(e)=> setText('')}>Clear</button>{' '}
+                            <button onClick={() => toggleComments(post.id)}>Close</button>{' '}
                             <button  type="submit">Send</button>
                           </form>
                           <br></br>
@@ -394,8 +396,13 @@ export default function HomePage() {
                                 required
                               />
                             </label>
+                            {" "}
+                            <button onClick={(e)=> setText('')}>Clear</button>{' '}
+                            <button onClick={() => toggleComments(post.id)}>Close</button>{' '}
+                            <button type="submit">Send</button> 
+                            <div>
                             {errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.text}</p>} {' '}
-                            <button type="submit">Send</button>
+                            </div>
                           </form>
                           <br></br>
                           {post.root_post.comments?.map(comment => (
