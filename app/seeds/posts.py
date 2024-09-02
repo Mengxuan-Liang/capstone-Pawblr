@@ -3,51 +3,57 @@ from sqlalchemy.sql import text
 
 def seed_posts():
     post1 = Post(
-        # title='some title in post 1',
-        text = "As virtuous men passe mildly away, And whisper to their soules, to goe, Whilst some of their sad friends doe say, The breath goes now, and some say, no: So let us melt, and make no noise, No teare-floods, nor sigh-tempests move, T'were prophanation of our joyes To tell the layetie our love.",
+        text = "Pawsitively perfect day with my favorite furball.",
         user_id = 1,
-    )
-    post4 = Post(
-        # title='some title in post 2',
-        text = "Moving of th'earth brings harmes and fears, Men reckon what it did and meant, But trepidation of the spheares, Though greater farre, is innocent.",
-        user_id = 1,
-    )
-    post7 = Post(
-        # title='some title in post 3',
-        text = "Dull sublunary lovers love (Whose soul is sense) cannot admit Absence, because it doth remove Those things which elemented it.",
-        user_id = 1,
+        img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1725234088/capstone/IMG_0759_ru4wty.jpg'
     )
     post2 = Post(
-        # title='some title in post 3',
-        text = "Once upon a midnight dreary, while I pondered, weak and weary, Over many a quaint and curious volume of forgotten lore",
+        # title='some title in post 2',
+        text = "Fetch goals: Always chasing my dreams (and balls).",
         user_id = 2,
-    )
-    post5 = Post(
-        # title='some title in post 3',
-        text = "While I nodded, nearly napping, suddenly there came a tapping, As of some one gently rapping, rapping at my chamber door.",
-        user_id = 2,
-    )
-    post8 = Post(
-        # title='some title in post 3',
-        text = 'Tis some visiter, I muttered, tapping at my chamber door— Only this and nothing more.',
-        user_id = 2,
-        # img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1724805733/capstone/download_3_mq2d7d.jpg'
+        img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1725234088/capstone/IMG_0758_bgevs3.jpg'
     )
     post3 = Post(
         # title='some title in post 3',
-        text = '“Hope” is the thing with feathers - That perches in the soul - And sings the tune without the words - And never stops - at all -',
+        text = "I sniff, I eat, I conquer.",
         user_id = 3,
-        #  img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1724805734/capstone/5a0d342841ff207b763869482e2ca816e2e592f0_tligx2.jpg'
+        img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1725234085/capstone/IMG_0757_flvdgt.jpg'
+    )
+    post4 = Post(
+        # title='some title in post 3',
+        text = "Strutting my stuff in the latest paw-shion trends.",
+        user_id = 4,
+        img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1725234084/capstone/IMG_0746_map2qp.jpg'
+    )
+    post5 = Post(
+        # title='some title in post 3',
+        text = "Just two best buds enjoying the water together.",
+        user_id = 5,
+        img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1725234082/capstone/IMG_0737_b2lkzq.jpg'
     )
     post6 = Post(
         # title='some title in post 3',
-        text = 'And sweetest - in the Gale - is heard - And sore must be the storm - That could abash the little Bird That kept so many warm -',
-        user_id = 3,
+        text = 'Float like a furball.',
+        user_id = 6,
+        img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1725234082/capstone/IMG_0734_qdglxi.jpg'
+    )
+    post7 = Post(
+        # title='some title in post 3',
+        text = 'Morning stretches before a full day of barking at squirrels.',
+        user_id = 1,
+        img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1725234084/capstone/IMG_0751_kf2mdc.jpg'
+    )
+    post8 = Post(
+        # title='some title in post 3',
+        text = 'Jet lag? Never heard of it. Ready to explore!',
+        user_id = 2,
+        img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1725234085/capstone/IMG_0754_vreurg.jpg'
     )
     post9 = Post(
         # title='some title in post 3',
-        text = 'I’ve heard it in the chillest land - And on the strangest Sea - Yet - never - in Extremity, It asked a crumb - of me.',
+        text = "Nailed that Zoom meeting! Now, who’s got the treats?",
         user_id = 3,
+        img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1725234084/capstone/IMG_0750_wxekhm.jpg'
     )
 
     db.session.add_all([

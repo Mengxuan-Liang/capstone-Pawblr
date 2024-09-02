@@ -3,53 +3,53 @@ from sqlalchemy.sql import text
 
 def seed_comments():
     comment1 = Comment(
-        text='Oh stay, three lives in one flea spare',
+        text='Woof',
         post_id = 1,
         user_id = 1,
         parent_comment_id = 2
     )
     comment2 = Comment(
-        text='Where we almost, nay more than married are. ',
+        text='Ruff',
         post_id = 2,
         user_id = 2,
         parent_comment_id = 1
     )
     comment3 = Comment(
-        text='This flea is you and I, and this',
+        text='Awoooooo',
         post_id = 3,
         user_id = 3,
     )
     comment4 = Comment(
-        text='Our marriage bed, and marriage temple is;',
+        text='Woof',
         post_id = 4,
         user_id = 1,
         parent_comment_id = 2
     )
     comment5 = Comment(
-        text='Though parents grudge, and you, we are met, ',
+        text='Ruff',
         post_id = 5,
         user_id = 2,
         parent_comment_id = 1
     )
     comment6 = Comment(
-        text='And cloistered in these living walls of jet.',
+        text='AWOOOOOOOO',
         post_id = 6,
         user_id = 3,
     )
     comment7 = Comment(
-        text='Though use make you apt to kill me,',
+        text='RUFFFFF',
         post_id = 7,
         user_id = 1,
         parent_comment_id = 2
     )
     comment8 = Comment(
-        text='Let not to that, self-murder added be,',
+        text='Awooooooo',
         post_id = 8,
         user_id = 2,
         parent_comment_id = 1
     )
     comment9 = Comment(
-        text='And sacrilege, three sins in killing three.',
+        text='WOOOF',
         post_id = 9,
         user_id = 3,
     )

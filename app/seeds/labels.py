@@ -3,34 +3,34 @@ from sqlalchemy.sql import text
 
 def seed_labels():
     label1 = Label(
-        name = 'Love'
+        name = 'SelfiePro'
     )
     label2 = Label(
-        name = 'Death'
+        name = 'Yum'
     )
     label3 = Label(
-        name = 'Nature'
+        name = 'FoodieLife'
     )
     label4 = Label(
-        name = 'Time'
+        name = 'NapGoals'
     )
     label5 = Label(
-        name = 'Identity and Self'
+        name = 'Explorer'
     )
     label6 = Label(
-        name = 'Society and Social Issues'
+        name = 'PlayAllDay'
     )
     label7 = Label(
-        name = 'Isolation and Loneliness'
+        name = 'AdventureDog'
     )
     label8 = Label(
-        name = 'Hope and Despair'
+        name = 'DogStyle'
     )
     label9 = Label(
-        name = 'Journey and Exploration'
+        name = 'BestBuddies'
     )
     label10 = Label(
-        name = 'Power and Corruption'
+        name = 'RiseAndShine'
     )
 
     db.session.add_all([

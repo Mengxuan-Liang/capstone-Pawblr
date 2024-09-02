@@ -4,18 +4,27 @@ from sqlalchemy.sql import text
 
 # Adds a demo user, you can add other users here if you want
 def seed_users():
-    john = User(
-        username='John Donne', email='john@aa.io', password='password',profileImage='https://res.cloudinary.com/dhukvbcqm/image/upload/v1724687622/capstone/612tkxoqAtL_i1uath.jpg')
-    allan = User(
-        username='Allan Poe', email='allan@aa.io', password='password', profileImage='https://res.cloudinary.com/dhukvbcqm/image/upload/v1724687622/capstone/28c2cdadd53140ed9a8ff8b0b37bbf9b_ywud0n.webp')
-    emily = User(
-        username='Emily Dickinson', email='emily@aa.io', password='password', profileImage='https://res.cloudinary.com/dhukvbcqm/image/upload/v1724687622/capstone/cute-dog-cartoon_54889-1289_zewbik.avif')
+    bella = User(
+        username='Bella', email='bella@aa.io', password='password',profileImage='https://res.cloudinary.com/dhukvbcqm/image/upload/v1725234083/capstone/IMG_0743_ug5iyw.jpg')
+    luna = User(
+        username='Luna', email='luna@aa.io', password='password', profileImage='https://res.cloudinary.com/dhukvbcqm/image/upload/v1725234083/capstone/IMG_0742_fx9cin.jpg')
+    nova = User(
+        username='Nova', email='nova@aa.io', password='password', profileImage='https://res.cloudinary.com/dhukvbcqm/image/upload/v1725234082/capstone/IMG_0741_sjf3el.jpg')
+    milo = User(
+        username='Zoe', email='zoe@aa.io', password='password', profileImage='https://res.cloudinary.com/dhukvbcqm/image/upload/v1725234082/capstone/IMG_0740_fduzfl.jpg')
+    baloo = User(
+        username='Baloo', email='baloo@aa.io', password='password', profileImage='https://res.cloudinary.com/dhukvbcqm/image/upload/v1717366270/IMG_0228_w1h6bw.jpg')
+    cooper = User(
+        username='Cooper', email='cooper@aa.io', password='password', profileImage='https://res.cloudinary.com/dhukvbcqm/image/upload/v1725234083/capstone/IMG_0744_jyd9an.jpg')
     demo = User (
         username='demo', email='demo@aa.io', password='password', profileImage='https://res.cloudinary.com/dhukvbcqm/image/upload/v1724973068/capstone/download_n3qjos.png'
     )
-    db.session.add(john)
-    db.session.add(allan)
-    db.session.add(emily)
+    db.session.add(bella)
+    db.session.add(luna)
+    db.session.add(nova)
+    db.session.add(milo)
+    db.session.add(baloo)
+    db.session.add(cooper)
     db.session.add(demo)
     db.session.commit()
 
