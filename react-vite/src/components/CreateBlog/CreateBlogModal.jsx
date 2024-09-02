@@ -47,53 +47,64 @@ export default function CreateBlogModal() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const handleSubmitImg = async (e) => {
-            e.preventDefault();
-            const formData = new FormData();
-            formData.append("image", file);
-            // console.log('IMG', image)
-            // console.log('FORMDATA', formData)
-
-            setImageLoading(true);
-            const response = await dispatch(createImage(formData));
-            // console.log('response', response)
-            if (response) {
-                // const data = await response.json();
-                // console.log('data', data)
-                const awsImageUrl = response?.image?.image;
-                // console.log('aws images real in sign up!!!!!!!', awsImageUrl)
-                setImageURL(awsImageUrl);  // Use the actual AWS URL here
-                return response;
+        // console.log('file in handle submit', file)
+        if (file) {
+            // console.log('inside the file condition???')
+            const handleSubmitImg = async (e) => {
+                e.preventDefault();
+                const formData = new FormData();
+                formData.append("image", file);
+                setImageLoading(true);
+                const response = await dispatch(createImage(formData));
+                // console.log('resonponse????', response)
+                if (response) {
+                    // console.log('inside respponse condition?')
+                    const awsImageUrl = response?.image?.image;
+                    setImageURL(awsImageUrl);  // Use the actual AWS URL here
+                    // console.log('resones returned', response)
+                    return response;
+                }
+                setImageLoading(false);
             }
-
-            setImageLoading(false);
-
-        }
-        const imgRes = await handleSubmitImg(e)
-        // console.log('handle sumit image in handle submit????', imgRes)
-        // if (!imgRes.succss) {
-        //     return;
-        // }
-        const imageInUse = imgRes?.succss?.image?.image;
-
-        const serverResponse = await dispatch(
-            thunkCreatePost({
-                user_id: userId,
-                text,
-                img: imageInUse,
-                tags: selectedTags
-            })
-        );
-
-
-        if (!serverResponse?.errors) {
-            // setIsloaded(!isloaded)
-            closeModal();
-            navigate('/home');
+            const imgRes = await handleSubmitImg(e)
+            const imageInUse = imgRes?.succss?.image?.image;
+            // console.log('image in use??', imageInUse)
+            const serverResponse = await dispatch(
+                thunkCreatePost({
+                    user_id: userId,
+                    text,
+                    img: imageInUse,
+                    tags: selectedTags
+                })
+            );
+            if (!serverResponse?.errors) {
+                // setIsloaded(!isloaded)
+                closeModal();
+                navigate('/home');
+            } else {
+                setErrors(serverResponse);
+            }
         } else {
-            setErrors(serverResponse);
+            const serverResponse = await dispatch(
+                thunkCreatePost({
+                    user_id: userId,
+                    text,
+                    tags: selectedTags
+                })
+            );
+            if (!serverResponse?.errors) {
+                // setIsloaded(!isloaded)
+                closeModal();
+                navigate('/home');
+            } else {
+                setErrors(serverResponse);
+            }
         }
+
+
+
+
+
     };
     // ---------------aws------preview
     const maxFileError = "Selected image exceeds the maximum file size of 5Mb";
@@ -119,6 +130,7 @@ export default function CreateBlogModal() {
         setFilename(tempFile.name);
         setOptional("");
     }
+    // console.log('IMG', file)
     // --------------aws----posting
     // const handleSubmitImg = async (e) => {
     //     e.preventDefault();

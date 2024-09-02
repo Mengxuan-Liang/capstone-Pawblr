@@ -44,51 +44,65 @@ export default function UpdateBlogModal({ el }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const handleSubmitImg = async (e) => {
-            e.preventDefault();
-            const formData = new FormData();
-            formData.append("image", file);
-            // console.log('IMG', image)
-            // console.log('FORMDATA', formData)
-
-            setImageLoading(true);
-            const response = await dispatch(createImage(formData));
-            // console.log('response', response)
-            if (response) {
-                // const data = await response.json();
-                // console.log('data', data)
-                const awsImageUrl = response?.image?.image;
-                // console.log('aws images real in sign up!!!!!!!', awsImageUrl)
-                setImageURL(awsImageUrl);  // Use the actual AWS URL here
-                return response;
+        if(file){
+            const handleSubmitImg = async (e) => {
+                e.preventDefault();
+                const formData = new FormData();
+                formData.append("image", file);
+                // console.log('IMG', image)
+                // console.log('FORMDATA', formData)
+    
+                setImageLoading(true);
+                const response = await dispatch(createImage(formData));
+                // console.log('response', response)
+                if (response) {
+                    // const data = await response.json();
+                    // console.log('data', data)
+                    const awsImageUrl = response?.image?.image;
+                    // console.log('aws images real in sign up!!!!!!!', awsImageUrl)
+                    setImageURL(awsImageUrl);  // Use the actual AWS URL here
+                    return response;
+                }
+    
+                setImageLoading(false);
+    
             }
-
-            setImageLoading(false);
-
-        }
-        const imgRes = await handleSubmitImg(e)
-        // console.log('handle sumit image in handle submit????', imgRes)
-        // if (!imgRes.succss) {
-        //     return;
-        // }
-        const imageInUse = imgRes?.succss?.image?.image;
-
-
-        const serverResponse = await dispatch(
-            thunkUpdatePost({
-                user_id: userId,
-                post_id: el.id,
-                text,
-                img:imageInUse,
-                tags: selectedTags
-            })
-        );
-        // console.log('server response!!!!!', serverResponse)
-        if (!serverResponse.errors) {
-            closeModal();
-            navigate('/home');
-        } else {
-            setErrors(serverResponse);
+            const imgRes = await handleSubmitImg(e)
+            const imageInUse = imgRes?.succss?.image?.image;
+    
+    
+            const serverResponse = await dispatch(
+                thunkUpdatePost({
+                    user_id: userId,
+                    post_id: el.id,
+                    text,
+                    img:imageInUse,
+                    tags: selectedTags
+                })
+            );
+            // console.log('server response!!!!!', serverResponse)
+            if (!serverResponse.errors) {
+                closeModal();
+                navigate('/home');
+            } else {
+                setErrors(serverResponse);
+            }
+        }else {
+            const serverResponse = await dispatch(
+                thunkUpdatePost({
+                    user_id: userId,
+                    post_id: el.id,
+                    text,
+                    tags: selectedTags
+                })
+            );
+            // console.log('server response!!!!!', serverResponse)
+            if (!serverResponse.errors) {
+                closeModal();
+                navigate('/home');
+            } else {
+                setErrors(serverResponse);
+            }
         }
     };
 

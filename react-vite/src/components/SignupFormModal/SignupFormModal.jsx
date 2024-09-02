@@ -47,49 +47,60 @@ function SignupFormModal() {
     if (!validateForm()) {
       return;
     }
+if(file){
+  const handleSubmitImg = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("image", file);
+    // console.log('IMG', image)
+    // console.log('FORMDATA', formData)
 
-    const handleSubmitImg = async (e) => {
-      e.preventDefault();
-      const formData = new FormData();
-      formData.append("image", file);
-      // console.log('IMG', image)
-      // console.log('FORMDATA', formData)
-  
-      setImageLoading(true);
-      const response = await dispatch(createImage(formData));
-      // console.log('response', response)
-      if (response) {
-        // const data = await response.json();
-        // console.log('data', data)
-        const awsImageUrl = response?.image?.image;
-        // console.log('aws images real in sign up!!!!!!!', awsImageUrl)
-        setImageURL(awsImageUrl);  // Use the actual AWS URL here
-        return response;
-      }
-  
-      setImageLoading(false);
-  
+    setImageLoading(true);
+    const response = await dispatch(createImage(formData));
+    // console.log('response', response)
+    if (response) {
+      // const data = await response.json();
+      // console.log('data', data)
+      const awsImageUrl = response?.image?.image;
+      // console.log('aws images real in sign up!!!!!!!', awsImageUrl)
+      setImageURL(awsImageUrl);  // Use the actual AWS URL here
+      return response;
     }
-    const imgRes = await handleSubmitImg(e)
-    // console.log('handle sumit image in handle submit????', imgRes)
-    // if(!imgRes.succss){
-    //   return;
-    // }
-    const imageInUse = imgRes?.succss?.image?.image;
-    const serverResponse = await dispatch(
-      thunkSignup({
-        email,
-        username,
-        password,
-        profileImage: imageInUse
-      })
-    );
 
-    if (serverResponse) {
-      setErrors(serverResponse);
-    } else {
-      closeModal();
-    }
+    setImageLoading(false);
+
+  }
+  const imgRes = await handleSubmitImg(e)
+  const imageInUse = imgRes?.succss?.image?.image;
+  const serverResponse = await dispatch(
+    thunkSignup({
+      email,
+      username,
+      password,
+      profileImage: imageInUse
+    })
+  );
+
+  if (serverResponse) {
+    setErrors(serverResponse);
+  } else {
+    closeModal();
+  }
+}else {
+  const serverResponse = await dispatch(
+    thunkSignup({
+      email,
+      username,
+      password
+    })
+  );
+
+  if (serverResponse) {
+    setErrors(serverResponse);
+  } else {
+    closeModal();
+  }
+}
   };
   // ---------------aws------preview
   const maxFileError = "Selected image exceeds the maximum file size of 5Mb";

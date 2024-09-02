@@ -12,16 +12,16 @@ const addPost = (post) => ({
 
 
 export const createImage = (post) => async (dispatch) => {
-    const {image} = post
-    console.log('img in createImage thunk!!!!!!!', image)
+    // const {image} = post
+    // console.log('img in createImage thunk!!!!!!!', image)
     const response = await fetch(`/api/images/`, {
       method: "POST",
       body: post
     });
-  
+  console.log('response in reducer!@@@@@', response)
     if (response.ok) {
         const resPost  = await response.json();
-        console.log('RES POST ???',resPost)
+        // console.log('RES POST ???',resPost)
         dispatch(addPost(resPost));
         return {'succss': resPost}
     } else {
