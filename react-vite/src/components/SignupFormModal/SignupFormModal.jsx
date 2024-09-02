@@ -72,9 +72,9 @@ function SignupFormModal() {
     }
     const imgRes = await handleSubmitImg(e)
     // console.log('handle sumit image in handle submit????', imgRes)
-    if(!imgRes.succss){
-      return;
-    }
+    // if(!imgRes.succss){
+    //   return;
+    // }
     const imageInUse = imgRes?.succss?.image?.image;
     const serverResponse = await dispatch(
       thunkSignup({

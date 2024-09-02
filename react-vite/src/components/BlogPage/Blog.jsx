@@ -295,7 +295,9 @@ export default function Blog() {
                               />
                             </label>
                             {errors[post.id]?.text && <p style={{ color: 'red' }}>{errors[post.id].text}</p>} {' '}
-                            <button type="submit">send</button>
+                            <button onClick={(e)=> setText('')}>Clear</button>{' '}
+                            <button onClick={() => toggleComments(post.id)}>Close</button>{' '}
+                            <button  type="submit">Send</button>
                           </form>
                           <br></br>
                           {post.comments?.map(comment => (
@@ -319,7 +321,7 @@ export default function Blog() {
                           <FaRegComment className='react-icon' title='Comment' onClick={() => toggleComments(post.id)} />
                           {/* <div onClick={() => handleReblog(post.id)}>Reblog</div> */}
                           <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} />
-                          {post.user_id !== userId &&   
+                          {/* {post.user_id !== userId &&    */}
                           <span
                             style={{ cursor: 'pointer' }}
                             className="like-button"
@@ -333,7 +335,7 @@ export default function Blog() {
                               <BiLike className='react-icon' title='Like' />
                             )}
                           </span>
-                         }
+                         {/* } */}
 
 
                         </div>
@@ -403,7 +405,9 @@ export default function Blog() {
                               />
                             </label>
                             {errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.text}</p>} {' '}
-                            <button type="submit">Send</button>
+                            <button onClick={(e)=> setText('')}>Clear</button>{' '}
+                            <button onClick={() => toggleComments(post.id)}>Close</button>{' '}
+                            <button type="submit">Send</button> 
                           </form>
                           <br></br>
                           {post.root_post.comments?.map(comment => (

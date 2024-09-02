@@ -302,7 +302,9 @@ export default function Like() {
                               />
                             </label>
                             {errors[post.id]?.text && <p style={{ color: 'red' }}>{errors[post.id].text}</p>} {' '}
-                            <button type="submit">send</button>
+                            <button onClick={(e)=> setText('')}>Clear</button>{' '}
+                            <button onClick={() => toggleComments(post.id)}>Close</button>{' '}
+                            <button type="submit">Send</button> 
                           </form>
                           <br></br>
                           {post.comments?.map(comment => (
@@ -410,7 +412,9 @@ export default function Like() {
                               />
                             </label>
                             {errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.text}</p>} {' '}
-                            <button type="submit">Send</button>
+                            <button onClick={(e)=> setText('')}>Clear</button>{' '}
+                            <button onClick={() => toggleComments(post.id)}>Close</button>{' '}
+                            <button type="submit">Send</button> 
                           </form>
                           <br></br>
                           {post.root_post.comments?.map(comment => (

@@ -234,7 +234,6 @@ export default function HomePage() {
 
         <section className="feed">
           {posts?.map(post => {
-            // Determine if the current post is liked, post's author is followed
             const isLiked = likedPosts.has(post.id);
             const isFollowed = followStatus.has(post.user_id);
             return (
@@ -242,7 +241,7 @@ export default function HomePage() {
                 {!post?.root_post ? (
                   <>
                     <div className="post-header">
-                      <img style={{ width: '50px' }} src={post.user?.profileImage ? post.user.profileImage : 'https://res.cloudinary.com/dhukvbcqm/image/upload/v1724973068/capstone/download_n3qjos.png'} />
+                      <img style={{ width: '50px' }} src={post.user?.profileImage ? post.user.profileImage : 'https://res.cloudinary.com/dhukvbcqm/image/upload/v1725296015/capstone/Blue_Dog_Coalition_dgsbdq.webp'} />
                       <div>
                         <div className='post-author-follow-button'>
                           <h3>{post.user?.username}{' '}</h3>
@@ -315,7 +314,7 @@ export default function HomePage() {
                           <FaRegComment className='react-icon' title='Comment' onClick={() => toggleComments(post.id)} />
                           {/* <div onClick={() => handleReblog(post.id)}>Reblog</div> */}
                           <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} />
-                          {post.user_id !== userId &&   
+                          {/* {post.user_id !== userId &&    */}
                           <span
                             style={{ cursor: 'pointer' }}
                             className="like-button"
@@ -327,15 +326,13 @@ export default function HomePage() {
                               <BiLike className='react-icon' title='Like' />
                             )}
                           </span>
-                          } 
+                          {/* }  */}
 
 
                         </div>
                       </span>
                     </div>
                   </>) :
-
-
 
                   <>
                     <div className="post-header">

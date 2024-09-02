@@ -162,12 +162,16 @@ body {
 .post-author-follow-button {
   display: flex;
   gap:10px;
+  
 }
 .follow-button {
   border: none;
   background-color:white;
   border-radius: 7px;
   padding: 5px;
+  margin-left: 200px;
+  font-size: large;
+  /* margin-top: 10px; */
 }
 .follow-button:hover {
   cursor: pointer;
