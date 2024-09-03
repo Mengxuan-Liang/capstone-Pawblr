@@ -227,6 +227,15 @@ body {
   margin-top: 5px;
   padding: 10px;
   border-radius: 7px;
+  width: 95%;
+  word-wrap: break-word; /* This will ensure long words break onto the next line */
+  overflow-wrap: break-word; /* Ensures breaking at natural word boundaries if possible */
+  word-break: break-word; /* Handles breaking long words if they don't fit in the container */
+}
+.comment-text {
+  /* border: 2px saddlebrown solid; */
+  width: fit-content;
+  flex:1
 }
 .reply-like-container {
   display: flex;

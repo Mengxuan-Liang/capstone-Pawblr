@@ -311,7 +311,7 @@ export default function Like() {
                             <div className='comment-details-container' key={comment.id}>
                               <span style={{ fontSize: 'small' }}>{comment.user?.username}</span>{' '}<span style={{ fontSize: 'small' }}>{comment.created_at}</span>
                               <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
-                                <div key={comment.id}>{comment.text}</div>
+                                <div className='comment-text' key={comment.id}>{comment.text}</div>
                                 {/* <button >reply</button> */}
                                 {
                                   userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>Delete</button>
@@ -421,7 +421,7 @@ export default function Like() {
                             <div className='comment-details-container' key={comment.id}>
                               <span style={{ fontSize: 'small' }}>{comment.user?.username}</span>{' '}<span style={{ fontSize: 'small' }}>{comment.created_at}</span>
                               <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
-                                <div key={comment.id}>{comment.text}</div>
+                                <div className='comment-text' key={comment.id}>{comment.text}</div>
                                 {
                                   userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>Delete</button>
                                 }
