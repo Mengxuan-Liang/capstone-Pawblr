@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ModelButton from './ModelButton';
 import '../../../public/logo.png'
 import '../../../public/anidog.gif'

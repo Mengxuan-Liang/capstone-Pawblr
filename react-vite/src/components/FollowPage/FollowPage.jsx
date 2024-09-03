@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { thunkGetPosts } from '../../redux/postReducer';
-import { NavLink, useNavigate } from 'react-router-dom';
-import CreateBlogButton from '../CreateBlog/CreateBlogButton';
-import { thunkGetComments } from '../../redux/commentReducer';
+// import { thunkGetPosts } from '../../redux/postReducer';
+import { useNavigate } from 'react-router-dom';
+// import CreateBlogButton from '../CreateBlog/CreateBlogButton';
+// import { thunkGetComments } from '../../redux/commentReducer';
 import '../HomePage/HomePage';
-import ProfileButton from '../Navigation/ProfileButton';
+// import ProfileButton from '../Navigation/ProfileButton';
 import NavBar from '../NavSideBar/NavBar';
 import SideBar from '../NavSideBar/SideBar';
 
@@ -14,8 +14,8 @@ export default function Follow() {
   const navigate = useNavigate();
   const userInfo = useSelector(state => state.session.user);
   const userId = userInfo?.id;
-  const [isloaded, setIsloaded] = useState(false);
-  const [likedPosts, setLikedPosts] = useState(new Set());
+  // const [isloaded, setIsloaded] = useState(false);
+  // const [likedPosts, setLikedPosts] = useState(new Set());
   const [followStatus, setFollowStatus] = useState(new Set());
   const [following, setFollowing] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -121,7 +121,7 @@ export default function Follow() {
                 </ul>
               </>
             ) : (
-              <h2>You haven't followed any users yet</h2>
+              <h2>You have not followed any users yet</h2>
             )}
           </div>
         </section>

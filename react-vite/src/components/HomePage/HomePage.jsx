@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { thunkGetPosts, thunkDeletePost } from '../../redux/postReducer';
-import { NavLink, useNavigate } from 'react-router-dom';
-import CreateBlogButton from '../CreateBlog/CreateBlogButton';
+import {  useNavigate } from 'react-router-dom';
+// import CreateBlogButton from '../CreateBlog/CreateBlogButton';
 import UpdateBlogButton from '../UpdataBlog/UpdateBlogButton';
 import { thunkAddComments, thunkDeleteComment, thunkGetComments } from '../../redux/commentReducer';
 import './HomePage.css';
-import ProfileButton from '../Navigation/ProfileButton';
+// import ProfileButton from '../Navigation/ProfileButton';
 import { FaRegComment } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { BiSolidLike } from "react-icons/bi";
@@ -313,7 +313,7 @@ export default function HomePage() {
                           {/* <button onClick={() => toggleComments(post.id)}>Reply</button> */}
                           <FaRegComment className='react-icon' title='Comment' onClick={() => toggleComments(post.id)} />
                           {/* <div onClick={() => handleReblog(post.id)}>Reblog</div> */}
-                          <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} />
+                          {/* <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} /> */}
                           {/* {post.user_id !== userId &&    */}
                           <span
                             style={{ cursor: 'pointer' }}
@@ -421,7 +421,7 @@ export default function HomePage() {
                           {/* <button onClick={() => toggleComments(post?.id)}>Reply</button> */}
                           <FaRegComment className='react-icon' title='Comment' onClick={() => toggleComments(post.id)} />
                           {/* <div onClick={() => handleReblog(post.id)}>Reblog</div> */}
-                          <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} />
+                          {/* <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} /> */}
                           <span
                             style={{ cursor: 'pointer' }}
                             className="like-button"

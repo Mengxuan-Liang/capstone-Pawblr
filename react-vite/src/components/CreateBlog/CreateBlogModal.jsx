@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { thunkCreatePost, thunkGetPosts } from "../../redux/postReducer";
+import { thunkCreatePost} from "../../redux/postReducer";
 import { useNavigate } from "react-router-dom";
 // import { thunkGetComments } from "../../redux/commentReducer";
 import { createImage } from "../../redux/imageReducer";

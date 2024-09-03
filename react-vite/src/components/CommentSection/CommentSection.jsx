@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { thunkGetPosts, thunkDeletePost } from '../../redux/postReducer';
-import { NavLink, useNavigate } from 'react-router-dom';
-import CreateBlogButton from '../CreateBlog/CreateBlogButton';
-import UpdateBlogButton from '../UpdataBlog/UpdateBlogButton';
+import { useNavigate } from 'react-router-dom';
+// import CreateBlogButton from '../CreateBlog/CreateBlogButton';
+// import UpdateBlogButton from '../UpdataBlog/UpdateBlogButton';
 import { thunkAddComments, thunkDeleteComment, thunkGetComments } from '../../redux/commentReducer';
 import '../HomePage/HomePage.css';
-import ProfileButton from '../Navigation/ProfileButton';
+// import ProfileButton from '../Navigation/ProfileButton';
 import { FaRegComment } from "react-icons/fa";
-import { RiDeleteBin6Line } from "react-icons/ri";
+// import { RiDeleteBin6Line } from "react-icons/ri";
 import { BiSolidLike } from "react-icons/bi";
 import { BiLike } from "react-icons/bi";
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
-import NavBar from '../NavSideBar/NavBar';
-import SideBar from '../NavSideBar/SideBar';
+// import NavBar from '../NavSideBar/NavBar';
+// import SideBar from '../NavSideBar/SideBar';
 import { FaRegShareSquare } from "react-icons/fa";
 
 

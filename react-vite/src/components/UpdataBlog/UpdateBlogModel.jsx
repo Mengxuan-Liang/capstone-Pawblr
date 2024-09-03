@@ -13,7 +13,7 @@ export default function UpdateBlogModal({ el }) {
     const dispatch = useDispatch();
     const userId = useSelector(state => state.session.user.id)
     const [text, setText] = useState(el?.text);
-    const [img, setImg] = useState(el?.img);
+    // const [img, setImg] = useState(el?.img);
     // const [tags, setTags] = useState(el?.labels)
     const [errors, setErrors] = useState({});
     const { closeModal } = useModal();

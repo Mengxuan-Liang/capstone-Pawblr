@@ -1,0 +1,5 @@
+.modal-buttons button:hover{
+    cursor: pointer;
+    /* background-color: rgb(248, 172, 10); */
+    color: aliceblue;
+}

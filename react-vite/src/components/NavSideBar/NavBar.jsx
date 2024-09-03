@@ -10,11 +10,11 @@ export default function NavBar() {
             <nav className="navigation" style={{ color: "rgba(254, 212, 4, 255)" }}>
                 {/* <NavLink to={'/home'}  className={({ isActive }) => (isActive ? "active-tab" : "")}>For you</NavLink> */}
                 <NavLink to={'/follow'}  className={({ isActive }) => (isActive ? "active-tab" : "")}>Following</NavLink>
-                <NavLink to={'/comment'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Your tags</NavLink>
+                {/* <NavLink to={'/comment'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Your tags</NavLink> */}
             </nav>
-            <div className="search-bar">
+            {/* <div className="search-bar">
                 <input type="text" placeholder="Search..." />
-            </div>
+            </div> */}
         </>
     )
 }

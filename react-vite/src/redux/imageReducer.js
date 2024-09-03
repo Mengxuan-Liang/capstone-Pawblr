@@ -18,7 +18,7 @@ export const createImage = (post) => async (dispatch) => {
       method: "POST",
       body: post
     });
-  console.log('response in reducer!@@@@@', response)
+//   console.log('response in reducer!@@@@@', response)
     if (response.ok) {
         const resPost  = await response.json();
         // console.log('RES POST ???',resPost)

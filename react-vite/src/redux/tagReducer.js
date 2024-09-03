@@ -7,7 +7,7 @@ const getTags = (tag) => ({
 
 export const thunkGetTags = () => async(dispatch) => {
     const res = await fetch('/api/labels/')
-    console.log('!!!!!!!!!!!!!!!!',res)
+    // console.log('!!!!!!!!!!!!!!!!',res)
     if(res.ok){
         const data = await res.json()
         dispatch(getTags(data))

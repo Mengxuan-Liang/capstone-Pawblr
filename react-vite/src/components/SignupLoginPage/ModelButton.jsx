@@ -7,7 +7,7 @@ import LoginFormModal from "../LoginFormModal/LoginFormModal";
 import SignupFormModal from "../SignupFormModal/SignupFormModal";
 // import ModalPage from "./ModelPage";
 import HomePage from "../HomePage/HomePage";
-import MainPage from "./MainPage.css";
+// import MainPage from "./MainPage.css";
 
 
 
