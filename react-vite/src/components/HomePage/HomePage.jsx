@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { thunkGetPosts, thunkDeletePost } from '../../redux/postReducer';
-import {  useNavigate } from 'react-router-dom';
+import {  useNavigate, useLocation } from 'react-router-dom';
 // import CreateBlogButton from '../CreateBlog/CreateBlogButton';
 import UpdateBlogButton from '../UpdataBlog/UpdateBlogButton';
 import { thunkAddComments, thunkDeleteComment, thunkGetComments } from '../../redux/commentReducer';
@@ -17,6 +17,9 @@ import SideBar from '../NavSideBar/SideBar';
 import { FaRegShareSquare } from "react-icons/fa";
 
 export default function HomePage() {
+  const location = useLocation();
+  const { newPostId } = location.state || {};
+// console.log(newPostId)
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const userInfo = useSelector(state => state.session.user)
@@ -39,7 +42,7 @@ export default function HomePage() {
   const [followStatus, setFollowStatus] = useState(new Set());
   const [errors, setErrors] = useState({})
 
-  // New state for the confirmation modal
+  //state for the confirmation modal
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState({}); // To store ID and type (post/comment)
 
@@ -68,7 +71,7 @@ export default function HomePage() {
       }
     };
     fetchData();
-  }, [dispatch, isloaded, userId]);
+  }, [dispatch, isloaded, userId,newPostId]);
 
   // ADD COMMENT
   const handleSubmit = async (e, post_id) => {

@@ -3,6 +3,7 @@
 }
 .tag-button:hover {
     cursor: pointer;
-    background-color: rgb(248, 172, 10);
-    font-size: medium;
+    /* background-color: rgb(248, 172, 10); */
+    /* font-size: medium; */
+    color:orange;
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { thunkCreatePost} from "../../redux/postReducer";
+import { thunkCreatePost, thunkGetPosts} from "../../redux/postReducer";
 import { useNavigate } from "react-router-dom";
 // import { thunkGetComments } from "../../redux/commentReducer";
 import { createImage } from "../../redux/imageReducer";
@@ -11,10 +11,7 @@ import './CreateBlogModal.css'
 export default function CreateBlogModal() {
     const dispatch = useDispatch();
     const navigate = useNavigate()
-
     const userId = useSelector(state => state.session.user.id)
-
-
 
     const [text, setText] = useState("");
     // const [image, setImage] = useState(null);
@@ -80,7 +77,8 @@ export default function CreateBlogModal() {
             if (!serverResponse?.errors) {
                 // setIsloaded(!isloaded)
                 closeModal();
-                navigate('/home');
+                const newPostId = serverResponse.data.id;
+                navigate('/home', { state: { newPostId } });
             } else {
                 setErrors(serverResponse);
             }
@@ -93,17 +91,15 @@ export default function CreateBlogModal() {
                 })
             );
             if (!serverResponse?.errors) {
-                // setIsloaded(!isloaded)
                 closeModal();
-                navigate('/home');
+                // console.log('server response', serverResponse)
+                const newPostId = serverResponse.data.id;
+                navigate('/home', { state: { newPostId } });
+                // setIsloaded(!isloaded)
             } else {
                 setErrors(serverResponse);
             }
         }
-
-
-
-
 
     };
     // ---------------aws------preview

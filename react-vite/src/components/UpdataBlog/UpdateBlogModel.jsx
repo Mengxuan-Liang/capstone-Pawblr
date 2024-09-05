@@ -214,6 +214,7 @@ export default function UpdateBlogModal({ el }) {
                 <p style={{ color: 'grey' }}># Edit your tags</p>
                 {selectedTags?.map(tag => (
                     <button
+                    className="edit-tag-button"
                         key={tag}
                         type="button"
                         onClick={() => handleTagClick(tag)}

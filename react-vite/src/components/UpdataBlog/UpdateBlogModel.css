@@ -1,4 +1,4 @@
-/* ModalBackdrop.css */
+
 .modal {
     position: fixed; /* Use fixed positioning to ensure it's on top of other content */
     top: 50%;
@@ -10,4 +10,8 @@
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1001; /* High z-index value to ensure it's on top */
+  }
+
+  .edit-tag-button:hover {
+    color:white;
   }
