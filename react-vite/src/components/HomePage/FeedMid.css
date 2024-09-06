@@ -1,0 +1,12 @@
+.profile-follow-button {
+    margin-top: 8px;
+    border: none;
+    padding: 6px;
+    background-color: rgba(254, 212, 4, 255);
+    border-radius: 7px;
+
+}
+.profile-follow-button:hover {
+    cursor: pointer;
+    color: white;
+}

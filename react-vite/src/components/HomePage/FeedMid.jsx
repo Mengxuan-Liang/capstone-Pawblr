@@ -6,21 +6,23 @@ import {  useNavigate, useLocation } from 'react-router-dom';
 import UpdateBlogButton from '../UpdataBlog/UpdateBlogButton';
 import { thunkAddComments, thunkDeleteComment, thunkGetComments } from '../../redux/commentReducer';
 import './HomePage.css';
+import './FeedMid.css'
 // import ProfileButton from '../Navigation/ProfileButton';
 import { FaRegComment } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { BiSolidLike } from "react-icons/bi";
 import { BiLike } from "react-icons/bi";
+
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 import NavBar from '../NavSideBar/NavBar';
 import SideBar from '../NavSideBar/SideBar';
 import { FaRegShareSquare } from "react-icons/fa";
 import RightColumn from '../RightColumn/RightColumn';
 
-export default function FeedMid({posts}) {
+export default function FeedMid({posts, clickedUser}) {
   const location = useLocation();
   const { newPostId } = location.state || {};
-
+// console.log('user clicked', clickedUser)
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const userInfo = useSelector(state => state.session.user)
@@ -221,6 +223,7 @@ export default function FeedMid({posts}) {
     setModalData({ id, type: 'post' }); // Store ID and type
   };
 
+  const isFollowed = followStatus.has(clickedUser.id);
   return (
     <div>
       <ConfirmationModal
@@ -229,13 +232,12 @@ export default function FeedMid({posts}) {
         onConfirm={handleConfirmDelete}
         message="Confirm Deletion"
       />
-     
+         {clickedUser?.id !== userId && <button className='profile-follow-button'onClick={() => handleFollow(clickedUser.id)}>{isFollowed ? 'Following' : 'Follow'}</button>}
       <div className="main-content">
 
         <section className="feed">
           {posts?.map(post => {
             const isLiked = likedPosts.has(post.id);
-            const isFollowed = followStatus.has(post.user_id);
             return (
               <article className="post" key={post.id}>
                 {!post?.root_post ? (
@@ -245,7 +247,7 @@ export default function FeedMid({posts}) {
                       <div>
                         <div className='post-author-follow-button'>
                           <h3>{post.user?.username}{' '}</h3>
-                          {post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.user_id)}>{isFollowed ? 'Following' : 'Follow'}</button>}
+                          {/* {post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.user_id)}>{isFollowed ? 'Following' : 'Follow'}</button>} */}
                         </div>
                         <span>{post.created_at}</span>
                       </div>

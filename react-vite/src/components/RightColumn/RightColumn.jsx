@@ -15,7 +15,7 @@ export default function RightColumn() {
     //     return filteredLabels.length > 0 ? post : null
     // }).filter(post => post !== null)
     // console.log('filtered posts with matched tags', filteredPosts)
-   
+
     const [search, setSearch] = useState('')
     console.log('search', search)
 
@@ -79,14 +79,23 @@ export default function RightColumn() {
                 {/* <div>TAGS</div> */}
                 {search && matchedTags?.map(tag => (
                     <div key={tag.id}>
-                        <div onClick={() => navigate('/tagged', { state: { tag } })}># {tag.name}</div>
+                        <div onClick={() => {
+                            navigate('/tagged', { state: { tag } });
+                            setSearch('')
+                        }
+                        }># {tag.name}</div>
                     </div>
                 ))}
                 <br></br>
                 {/* <div>USERS</div> */}
                 {search && matchedUsers?.map(user => (
                     <div key={user.id}>
-                        <div onClick={() => handleUserClick(user)}>@ {user.username}</div>
+                        <div onClick={() => {
+                            handleUserClick(user);
+                            setSearch('')
+                        }
+                        }
+                        >@ {user.username}</div>
                     </div>
                 ))}
             </div>

@@ -15,10 +15,17 @@
     background-color: white;
     padding: 20px;
     border-radius: 8px;
-    width: 50%;
-    text-align: center;
+    /* text-align: center; */
     position: relative;
+    width: 50%;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
     /* border: 2px rebeccapurple solid; */
+}
+.modal-body {
+    flex-grow: 1; /* Take up remaining space between the header and footer */
+    overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .close-button {
@@ -27,6 +34,6 @@
     right: 10px;
     background: none;
     border: none;
-    font-size: 18px;
+    font-size: 25px;
     cursor: pointer;
 }
