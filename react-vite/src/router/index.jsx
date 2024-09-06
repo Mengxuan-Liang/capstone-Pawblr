@@ -10,6 +10,7 @@ import Like from '../components/LikePage/LikePage';
 import Follow from '../components/FollowPage/FollowPage';
 import Tagged from '../components/Tagged/Tagged';
 import Profile from '../components/Profile/Profile';
+import About from '../components/HomePage/About';
 
 export const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ export const router = createBrowserRouter([
       {
         path: "/tagged",
         element: <Tagged />,
+      },
+      {
+        path: "/about",
+        element: <About />,
       }
     ],
   },

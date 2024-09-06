@@ -454,10 +454,10 @@ export default function HomePage() {
         </aside>
       </div>
       <footer className="sign-in-footer" >
+        <span className='footer-about-button' onClick={() => navigate('/about')}>About</span>{' '}
         <span>Terms</span>{' '}
         <span>Privacy</span>{' '}
         <span>Support</span>{' '}
-        <span>About</span>{' '}
       </footer>
     </div>
   );

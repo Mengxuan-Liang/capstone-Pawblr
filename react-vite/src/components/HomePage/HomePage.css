@@ -309,7 +309,9 @@ body {
   padding-bottom: 10px;
   padding-top: 20px;
 }
-
+.footer-about-button:hover{
+  cursor: pointer;
+}
 
 .tumblr-button {
   /* margin: 25px; */
