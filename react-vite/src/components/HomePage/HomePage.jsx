@@ -15,6 +15,7 @@ import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 import NavBar from '../NavSideBar/NavBar';
 import SideBar from '../NavSideBar/SideBar';
 import { FaRegShareSquare } from "react-icons/fa";
+import RightColumn from '../RightColumn/RightColumn';
 
 export default function HomePage() {
   const location = useLocation();
@@ -449,13 +450,7 @@ export default function HomePage() {
         </section>
 
         <aside className="right-column">
-          {/* <h3>Suggested Blogs</h3> */}
-          <ul>
-            {/* <li><a href="#">Blog 1</a></li>
-            <li><a href="#">Blog 2</a></li>
-            <li><a href="#">Blog 3</a></li>
-            <li><a href="#">Blog 4</a></li> */}
-          </ul>
+        <RightColumn />
         </aside>
       </div>
       <footer className="sign-in-footer" >

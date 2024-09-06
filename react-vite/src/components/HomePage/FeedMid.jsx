@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { thunkDeletePost, thunkGetPosts } from '../../redux/postReducer';
-import { useNavigate } from 'react-router-dom';
+import { thunkGetPosts, thunkDeletePost } from '../../redux/postReducer';
+import {  useNavigate, useLocation } from 'react-router-dom';
 // import CreateBlogButton from '../CreateBlog/CreateBlogButton';
 import UpdateBlogButton from '../UpdataBlog/UpdateBlogButton';
-import { thunkGetComments, thunkAddComments, thunkDeleteComment } from '../../redux/commentReducer';
-import '../HomePage/HomePage';
+import { thunkAddComments, thunkDeleteComment, thunkGetComments } from '../../redux/commentReducer';
+import './HomePage.css';
 // import ProfileButton from '../Navigation/ProfileButton';
 import { FaRegComment } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -14,14 +14,18 @@ import { BiLike } from "react-icons/bi";
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 import NavBar from '../NavSideBar/NavBar';
 import SideBar from '../NavSideBar/SideBar';
+import { FaRegShareSquare } from "react-icons/fa";
 import RightColumn from '../RightColumn/RightColumn';
 
+export default function FeedMid({posts}) {
+  const location = useLocation();
+  const { newPostId } = location.state || {};
 
-
-export default function Like() {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const userInfo = useSelector(state => state.session.user)
+//   const posts = useSelector(state => state.post.post);
+// const posts = posts;
 
   useEffect(() => {
     if (!userInfo) {
@@ -39,17 +43,11 @@ export default function Like() {
   const [likedPosts, setLikedPosts] = useState(new Set());
   const [followStatus, setFollowStatus] = useState(new Set());
   const [errors, setErrors] = useState({})
-  const allPosts = useSelector(state => state.post.post);
-  const posts = allPosts?.map(el => {
-    const filteredLikes = el.likes?.filter(ell => ell.user_id === userId);
-    if (filteredLikes?.length > 0) {
-      return { ...el, likes: filteredLikes }
-    }
-    return null;
-  }).filter(post => post !== null)
-  // console.log('post', posts)
+
+  //state for the confirmation modal
   const [showModal, setShowModal] = useState(false);
-  const [modalData, setModalData] = useState({});
+  const [modalData, setModalData] = useState({}); // To store ID and type (post/comment)
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,7 +73,7 @@ export default function Like() {
       }
     };
     fetchData();
-  }, [dispatch, isloaded, userId]);
+  }, [dispatch, isloaded, userId,newPostId]);
 
   // ADD COMMENT
   const handleSubmit = async (e, post_id) => {
@@ -167,8 +165,6 @@ export default function Like() {
         }
         setLikedPosts(prev => new Set(prev).add(postId));
       }
-      await dispatch(thunkGetPosts());
-      await dispatch(thunkGetComments());
     } catch (error) {
       console.error("Error toggling like:", error);
     }
@@ -227,36 +223,25 @@ export default function Like() {
 
   return (
     <div>
-      {/* Modal for confirmation */}
       <ConfirmationModal
         show={showModal}
         onClose={() => setShowModal(false)}
         onConfirm={handleConfirmDelete}
         message="Confirm Deletion"
       />
-      <header className="header">
-        <NavBar/>
-      </header>
-
+     
       <div className="main-content">
-        <aside className="sidebar">
-          <div className="fixed-menu">
-           <SideBar/>
-          </div>
-        </aside>
 
         <section className="feed">
-          {posts?.length ? posts?.map(post => {
-            // Determine if the current post is liked, post's author is followed
+          {posts?.map(post => {
             const isLiked = likedPosts.has(post.id);
             const isFollowed = followStatus.has(post.user_id);
-
             return (
               <article className="post" key={post.id}>
                 {!post?.root_post ? (
                   <>
                     <div className="post-header">
-                      <img style={{ width: '50px' }} src={post.user?.profileImage ? post.user.profileImage : 'https://res.cloudinary.com/dhukvbcqm/image/upload/v1724973068/capstone/download_n3qjos.png'} />
+                      <img style={{ width: '50px' }} src={post.user?.profileImage ? post.user.profileImage : 'https://res.cloudinary.com/dhukvbcqm/image/upload/v1725296015/capstone/Blue_Dog_Coalition_dgsbdq.webp'} />
                       <div>
                         <div className='post-author-follow-button'>
                           <h3>{post.user?.username}{' '}</h3>
@@ -305,7 +290,7 @@ export default function Like() {
                             {errors[post.id]?.text && <p style={{ color: 'red' }}>{errors[post.id].text}</p>} {' '}
                             <button onClick={(e)=> setText('')}>Clear</button>{' '}
                             <button onClick={() => toggleComments(post.id)}>Close</button>{' '}
-                            <button type="submit">Send</button> 
+                            <button  type="submit">Send</button>
                           </form>
                           <br></br>
                           {post.comments?.map(comment => (
@@ -336,14 +321,12 @@ export default function Like() {
                             onClick={() => toggleLike(post.id)}
                           >
                             {isLiked ? (
-                              // <FaHeart style={{ color: 'red' }} />
                               <BiSolidLike className='react-icon' title='Unlike' style={{ color: 'red' }} />
                             ) : (
-                              // <FaRegHeart />
                               <BiLike className='react-icon' title='Like' />
                             )}
                           </span>
-                          {/* // } */}
+                          {/* }  */}
 
 
                         </div>
@@ -351,14 +334,12 @@ export default function Like() {
                     </div>
                   </>) :
 
-
-
                   <>
                     <div className="post-header">
                       <img style={{ width: '50px' }} src={post.user?.profileImage} />
                       <div>
                         <div className='post-author-follow-button'>
-                          {/* <h3>{post.user?.username}{' '}Reblogged</h3> */}
+                          <h3>{post.user?.username}{' '}Reblogged</h3>
                           {/* {post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.user_id)}>{isFollowed ? 'Following' : 'Follow'}</button>} */}
                         </div>
                         <span>{post.created_at}</span>
@@ -412,17 +393,20 @@ export default function Like() {
                                 required
                               />
                             </label>
-                            {errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.text}</p>} {' '}
+                            {" "}
                             <button onClick={(e)=> setText('')}>Clear</button>{' '}
                             <button onClick={() => toggleComments(post.id)}>Close</button>{' '}
                             <button type="submit">Send</button> 
+                            <div>
+                            {errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.text}</p>} {' '}
+                            </div>
                           </form>
                           <br></br>
                           {post.root_post.comments?.map(comment => (
                             <div className='comment-details-container' key={comment.id}>
                               <span style={{ fontSize: 'small' }}>{comment.user?.username}</span>{' '}<span style={{ fontSize: 'small' }}>{comment.created_at}</span>
                               <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
-                                <div className='comment-text' key={comment.id}>{comment.text}</div>
+                                <div key={comment.id}>{comment.text}</div>
                                 {
                                   userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>Delete</button>
                                 }
@@ -444,10 +428,8 @@ export default function Like() {
                             onClick={() => toggleLike(post.id)}
                           >
                             {isLiked ? (
-                              // <FaHeart style={{ color: 'red' }} />
                               <BiSolidLike title='Unlike' style={{ color: 'red', fontSize: '20px' }} />
                             ) : (
-                              // <FaRegHeart />
                               <BiLike title='Like' style={{ fontSize: '20px' }} />
                             )}
                           </span>
@@ -460,19 +442,12 @@ export default function Like() {
 
               </article>
             );
-          }) : <h2>You have not liked any blogs yet</h2>}
+          })}
         </section>
 
-        <aside className="right-column">
-          <RightColumn />
-        </aside>
+       
       </div>
-      <footer className="sign-in-footer" >
-        <span>Terms</span>{' '}
-        <span>Privacy</span>{' '}
-        <span>Support</span>{' '}
-        <span>About</span>{' '}
-      </footer>
+      
     </div>
   );
 }

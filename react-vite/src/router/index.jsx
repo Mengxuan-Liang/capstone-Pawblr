@@ -8,6 +8,8 @@ import Comment from '../components/CommentPage/CommentPage';
 import MainPage from '../components/SignupLoginPage/MainPage';
 import Like from '../components/LikePage/LikePage';
 import Follow from '../components/FollowPage/FollowPage';
+import Tagged from '../components/Tagged/Tagged';
+import Profile from '../components/Profile/Profile';
 
 export const router = createBrowserRouter([
   {
@@ -45,6 +47,10 @@ export const router = createBrowserRouter([
         path: "/follow",
         element: <Follow />,
       },
+      {
+        path: "/tagged",
+        element: <Tagged />,
+      }
     ],
   },
 ]);

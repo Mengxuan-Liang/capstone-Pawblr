@@ -8,6 +8,7 @@ import '../HomePage/HomePage';
 // import ProfileButton from '../Navigation/ProfileButton';
 import NavBar from '../NavSideBar/NavBar';
 import SideBar from '../NavSideBar/SideBar';
+import RightColumn from '../RightColumn/RightColumn';
 
 export default function Follow() {
   const dispatch = useDispatch();
@@ -127,7 +128,7 @@ export default function Follow() {
         </section>
 
         <aside className="right-column">
-          <ul></ul>
+          <RightColumn />
         </aside>
       </div>
       <footer className="sign-in-footer" >

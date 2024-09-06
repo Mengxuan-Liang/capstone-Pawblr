@@ -1,0 +1,22 @@
+.search-posts-container {
+    margin-top: 10px;
+    /* border: red 2px solid; */
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Default input styling */
+.search-bar input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Focused input styling */
+.focused-input {
+    border-color: #4A90E2; /* Change the border color on focus */
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5); /* Add a subtle shadow effect */
+}
