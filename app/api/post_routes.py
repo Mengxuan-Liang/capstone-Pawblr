@@ -44,7 +44,7 @@ def posts():
         posts = Post.query.order_by(Post.updated_at.desc(), Post.created_at.desc()).all()
         
         if not posts:
-            return {'message': 'No Post Found'}, 404
+            return {'message': 'Post not found'}, 404
         return [post.to_dict() for post in posts], 200
 
 # PUT/DELETE
@@ -55,7 +55,7 @@ def post(post_id):
     if not current_user.is_authenticated:
             return {"error": "User not authenticated"}, 401
     if post is None:
-            return {"error": "Album not found"}, 404
+            return {"error": "Post not found"}, 404
     if post.user_id != current_user.id:
             return {"error": "Forbidden"}, 403
     if request.method == 'PUT':

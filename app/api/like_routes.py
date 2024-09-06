@@ -16,9 +16,9 @@ def like_post(post_id):
 
     # Check if the user already liked this post
     like = Like.query.filter_by(post_id=post_id, user_id=current_user.id).first()
-    print('like in route', like)
+    # print('like in route', like)
     if like:
-        return {"error": "User already liked this post"}, 400
+        return {"error": "User already liked this post"}, 403
 
     new_like = Like(post_id=post_id, user_id=current_user.id)
     db.session.add(new_like)

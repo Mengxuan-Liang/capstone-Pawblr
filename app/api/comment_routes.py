@@ -10,7 +10,7 @@ comment_routes = Blueprint('comments', __name__)
 def comments():
     comments = Comment.query.all()
     if comments is None:
-        return {'message':'No Comment Found'}, 404
+        return {'message':'Comment not found'}, 404
     return [comment.to_dict() for comment in comments], 200
 # POST/GET comment by post id
 @comment_routes.route('/<int:post_id>', methods=['GET','POST'])
@@ -19,11 +19,11 @@ def new_comment(post_id):
             return {"error": "User not authenticated"}, 401
     post = Post.query.get(post_id)
     if post is None:
-         return {'message':'No Post Found'}, 404
+         return {'message':'Post not found'}, 404
     if request.method == 'GET':
           comments = Comment.query.filter_by(post_id=post_id).all()
           if comments is None:
-                return {'message':'No Comment Found'}, 404
+                return {'message':'Comment not found'}, 404
           return [comment.to_dict() for comment in comments], 200
     form = CommentForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
@@ -50,7 +50,7 @@ def comment(comment_id):
             return {"error": "User not authenticated"}, 401
      comment = Comment.query.get(comment_id)
      if comment is None:
-          return {'message':'No Comment Found'}, 404
+          return {'message':'Comment not found'}, 404
      if comment.user_id != current_user.id:
             return {"error": "Forbidden,you are not the owner of this comment"}, 403
      if request.method == 'PUT':
