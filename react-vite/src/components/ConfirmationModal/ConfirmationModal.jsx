@@ -8,7 +8,7 @@ function ConfirmationModal({ show, onClose, onConfirm, message }) {
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content" style={{textAlign:'center'}}>
+      <div className="modal-content " id='confirm-deletion' style={{textAlign:'center'}}>
         <p style={{fontWeight:'bold',fontSize:"x-large"}}>{message}</p>
         <br></br>
         <div className="modal-buttons">

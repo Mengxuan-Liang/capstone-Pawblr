@@ -86,22 +86,22 @@ export default function Follow() {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div>
+    <div className='page-container'>
       <header className="header">
         <NavBar/>
       </header>
 
       <div className="main-content">
         <aside className="sidebar">
-          <div className="fixed-menu">
+          {/* <div className="fixed-menu"> */}
             <SideBar/>
-          </div>
+          {/* </div> */}
         </aside>
 
         <section className="feed">
           <div>
             {following?.length > 0 ? (
-              <>
+              <article className='post'>
                 <h2>Users You Follow</h2>
                 <ul>
                   {following.map(user => {
@@ -111,7 +111,7 @@ export default function Follow() {
                       <li key={user.id}>
                         <img src={user.profileImage} alt={user.username} style={{ width: '50px', borderRadius: '50%' }} />
                         <p>{user.username}</p>
-                        <button style={{zIndex:"1",position:'relative',backgroundColor:'rgba(254, 212, 4, 255)',marginLeft:'0px'}}className='follow-button' onClick={() => handleFollow(user.id)}>
+                        <button style={{position:'relative',backgroundColor:'rgba(254, 212, 4, 255)',marginLeft:'0px'}}className='follow-button' onClick={() => handleFollow(user.id)}>
                           {isFollowed ? 'Following' : 'Follow'}
                         </button>
                         <br></br>
@@ -120,9 +120,9 @@ export default function Follow() {
                     );
                   })}
                 </ul>
-              </>
+              </article>
             ) : (
-              <h2>You have not followed any users yet</h2>
+              <article className='post'>You have not followed any users yet</article>
             )}
           </div>
         </section>

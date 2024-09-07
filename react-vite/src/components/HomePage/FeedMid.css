@@ -10,3 +10,14 @@
     cursor: pointer;
     color: white;
 }
+
+.mid {
+    /* border:  2px rebeccapurple solid; */
+    width: 100%;
+    /* margin-left: 20%; */
+}
+/* #feed-mid-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+} */

@@ -22,6 +22,8 @@ export default function Tagged() {
     console.log('filtered posts with matched tags', filteredPosts)
 
     return (
-      <Feed posts={filteredPosts}/>
+      <div >
+        <Feed posts={filteredPosts}/>
+      </div>
     )
 }

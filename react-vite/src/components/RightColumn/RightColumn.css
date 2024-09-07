@@ -1,9 +1,15 @@
+.search-bar {
+    position:fixed;
+}
+
 .search-posts-container {
     margin-top: 10px;
     /* border: red 2px solid; */
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 3px;
+    align-items: start;
+    padding-left: 10px;
 }
 
 /* Default input styling */

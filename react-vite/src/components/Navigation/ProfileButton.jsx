@@ -43,7 +43,8 @@ function ProfileButton() {
   return (
     <>
       {/* <button onClick={toggleMenu}> */}
-      <CgUserlane onClick={toggleMenu} style={{fontSize:'50px'}} className="react-icon" title="Profile"/>
+      {/* <CgUserlane onClick={toggleMenu} style={{fontSize:'50px'}} className="react-icon" title="Profile"/> */}
+      <img src="logo2.png" onClick={toggleMenu} className="react-icon paw" title="Profile"/>
       {/* </button> */}
       {showMenu && (
         <ul className={"profile-dropdown"} ref={ulRef}>

@@ -7,7 +7,7 @@ import { IoCloseCircle } from "react-icons/io5";
 export default function UserProfileModal({ user, onClose }) {
     const allPostsArr = useSelector(state => state.post?.post);
 
-    const postsByUser = allPostsArr.filter(post => post.user_id === user.id)
+    const postsByUser = allPostsArr?.filter(post => post?.user_id === user.id)
     return (
         <div className="modal-background">
             <div className="modal-content">

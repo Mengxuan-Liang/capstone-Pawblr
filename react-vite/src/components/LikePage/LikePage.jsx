@@ -15,7 +15,9 @@ import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 import NavBar from '../NavSideBar/NavBar';
 import SideBar from '../NavSideBar/SideBar';
 import RightColumn from '../RightColumn/RightColumn';
-
+import { GiPawHeart } from "react-icons/gi";
+import { IoPawOutline } from "react-icons/io5";
+import { FaRegShareSquare } from "react-icons/fa";
 
 
 export default function Like() {
@@ -226,7 +228,7 @@ export default function Like() {
   };
 
   return (
-    <div>
+    <div className='page-container'>
       {/* Modal for confirmation */}
       <ConfirmationModal
         show={showModal}
@@ -235,14 +237,14 @@ export default function Like() {
         message="Confirm Deletion"
       />
       <header className="header">
-        <NavBar/>
+        <NavBar />
       </header>
 
       <div className="main-content">
         <aside className="sidebar">
-          <div className="fixed-menu">
-           <SideBar/>
-          </div>
+          {/* <div className="fixed-menu"> */}
+            <SideBar />
+          {/* </div> */}
         </aside>
 
         <section className="feed">
@@ -259,14 +261,16 @@ export default function Like() {
                       <img style={{ width: '50px' }} src={post.user?.profileImage ? post.user.profileImage : 'https://res.cloudinary.com/dhukvbcqm/image/upload/v1724973068/capstone/download_n3qjos.png'} />
                       <div>
                         <div className='post-author-follow-button'>
-                          <h3>{post.user?.username}{' '}</h3>
+                          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>
+                            <h3>{post.user?.username}{' '}</h3>
+                            <span>{post.created_at}</span>
+                          </div>
                           {post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.user_id)}>{isFollowed ? 'Following' : 'Follow'}</button>}
                         </div>
-                        <span>{post.created_at}</span>
                       </div>
                     </div>
                     <div className="post-content">
-                      {post?.img && <img src={post.img} alt="Post" style={{ width: '40%' }} />}
+                      {post?.img && <img src={post.img} alt="Post" style={{ width: '100%' }} />}
                       <p style={{ marginTop: '20px' }}>{post.text}</p>
                       <br />
                       {post.labels?.map(label => (
@@ -303,14 +307,16 @@ export default function Like() {
                               />
                             </label>
                             {errors[post.id]?.text && <p style={{ color: 'red' }}>{errors[post.id].text}</p>} {' '}
-                            <button onClick={(e)=> setText('')}>Clear</button>{' '}
+                            <br></br>
+                            <br></br>
+                            <button onClick={(e) => setText('')}>Clear</button>{' '}
                             <button onClick={() => toggleComments(post.id)}>Close</button>{' '}
-                            <button type="submit">Send</button> 
+                            <button type="submit">Send</button>
                           </form>
                           <br></br>
                           {post.comments?.map(comment => (
                             <div className='comment-details-container' key={comment.id}>
-                              <span style={{ fontSize: 'small' }}>{comment.user?.username}</span>{' '}<span style={{ fontSize: 'small' }}>{comment.created_at}</span>
+                              <span style={{ fontSize: 'larger' }}>{comment.user?.username}</span>{' '}<span style={{ fontSize: 'small' }}>{comment.created_at}</span>
                               <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
                                 <div className='comment-text' key={comment.id}>{comment.text}</div>
                                 {/* <button >reply</button> */}
@@ -328,7 +334,7 @@ export default function Like() {
                           {/* <button onClick={() => toggleComments(post.id)}>Reply</button> */}
                           <FaRegComment className='react-icon' title='Comment' onClick={() => toggleComments(post.id)} />
                           {/* <div onClick={() => handleReblog(post.id)}>Reblog</div> */}
-                          {/* <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} /> */}
+                          <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} />
                           {/* {post.user_id !== userId &&    */}
                           <span
                             style={{ cursor: 'pointer' }}
@@ -337,10 +343,10 @@ export default function Like() {
                           >
                             {isLiked ? (
                               // <FaHeart style={{ color: 'red' }} />
-                              <BiSolidLike className='react-icon' title='Unlike' style={{ color: 'red' }} />
+                              <GiPawHeart className='react-icon' title='Unlike' style={{ color: 'red' }} />
                             ) : (
                               // <FaRegHeart />
-                              <BiLike className='react-icon' title='Like' />
+                              <IoPawOutline className='react-icon' title='Like' />
                             )}
                           </span>
                           {/* // } */}
@@ -350,33 +356,32 @@ export default function Like() {
                       </span>
                     </div>
                   </>) :
-
-
-
                   <>
                     <div className="post-header">
-                      <img style={{ width: '50px' }} src={post.user?.profileImage} />
+                      {/* <img style={{ width: '50px' }} src={post.user?.profileImage} /> */}
                       <div>
                         <div className='post-author-follow-button'>
                           {/* <h3>{post.user?.username}{' '}Reblogged</h3> */}
                           {/* {post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.user_id)}>{isFollowed ? 'Following' : 'Follow'}</button>} */}
                         </div>
-                        <span>{post.created_at}</span>
+                        {/* <span>{post.created_at}</span> */}
                       </div>
                     </div>
                     <div className="post-header">
                       <img style={{ width: '50px' }} src={post.root_post.user?.profileImage} />
                       <div>
                         <div className='post-author-follow-button'>
-                          <h3>{post.root_post.user?.username}{' '}</h3>
+                          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>
+                            <h3>{post.root_post.user?.username}{' '}</h3>
+                            <span>{post.root_post.created_at}</span>
+                          </div>
                           {post.root_post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.root_post?.user_id)}>
                             {followStatus.has(post.root_post.user_id) ? 'Following' : 'Follow'}</button>}
                         </div>
-                        <span>{post.root_post.created_at}</span>
                       </div>
                     </div>
                     <div className="post-content">
-                      {post?.root_post?.img && <img src={post.root_post.img} alt="Post" style={{ width: '40%' }} />}
+                      {post?.root_post?.img && <img src={post.root_post.img} alt="Post" style={{ width: '100%' }} />}
                       <p style={{ marginTop: '20px' }}>{post.root_post.text}</p>
                       <br />
                       {post?.root_post?.labels?.map(label => (
@@ -413,14 +418,16 @@ export default function Like() {
                               />
                             </label>
                             {errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.text}</p>} {' '}
-                            <button onClick={(e)=> setText('')}>Clear</button>{' '}
+                            <br></br>
+                            <br></br>
+                            <button onClick={(e) => setText('')}>Clear</button>{' '}
                             <button onClick={() => toggleComments(post.id)}>Close</button>{' '}
-                            <button type="submit">Send</button> 
+                            <button type="submit">Send</button>
                           </form>
                           <br></br>
                           {post.root_post.comments?.map(comment => (
                             <div className='comment-details-container' key={comment.id}>
-                              <span style={{ fontSize: 'small' }}>{comment.user?.username}</span>{' '}<span style={{ fontSize: 'small' }}>{comment.created_at}</span>
+                              <span style={{ fontSize: 'larger' }}>{comment.user?.username}</span>{' '}<span style={{ fontSize: 'small' }}>{comment.created_at}</span>
                               <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
                                 <div className='comment-text' key={comment.id}>{comment.text}</div>
                                 {
@@ -437,7 +444,7 @@ export default function Like() {
                           {/* <button onClick={() => toggleComments(post?.id)}>Reply</button> */}
                           <FaRegComment className='react-icon' title='Comment' onClick={() => toggleComments(post.id)} />
                           {/* <div onClick={() => handleReblog(post.id)}>Reblog</div> */}
-                          {/* <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} /> */}
+                          <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} />
                           <span
                             style={{ cursor: 'pointer' }}
                             className="like-button"
@@ -445,10 +452,10 @@ export default function Like() {
                           >
                             {isLiked ? (
                               // <FaHeart style={{ color: 'red' }} />
-                              <BiSolidLike title='Unlike' style={{ color: 'red', fontSize: '20px' }} />
+                              <GiPawHeart title='Unlike' style={{ color: 'red' }} className='react-icon'/>
                             ) : (
                               // <FaRegHeart />
-                              <BiLike title='Like' style={{ fontSize: '20px' }} />
+                              <IoPawOutline title='Like' className='react-icon' />
                             )}
                           </span>
 
@@ -460,7 +467,7 @@ export default function Like() {
 
               </article>
             );
-          }) : <h2>You have not liked any blogs yet</h2>}
+          }) : <article className='post'>You have not liked any blogs yet</article>}
         </section>
 
         <aside className="right-column">

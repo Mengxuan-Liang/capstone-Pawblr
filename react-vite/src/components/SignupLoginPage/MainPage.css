@@ -1,33 +1,23 @@
-/* body {
-    background-image: url('../../../public/wallpaper3.png');
-    background-repeat: no-repeat;
-    background-color: rgba(161,174,72,255);
-    background-size: contain; 
-    background-position: top 40px center;
-    background-size: 100% auto;
-} */
 h3 {
     /* color: rgb(5, 5, 4);
     color: rgb(23, 21, 20);
     color: rgba(250, 241, 226, 255); */
     color: rgba(254, 212, 4, 255);
 }
-
 .wrapper {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     min-height: 100vh;
-    background-image: url('../../../public/wallpaper3.png');
-    background-size: cover; /* Changed to cover to ensure full coverage */
-    background-repeat: no-repeat;
-    background-position: center;
-    width: 100%; /* Ensure full width */
-    margin: 0; /* Remove any margin */
-    padding: 0; /* Remove any padding */
+    background-image: url('../../../public/IMG_0821.JPG');
+    background-size: 100% 100vh; /* Stretch horizontally, but keep original height */
+    background-repeat: no-repeat; /* Prevent repeating */
+    background-position: bottom center; /* Keep the image anchored at the top */
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
-
 html,
 body {
     height: 100%;
@@ -39,14 +29,18 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: rgb(5, 5, 4);
+    background-color: transparent;
     padding: 0 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
 }
-
+.logo-container {
+    width: fit-content;
+}
 .running-dog-container {
     position: relative;
     /* border: 2px rebeccapurple solid; */
@@ -86,7 +80,10 @@ body {
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
     text-align: end;
 }
-
+.walking-dog {
+   /* border: 2px solid rebeccapurple; */
+   margin-top: 560px;
+}
 /* Media Queries */
 
 /* For devices with a max-width of 768px (tablets and small screens) */

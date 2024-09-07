@@ -16,14 +16,15 @@ import NavBar from '../NavSideBar/NavBar';
 import SideBar from '../NavSideBar/SideBar';
 import { FaRegShareSquare } from "react-icons/fa";
 import RightColumn from '../RightColumn/RightColumn';
-
+import { GiPawHeart } from "react-icons/gi";
+import { IoPawOutline } from "react-icons/io5";
 
 
 export default function Blog() {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const userInfo = useSelector(state => state.session.user)
-  
+
   useEffect(() => {
     if (!userInfo) {
       navigate('/');
@@ -92,11 +93,11 @@ export default function Blog() {
   const handleTextChange = (e, post_id) => {
     const value = e.target.value;
     // Clear error if the input is valid (length between 2 and 50 characters)
-  if (value.length >= 2 && value.length <= 255) {
-    setErrors(prev => ({ ...prev, [post_id]: null }));
-  }
+    if (value.length >= 2 && value.length <= 255) {
+      setErrors(prev => ({ ...prev, [post_id]: null }));
+    }
 
-  setText(prev => ({ ...prev, [post_id]: value }));
+    setText(prev => ({ ...prev, [post_id]: value }));
   };
   // DELETE COMMENT
   const handleDelete = async (id) => {
@@ -220,7 +221,7 @@ export default function Blog() {
   };
 
   return (
-    <div>
+    <div className='page-container'>
       {/* Modal for confirmation */}
       <ConfirmationModal
         show={showModal}
@@ -229,14 +230,14 @@ export default function Blog() {
         message="Confirm Deletion"
       />
       <header className="header">
-       <NavBar/>
+        <NavBar />
       </header>
 
       <div className="main-content">
         <aside className="sidebar">
-          <div className="fixed-menu">
-            <SideBar/>
-          </div>
+          {/* <div className="fixed-menu"> */}
+            <SideBar />
+          {/* </div> */}
         </aside>
 
         <section className="feed">
@@ -252,10 +253,12 @@ export default function Blog() {
                       <img style={{ width: '50px' }} src={post.user?.profileImage ? post.user.profileImage : 'https://res.cloudinary.com/dhukvbcqm/image/upload/v1724973068/capstone/download_n3qjos.png'} />
                       <div>
                         <div className='post-author-follow-button'>
-                          <h3>{post.user?.username}{' '}</h3>
+                          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>
+                            <h3>{post.user?.username}{' '}</h3>
+                            <span>{post.created_at}</span>
+                          </div>
                           {post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.user_id)}>{isFollowed ? 'Following' : 'Follow'}</button>}
                         </div>
-                        <span>{post.created_at}</span>
                       </div>
                     </div>
                     <div className="post-content">
@@ -270,7 +273,7 @@ export default function Blog() {
                     </div>
                     <br />
                     {
-                      post.user_id === userId && <div style={{display:'flex', justifyContent:'flex-end', gap:'15px'}}>
+                      post.user_id === userId && <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '15px' }}>
                         <span ><UpdateBlogButton el={post} /></span>
                         {/* <span><button onClick={() => handleDeletePost(post.id)}>Delete</button></span> */}
                         <RiDeleteBin6Line className='react-icon' title='Delete' onClick={() => handleDeletePost(post.id)} />
@@ -289,29 +292,31 @@ export default function Blog() {
                             <label>
                               <input
                                 type='text'
-                                value={text[post.id]||''}
+                                value={text[post.id] || ''}
                                 onChange={e => handleTextChange(e, post.id)}
                                 placeholder={`Comment as @${user}`}
                                 required
                               />
                             </label>
                             {errors[post.id]?.text && <p style={{ color: 'red' }}>{errors[post.id].text}</p>} {' '}
-                            <button onClick={(e)=> setText('')}>Clear</button>{' '}
+                            <br></br>
+                            <br></br>
+                            <button onClick={(e) => setText('')}>Clear</button>{' '}
                             <button onClick={() => toggleComments(post.id)}>Close</button>{' '}
-                            <button  type="submit">Send</button>
+                            <button type="submit">Send</button>
                           </form>
                           <br></br>
                           {post.comments?.map(comment => (
                             <div className='comment-details-container' key={comment.id}>
-                              <span style={{ fontSize: 'small' }}>{comment.user?.username}</span>{' '}<span style={{ fontSize: 'small' }}>{comment.created_at}</span>
-                              <div style={{ display: 'flex', justifyContent: 'space-between', gap:'10px' }}>
-                              <div className='comment-text' key={comment.id}>{comment.text}</div>
-                              {/* <button >reply</button> */}
-                              {
-                                userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>Delete</button>
-                              }
-                            </div>
+                              <span style={{ fontSize: 'larger' }}>{comment.user?.username}</span>{' '}<span style={{ fontSize: 'small' }}>{comment.created_at}</span>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
+                                <div className='comment-text' key={comment.id}>{comment.text}</div>
+                                {/* <button >reply</button> */}
+                                {
+                                  userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>Delete</button>
+                                }
                               </div>
+                            </div>
                           ))}
                         </ul>
                       </span>
@@ -321,7 +326,7 @@ export default function Blog() {
                           {/* <button onClick={() => toggleComments(post.id)}>Reply</button> */}
                           <FaRegComment className='react-icon' title='Comment' onClick={() => toggleComments(post.id)} />
                           {/* <div onClick={() => handleReblog(post.id)}>Reblog</div> */}
-                          {/* <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} /> */}
+                          <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} />
                           {/* {post.user_id !== userId &&    */}
                           <span
                             style={{ cursor: 'pointer' }}
@@ -329,14 +334,14 @@ export default function Blog() {
                             onClick={() => toggleLike(post.id)}
                           >
                             {isLiked ? (
-                   
-                              <BiSolidLike className='react-icon' title='Unlike' style={{ color: 'red' }}/>
+
+                              <GiPawHeart className='react-icon' title='Unlike' style={{ color: 'red' }} />
                             ) : (
-                          
-                              <BiLike className='react-icon' title='Like' />
+
+                              <IoPawOutline className='react-icon' title='Like' />
                             )}
                           </span>
-                         {/* } */}
+                          {/* } */}
 
 
                         </div>
@@ -350,26 +355,31 @@ export default function Blog() {
                     <div className="post-header">
                       <img style={{ width: '50px' }} src={post.user?.profileImage} />
                       <div>
-                        <div className='post-author-follow-button'>
-                          <h3>{post.user?.username}{' '}Reblogged</h3>
-                          {/* {post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.user_id)}>{isFollowed ? 'Following' : 'Follow'}</button>} */}
+                        <div className='post-author-follow-button' >
+                          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>
+
+                            <h3>{post.user?.username}{' '}Reblogged</h3>
+                            {/* {post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.user_id)}>{isFollowed ? 'Following' : 'Follow'}</button>} */}
+                            <span>{post.created_at}</span>
+                          </div>
                         </div>
-                        <span>{post.created_at}</span>
                       </div>
                     </div>
                     <div className="post-header">
                       <img style={{ width: '50px' }} src={post.root_post.user?.profileImage} />
                       <div>
                         <div className='post-author-follow-button'>
-                          <h3>{post.root_post.user?.username}{' '}</h3>
+                          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>
+                            <h3>{post.root_post.user?.username}{' '}</h3>
+                            <span>{post.root_post.created_at}</span>
+                          </div>
                           {post.root_post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.root_post?.user_id)}>
                             {followStatus.has(post.root_post.user_id) ? 'Following' : 'Follow'}</button>}
                         </div>
-                        <span>{post.root_post.created_at}</span>
                       </div>
                     </div>
                     <div className="post-content">
-                      {post?.root_post?.img && <img src={post.root_post.img} alt="Post" style={{ width: '40%' }} />}
+                      {post?.root_post?.img && <img src={post.root_post.img} alt="Post" style={{ width: '100%' }} />}
                       <p style={{ marginTop: '20px' }}>{post.root_post.text}</p>
                       <br />
                       {post?.root_post?.labels?.map(label => (
@@ -380,12 +390,12 @@ export default function Blog() {
                     </div>
                     <br />
                     {
-                            post.user_id === userId && <div style={{display:'flex', justifyContent:'flex-end', gap:'15px'}}>
-                              {/* <span ><UpdateBlogButton el={post} /></span> */}
-                              {/* <span><button onClick={() => handleDeletePost(post.id)}>Delete</button></span> */}
-                              <RiDeleteBin6Line className='react-icon' title='Delete' onClick={() => handleDeletePost(post.id)} />
-                            </div>
-                          }
+                      post.user_id === userId && <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '15px' }}>
+                        {/* <span ><UpdateBlogButton el={post} /></span> */}
+                        {/* <span><button onClick={() => handleDeletePost(post.id)}>Delete</button></span> */}
+                        <RiDeleteBin6Line className='react-icon' title='Delete' onClick={() => handleDeletePost(post.id)} />
+                      </div>
+                    }
                     <hr style={{ color: 'grey' }} />
                     <br></br>
                     <div className='notes-reply-like-update-delete-container'>
@@ -397,24 +407,26 @@ export default function Blog() {
                         <ul className='comment-container hidden' data-comment-count={post.root_post.comments?.length}>
                           <form onSubmit={(e) => handleSubmit(e, post.root_post.id)}>
                             <label>
-                            <input
+                              <input
                                 type='text'
-                                value={text[post.root_post.id]||''}
+                                value={text[post.root_post.id] || ''}
                                 onChange={e => handleTextChange(e, post.root_post.id)}
                                 placeholder={`Comment as @${user}`}
                                 required
                               />
                             </label>
                             {errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.text}</p>} {' '}
-                            <button onClick={(e)=> setText('')}>Clear</button>{' '}
+                            <br></br>
+                            <br></br>
+                            <button onClick={(e) => setText('')}>Clear</button>{' '}
                             <button onClick={() => toggleComments(post.id)}>Close</button>{' '}
-                            <button type="submit">Send</button> 
+                            <button type="submit">Send</button>
                           </form>
                           <br></br>
                           {post.root_post.comments?.map(comment => (
                             <div className='comment-details-container' key={comment.id}>
-                              <span style={{ fontSize: 'small' }}>{comment.user?.username}</span>{' '}<span style={{ fontSize: 'small' }}>{comment.created_at}</span>
-                              <div style={{ display: 'flex', justifyContent: 'space-between', gap:'10px' }}>
+                              <span style={{ fontSize: 'larger' }}>{comment.user?.username}</span>{' '}<span style={{ fontSize: 'small' }}>{comment.created_at}</span>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
                                 <div key={comment.id}>{comment.text}</div>
                                 {
                                   userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>Delete</button>
@@ -430,19 +442,19 @@ export default function Blog() {
                           {/* <button onClick={() => toggleComments(post?.id)}>Reply</button> */}
                           <FaRegComment className='react-icon' title='Comment' onClick={() => toggleComments(post.id)} />
                           {/* <div onClick={() => handleReblog(post.id)}>Reblog</div> */}
-                          {/* <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} /> */}
+                          <FaRegShareSquare className='react-icon' title='Reblog' onClick={() => handleReblog(post.id)} />
                           <span
                             style={{ cursor: 'pointer' }}
                             className="like-button"
                             onClick={() => toggleLike(post.id)}
                           >
                             {isLiked ? (
-                              <BiSolidLike title='Unlike' style={{ color: 'red', fontSize: '20px' }} />
+                              <GiPawHeart className='react-icon' title='Unlike' style={{ color: 'red' }} />
                             ) : (
-                              <BiLike title='Like' style={{ fontSize: '20px' }} />
+                              <IoPawOutline className='react-icon' title='Like' />
                             )}
                           </span>
-                         
+
                         </div>
                       </span>
                     </div>
@@ -451,11 +463,11 @@ export default function Blog() {
 
               </article>
             );
-          }):<h2>You have not posted any blogs yet</h2>}
+          }) : <article className='post'>You have not posted any blogs yet</article>}
         </section>
 
         <aside className="right-column">
-         <RightColumn />
+          <RightColumn />
         </aside>
       </div>
       <footer className="sign-in-footer" >

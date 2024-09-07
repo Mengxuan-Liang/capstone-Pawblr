@@ -1,5 +1,18 @@
+#nav-container {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  /* border: 2px wheat solid; */
+  width: fit-content;
+}
+.navigation {
+  /* border: 2px wheat solid; */
+  width: fit-content;
+}
 .navigation a {
-    color:rgba(254, 212, 4, 255)
+    color:rgba(254, 212, 4, 255);
+    /* border: 2px wheat solid; */
+    margin-right: 120px;
 }
 
 .navigation a:hover {
