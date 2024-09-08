@@ -38,20 +38,23 @@ Hosting
 
 ### Pawblr Log in/ Sign up Page
 
+![Signup and log in page](react-vite/public/Pawblr-welcome.png)
 
 ### Pawblr Landing Page
 
-![Homepage](react-vite/src/assets/Pawblr-homepage.png)
+![Landing page](react-vite/public/Pawblr-homepage.png)
 
 ### Pawblr User Profile Page
 
-![blog Details](react-vite/src/assets/Pawblr-album-details-page.png)
+![User profile](react-vite/public/Pawblr-user-profile.png)
 
 ### Pawblr Expanded Comment Section
 
-![Wishlist](react-vite/src/assets/Pawblr-demo-wishlist.png)
+![Comment section](react-vite/public/Pawblr-comment.png)
 
 ### Pawblr Following Page
+
+![Following page](react-vite/public/Pawblr-follow.png)
 
 # Endpoints
 

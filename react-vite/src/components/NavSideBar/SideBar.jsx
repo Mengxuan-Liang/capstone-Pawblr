@@ -11,6 +11,7 @@ export default function SideBar() {
         <div className='profile-button'>
           < ProfileButton />
         </div>
+        <br></br>
         <ul className="home-blog-comment-like-container">
           <li><NavLink to={'/home'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Home</NavLink></li>
           <li><NavLink to={'/blog'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Blogs</NavLink></li>

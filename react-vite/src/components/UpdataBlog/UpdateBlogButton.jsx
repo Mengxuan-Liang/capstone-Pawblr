@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 // import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
-// import CreateAlbumFormModal from "./UpdateAlbumFormModal";
 import LoginFormModal from "../LoginFormModal/LoginFormModal";
 import SignupFormModal from "../SignupFormModal/SignupFormModal";
 import '../Navigation/Navigation.css';
