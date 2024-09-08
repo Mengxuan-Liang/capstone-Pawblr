@@ -1,0 +1,38 @@
+/* Media query for screens smaller than 768px (tablets and mobile) */
+@media (max-width: 768px) {
+    #container-user-navigation {
+      text-align: center;
+    }
+    .react-icon h4 {
+      font-size: 12px; /* Adjust font size for smaller screens */
+      margin-right: 20px;
+    }
+  
+    #container-user-navigation button {
+      width: 30px;
+    }
+    #side-bar-create{
+        width: 55px;
+        
+    }
+  }
+  
+  /* Media query for screens smaller than 480px (mobile) */
+  @media (max-width: 480px) {
+    .react-icon h4 {
+      font-size: 10px;
+    }
+  
+    .react-icon {
+      gap: 3px; /* Decrease gap between icon and text on small screens */
+    }
+  
+    #container-user-navigation button {
+      padding: 5px; /* Further adjust padding for smaller screens */
+    }
+
+    #side-bar-create{
+        width: 50px;
+        text-align: center;
+    }
+  }

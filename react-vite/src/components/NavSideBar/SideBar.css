@@ -1,3 +1,27 @@
+/* Media query for screens smaller than 768px (tablets and mobile) */
 @media (max-width: 768px) {
-   
+  .fixed-menu {
+    width: 150px;
   }
+
+  .home-blog-comment-like-container li a {
+    font-size: 14px;
+  }
+}
+
+/* Media query for screens smaller than 480px (mobile) */
+@media (max-width: 480px) {
+  .fixed-menu {
+    width: 100px;
+  }
+
+  .home-blog-comment-like-container li a {
+    font-size: 10px;
+  }
+
+}
+.sidebar {
+  display: flex;
+  justify-content: start;
+  padding-left: 3%;
+}

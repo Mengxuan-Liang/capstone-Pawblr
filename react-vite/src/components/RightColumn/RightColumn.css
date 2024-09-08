@@ -1,5 +1,6 @@
 .search-bar {
     position:fixed;
+    width: 11%;
 }
 
 .search-posts-container {
@@ -19,6 +20,7 @@
     border-radius: 4px;
     outline: none;
     transition: border-color 0.3s, box-shadow 0.3s;
+    width: 80%;
 }
 
 /* Focused input styling */
@@ -26,3 +28,4 @@
     border-color: #4A90E2; /* Change the border color on focus */
     box-shadow: 0 0 5px rgba(74, 144, 226, 0.5); /* Add a subtle shadow effect */
 }
+

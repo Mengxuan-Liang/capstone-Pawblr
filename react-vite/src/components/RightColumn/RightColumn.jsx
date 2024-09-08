@@ -71,10 +71,12 @@ export default function RightColumn() {
             {isModalOpen && selectedUser && (
                 <UserProfileModal user={selectedUser} onClose={closeModal} />
             )}
-            <input
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                type="text" placeholder="Search Pawblr" />
+            <div className="search-input">
+                <input
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    type="text" placeholder="Search Pawblr" />
+            </div>
             <div className="search-posts-container">
                 {/* <div>TAGS</div> */}
                 {search && matchedTags?.map(tag => (

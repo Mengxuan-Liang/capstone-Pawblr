@@ -6,7 +6,7 @@ import CreateBlogModal from "./CreateBlogModal";
 import LoginFormModal from "../LoginFormModal/LoginFormModal";
 import SignupFormModal from "../SignupFormModal/SignupFormModal";
 import { FaPencilAlt } from "react-icons/fa";
-
+import './CreateBlogButton.css'
 
 
 
@@ -39,7 +39,7 @@ export default function CreateBlogButton() {
 
   return (
 
-    <nav id="container-user-navigation" style={{ position: "relative" }}>
+    <nav id="container-user-navigation" >
       {user ? (
         <>
           <button style={{ border: "none", backgroundColor: "transparent" }}>

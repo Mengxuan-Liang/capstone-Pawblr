@@ -139,7 +139,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: start;
-  margin-left: 5%;
+  /* margin-left: 5%; */
   /* margin-top: 20%; */
   /* border: 2px rebeccapurple solid; */
   width: fit-content;
@@ -393,4 +393,33 @@ li {
   transition: color 0.3s ease;
   color: rgb(248, 172, 10);
   font-size: 32px;
+}
+
+@media (max-width: 1024px) {
+ .post-author-follow-button{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+ }
+ h3, span{
+  font-size: medium;
+ }
+}
+@media (max-width: 768px) {
+  .post-author-follow-button{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+   }
+   h3, span, .follow-button{
+    font-size: 7px;
+   }
+   .notes-reply-like-update-delete-container{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+   }
+   .reply-like-container{
+    gap:3px;
+   }
 }
