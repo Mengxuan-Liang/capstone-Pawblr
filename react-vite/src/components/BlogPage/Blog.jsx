@@ -262,7 +262,7 @@ export default function Blog() {
                       </div>
                     </div>
                     <div className="post-content">
-                      {post?.img && <img src={post.img} alt="Post" style={{ width: '40%' }} />}
+                      {post?.img && <img src={post.img} alt="Post" style={{ width: '100%' }} />}
                       <p style={{ marginTop: '20px' }}>{post.text}</p>
                       <br />
                       {post.labels?.map(label => (
