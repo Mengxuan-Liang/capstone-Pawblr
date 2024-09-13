@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, request, session, redirect
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
@@ -16,18 +16,56 @@ from .api.follow_routes import follow_routes
 from .api.reblog_routes import reblog_routes
 from .seeds import seed_commands
 from .config import Config
+from flask_socketio import SocketIO, emit
+
 
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
-
+socketio = SocketIO(app, cors_allowed_origins="*")
 # Setup login manager
 login = LoginManager(app)
 login.login_view = 'auth.unauthorized'
 
+# This function is triggered when the 'message' event is received from the client
+@socketio.on('message')
+def handle_message(data):
+    # print('DATAAAAA@@@',data)
+    msg = data['message']
+    username = data['username']
+    print(f"Message: {msg} from {username}")
+    # Broadcast the message and username to all clients
+    emit('chat_message', {'message': msg, 'username': username}, broadcast=True)
+
+# This function handles joining a chat room
+@socketio.on('join_room')
+def join_room(data):
+    room = data['room']
+    join_room(room)
+    print(f"User joined room: {room}")
+
+# This function handles leaving a chat room
+@socketio.on('leave_room')
+def leave_room(data):
+    room = data['room']
+    leave_room(room)
+    print(f"User left room: {room}")
+
+# This function handles sending a private message
+@socketio.on('private_message')
+def handle_private_message(data):
+    recipient_room = data['recipient_room']
+    message = data['message']
+    username = data['username']
+    emit('private_message', {'message': message, 'username': username}, room=recipient_room)
+
+if __name__ == '__main__':
+    import eventlet
+    eventlet.monkey_patch()
+    # Run the app using eventlet
+    socketio.run(app, host='0.0.0.0', port=8000, debug=True)
 
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
-
 
 # Tell flask about our seed commands
 app.cli.add_command(seed_commands)
@@ -46,7 +84,7 @@ db.init_app(app)
 Migrate(app, db)
 
 # Application Security
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 # Since we are deploying with Docker and Flask,

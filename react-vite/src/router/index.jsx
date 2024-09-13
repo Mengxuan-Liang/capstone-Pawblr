@@ -11,6 +11,8 @@ import Follow from '../components/FollowPage/FollowPage';
 import Tagged from '../components/Tagged/Tagged';
 import Profile from '../components/Profile/Profile';
 import About from '../components/HomePage/About';
+import ChatComponent from '../components/Chat';
+import Message from '../components/Message';
 
 export const router = createBrowserRouter([
   {
@@ -55,6 +57,14 @@ export const router = createBrowserRouter([
       {
         path: "/about",
         element: <About />,
+      },
+      {
+        path: "/chat",
+        element: <ChatComponent />,
+      },
+      {
+        path: "/message",
+        element: <Message />,
       }
     ],
   },
