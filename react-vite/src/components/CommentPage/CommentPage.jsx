@@ -18,13 +18,14 @@ import RightColumn from '../RightColumn/RightColumn';
 import { GiPawHeart } from "react-icons/gi";
 import { IoPawOutline } from "react-icons/io5";
 import { FaRegShareSquare } from "react-icons/fa";
+import UserProfileModal from '../Profile/UserProfileModal';
 
 
 export default function Comment() {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const userInfo = useSelector(state => state.session.user)
-  
+
   useEffect(() => {
     if (!userInfo) {
       navigate('/');
@@ -50,11 +51,11 @@ export default function Comment() {
       return { ...el, comments: filteredComments };
     }
     return null;
-  })?.filter(post => post !== null);  
-// console.log('post', posts)
-// New state for the confirmation modal
-const [showModal, setShowModal] = useState(false);
-const [modalData, setModalData] = useState({});
+  })?.filter(post => post !== null);
+  // console.log('post', posts)
+  // New state for the confirmation modal
+  const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -101,34 +102,34 @@ const [modalData, setModalData] = useState({});
   const handleTextChange = (e, post_id) => {
     const value = e.target.value;
     // Clear error if the input is valid (length between 2 and 50 characters)
-  if (value.length >= 2 && value.length <= 255) {
-    setErrors(prev => ({ ...prev, [post_id]: null }));
-  }
+    if (value.length >= 2 && value.length <= 255) {
+      setErrors(prev => ({ ...prev, [post_id]: null }));
+    }
 
-  setText(prev => ({ ...prev, [post_id]: value }));
+    setText(prev => ({ ...prev, [post_id]: value }));
   };
   // DELETE COMMENT
- const handleDelete = async (id) => {
-  setShowModal(true); // Show modal
-  setModalData({ id, type: 'comment' }); // Store ID and type
-};
+  const handleDelete = async (id) => {
+    setShowModal(true); // Show modal
+    setModalData({ id, type: 'comment' }); // Store ID and type
+  };
 
-const handleConfirmDelete = async () => {
-  const { id, type } = modalData;
+  const handleConfirmDelete = async () => {
+    const { id, type } = modalData;
 
-  if (type === 'comment') {
-    const res = await dispatch(thunkDeleteComment(id));
-    if (res.errors) {
-      setErrors(res.errors);
-    } else {
-      setIsloaded(!isloaded);
+    if (type === 'comment') {
+      const res = await dispatch(thunkDeleteComment(id));
+      if (res.errors) {
+        setErrors(res.errors);
+      } else {
+        setIsloaded(!isloaded);
+      }
+    } else if (type === 'post') {
+      await dispatch(thunkDeletePost(id));
     }
-  } else if (type === 'post') {
-    await dispatch(thunkDeletePost(id));
-  }
 
-  setShowModal(false); // Close modal
-};
+    setShowModal(false); // Close modal
+  };
   // TOGGLE COMMENT
   const toggleComments = (postId) => {
     // Select the correct comments section using the postId
@@ -228,24 +229,46 @@ const handleConfirmDelete = async () => {
     setModalData({ id, type: 'post' }); // Store ID and type
   };
 
+  // Clickable user image & username
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [users, setUsers] = useState('')
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch('/api/users/')
+      const resData = await res.json()
+      setUsers(resData)
+      console.log('res all users', resData)
+    }
+    fetchData()
+  }, [])
+  const handleUserClick = (userId) => {
+    const matchedUser = users.users.find(el => el.id === userId)
+    setSelectedUser(matchedUser);
+    setIsModalOpen(true);
+  };
 
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedUser(null);
+  };
   return (
     <div className='page-container'>
-       {/* Modal for confirmation */}
-       <ConfirmationModal
+      {/* Modal for confirmation */}
+      <ConfirmationModal
         show={showModal}
         onClose={() => setShowModal(false)}
         onConfirm={handleConfirmDelete}
         message="Confirm Deletion"
       />
       <header className="header">
-        <NavBar/>
+        <NavBar />
       </header>
 
       <div className="main-content">
         <aside className="sidebar">
           {/* <div className="fixed-menu"> */}
-           <SideBar/>
+          <SideBar />
           {/* </div> */}
         </aside>
 
@@ -257,16 +280,18 @@ const handleConfirmDelete = async () => {
 
             return (
               <article className="post" key={post.id}>
+                  {isModalOpen && selectedUser && (
+                  <UserProfileModal user={selectedUser} onClose={closeModal} />
+                )}
                 {!post?.root_post ? (
                   <>
                     <div className="post-header">
-                      <img style={{ width: '50px' }} src={post.user?.profileImage ? post.user.profileImage : 'https://res.cloudinary.com/dhukvbcqm/image/upload/v1724973068/capstone/download_n3qjos.png'} />
+                      <img onClick={() => handleUserClick(post.user_id)} style={{ width: '50px' }} src={post.user?.profileImage ? post.user.profileImage : 'https://res.cloudinary.com/dhukvbcqm/image/upload/v1724973068/capstone/download_n3qjos.png'} />
                       <div>
                         <div className='post-author-follow-button'>
                           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>
-
-                          <h3>{post.user?.username}{' '}</h3>
-                        <span>{post.created_at}</span>
+                            <h3 onClick={() => handleUserClick(post.user_id)}>{post.user?.username}{' '}</h3>
+                            <span>{post.created_at}</span>
                           </div>
                           {post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.user_id)}>{isFollowed ? 'Following' : 'Follow'}</button>}
                         </div>
@@ -284,7 +309,7 @@ const handleConfirmDelete = async () => {
                     </div>
                     <br />
                     {
-                      post.user_id === userId && <div style={{display:'flex', justifyContent:'flex-end', gap:'15px'}}>
+                      post.user_id === userId && <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '15px' }}>
                         <span ><UpdateBlogButton el={post} /></span>
                         {/* <span><button onClick={() => handleDeletePost(post.id)}>Delete</button></span> */}
                         <RiDeleteBin6Line className='react-icon' title='Delete' onClick={() => handleDeletePost(post.id)} />
@@ -303,7 +328,7 @@ const handleConfirmDelete = async () => {
                             <label>
                               <input
                                 type='text'
-                                value={text[post.id]||''}
+                                value={text[post.id] || ''}
                                 onChange={e => handleTextChange(e, post.id)}
                                 placeholder={`Comment as @${user}`}
                                 required
@@ -312,22 +337,22 @@ const handleConfirmDelete = async () => {
                             {errors[post.id]?.text && <p style={{ color: 'red' }}>{errors[post.id].text}</p>} {' '}
                             <br></br>
                             <br></br>
-                            <button onClick={(e)=> setText('')}>Clear</button>{' '}
+                            <button onClick={(e) => setText('')}>Clear</button>{' '}
                             <button onClick={() => toggleComments(post.id)}>Close</button>{' '}
-                            <button  type="submit">Send</button>
+                            <button type="submit">Send</button>
                           </form>
                           <br></br>
                           {post.comments?.map(comment => (
                             <div className='comment-details-container' key={comment.id}>
                               <span style={{ fontSize: 'larger' }}>{comment.user?.username}</span>{' '}<span style={{ fontSize: 'small' }}>{comment.created_at}</span>
-                              <div style={{ display: 'flex', justifyContent: 'space-between', gap:'10px' }}>
-                              <div className='comment-text' key={comment.id}>{comment.text}</div>
-                              {/* <button >reply</button> */}
-                              {
-                                userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>Delete</button>
-                              }
-                            </div>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
+                                <div className='comment-text' key={comment.id}>{comment.text}</div>
+                                {/* <button >reply</button> */}
+                                {
+                                  userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>Delete</button>
+                                }
                               </div>
+                            </div>
                           ))}
                         </ul>
                       </span>
@@ -346,7 +371,7 @@ const handleConfirmDelete = async () => {
                           >
                             {isLiked ? (
                               // <FaHeart style={{ color: 'red' }} />
-                              <GiPawHeart className='react-icon' title='Unlike' style={{ color: 'red' }}/>
+                              <GiPawHeart className='react-icon' title='Unlike' style={{ color: 'red' }} />
                             ) : (
                               // <FaRegHeart />
                               <IoPawOutline className='react-icon' title='Like' />
@@ -359,12 +384,9 @@ const handleConfirmDelete = async () => {
                       </span>
                     </div>
                   </>) :
-
-
-
                   <>
                     <div className="post-header">
-                      <img style={{ width: '50px' }} src={post.user?.profileImage} />
+                      <img onClick={() => handleUserClick(post.user_id)} style={{ width: '50px' }} src={post.user?.profileImage} />
                       <div>
                         <div className='post-author-follow-button'>
                           {/* <h3>{post.user?.username}{' '}Reblogged</h3> */}
@@ -374,13 +396,13 @@ const handleConfirmDelete = async () => {
                       </div>
                     </div>
                     <div className="post-header">
-                      <img style={{ width: '50px' }} src={post.root_post.user?.profileImage} />
+                      <img onClick={() => handleUserClick(post.root_post.user_id)} style={{ width: '50px' }} src={post.root_post.user?.profileImage} />
                       <div>
                         <div className='post-author-follow-button'>
                           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>
 
-                          <h3>{post.root_post.user?.username}{' '}</h3>
-                        <span>{post.root_post.created_at}</span>
+                            <h3 onClick={() => handleUserClick(post.root_post.user_id)}>{post.root_post.user?.username}{' '}</h3>
+                            <span>{post.root_post.created_at}</span>
                           </div>
                           {post.root_post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.root_post?.user_id)}>
                             {followStatus.has(post.root_post.user_id) ? 'Following' : 'Follow'}</button>}
@@ -399,12 +421,12 @@ const handleConfirmDelete = async () => {
                     </div>
                     <br />
                     {
-                            post.user_id === userId && <div style={{display:'flex', justifyContent:'flex-end', gap:'15px'}}>
-                              {/* <span ><UpdateBlogButton el={post} /></span> */}
-                              {/* <span><button onClick={() => handleDeletePost(post.id)}>Delete</button></span> */}
-                              <RiDeleteBin6Line className='react-icon' title='Delete' onClick={() => handleDeletePost(post.id)} />
-                            </div>
-                          }
+                      post.user_id === userId && <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '15px' }}>
+                        {/* <span ><UpdateBlogButton el={post} /></span> */}
+                        {/* <span><button onClick={() => handleDeletePost(post.id)}>Delete</button></span> */}
+                        <RiDeleteBin6Line className='react-icon' title='Delete' onClick={() => handleDeletePost(post.id)} />
+                      </div>
+                    }
                     <hr style={{ color: 'grey' }} />
                     <br></br>
                     <div className='notes-reply-like-update-delete-container'>
@@ -416,9 +438,9 @@ const handleConfirmDelete = async () => {
                         <ul className='comment-container hidden' data-comment-count={post.root_post.comments?.length}>
                           <form onSubmit={(e) => handleSubmit(e, post.root_post.id)}>
                             <label>
-                            <input
+                              <input
                                 type='text'
-                                value={text[post.root_post.id]||''}
+                                value={text[post.root_post.id] || ''}
                                 onChange={e => handleTextChange(e, post.root_post.id)}
                                 placeholder={`Comment as @${user}`}
                                 required
@@ -427,15 +449,15 @@ const handleConfirmDelete = async () => {
                             {errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.text}</p>} {' '}
                             <br></br>
                             <br></br>
-                            <button onClick={(e)=> setText('')}>Clear</button>{' '}
+                            <button onClick={(e) => setText('')}>Clear</button>{' '}
                             <button onClick={() => toggleComments(post.id)}>Close</button>{' '}
-                            <button type="submit">Send</button> 
+                            <button type="submit">Send</button>
                           </form>
                           <br></br>
                           {post.root_post.comments?.map(comment => (
                             <div className='comment-details-container' key={comment.id}>
                               <span style={{ fontSize: 'larger' }}>{comment.user?.username}</span>{' '}<span style={{ fontSize: 'small' }}>{comment.created_at}</span>
-                              <div style={{ display: 'flex', justifyContent: 'space-between', gap:'10px' }}>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
                                 <div className='comment-text' key={comment.id}>{comment.text}</div>
                                 {
                                   userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>Delete</button>
@@ -465,7 +487,7 @@ const handleConfirmDelete = async () => {
                               <BiLike title='Like' style={{ fontSize: '20px' }} />
                             )}
                           </span>
-                         
+
                         </div>
                       </span>
                     </div>
@@ -474,7 +496,7 @@ const handleConfirmDelete = async () => {
 
               </article>
             );
-          }):<article className='post'>You have not posted any comments yet</article>}
+          }) : <article className='post'>You have not posted any comments yet</article>}
         </section>
 
         <aside className="right-column">

@@ -2,11 +2,9 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { thunkGetPosts, thunkDeletePost } from '../../redux/postReducer';
 import { useNavigate, useLocation } from 'react-router-dom';
-// import CreateBlogButton from '../CreateBlog/CreateBlogButton';
 import UpdateBlogButton from '../UpdataBlog/UpdateBlogButton';
 import { thunkAddComments, thunkDeleteComment, thunkGetComments } from '../../redux/commentReducer';
 import './HomePage.css';
-// import ProfileButton from '../Navigation/ProfileButton';
 import { FaRegComment } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { BiSolidLike } from "react-icons/bi";
@@ -18,6 +16,7 @@ import { FaRegShareSquare } from "react-icons/fa";
 import RightColumn from '../RightColumn/RightColumn';
 import { GiPawHeart } from "react-icons/gi";
 import { IoPawOutline } from "react-icons/io5";
+import UserProfileModal from '../Profile/UserProfileModal';
 
 export default function HomePage() {
   const location = useLocation();
@@ -222,6 +221,29 @@ export default function HomePage() {
     setModalData({ id, type: 'post' }); // Store ID and type
   };
 
+  // Clickable user image & username
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [users, setUsers] = useState('')
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch('/api/users/')
+      const resData = await res.json()
+      setUsers(resData)
+      console.log('res all users', resData)
+    }
+    fetchData()
+  }, [])
+  const handleUserClick = (userId) => {
+    const matchedUser = users.users.find(el => el.id === userId)
+    setSelectedUser(matchedUser);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedUser(null);
+  };
   return (
     <div className='page-container'>
       <ConfirmationModal
@@ -244,14 +266,17 @@ export default function HomePage() {
             const isFollowed = followStatus.has(post.user_id);
             return (
               <article className="post" key={post.id}>
+                {isModalOpen && selectedUser && (
+                  <UserProfileModal user={selectedUser} onClose={closeModal} />
+                )}
                 {!post?.root_post ? (
                   <>
-                    <div className="post-header">
-                      <img style={{ width: '50px', borderRadius: '7px' }} src={post.user?.profileImage ? post.user.profileImage : 'https://res.cloudinary.com/dhukvbcqm/image/upload/v1725296015/capstone/images_1_ajhdo2.png'} />
+                    <div className="post-header" >
+                      <img onClick={() => handleUserClick(post.user_id)} style={{ width: '50px', borderRadius: '7px' }} src={post.user?.profileImage ? post.user.profileImage : 'https://res.cloudinary.com/dhukvbcqm/image/upload/v1725296015/capstone/images_1_ajhdo2.png'} />
                       <div>
                         <div className='post-author-follow-button'>
                           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>
-                            <h3>{post.user?.username}{' '}</h3>
+                            <h3 onClick={() => handleUserClick(post.user_id)}>{post.user?.username}{' '}</h3>
                             <span>{post.created_at}</span>
                           </div>
                           {post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.user_id)}>{isFollowed ? 'Following' : 'Follow'}</button>}
@@ -317,7 +342,7 @@ export default function HomePage() {
                           ))}
                         </ul>
                       </span>
-                      
+
                       <span className="comments-row-container">
                         <div className="reply-like-container">
                           {/* <button onClick={() => toggleComments(post.id)}>Reply</button> */}
@@ -331,9 +356,9 @@ export default function HomePage() {
                             onClick={() => toggleLike(post.id)}
                           >
                             {isLiked ? (
-                              <GiPawHeart className='react-icon' title='Unlike' style={{ color: 'red'}} />
+                              <GiPawHeart className='react-icon' title='Unlike' style={{ color: 'red' }} />
                             ) : (
-                              <IoPawOutline className='react-icon' title='Like'  />
+                              <IoPawOutline className='react-icon' title='Like' />
                             )}
                           </span>
                           {/* }  */}
@@ -346,11 +371,11 @@ export default function HomePage() {
 
                   <>
                     <div className="post-header">
-                      <img style={{ width: '50px' }} src={post.user?.profileImage} />
+                      <img onClick={() => handleUserClick(post.user_id)} style={{ width: '50px' }} src={post.user?.profileImage} />
                       <div>
                         <div className='post-author-follow-button' >
                           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>
-                            <h3>{post.user?.username}{' '}Reblogged</h3>
+                            <h3 onClick={() => handleUserClick(post.user_id)}>{post.user?.username}{' '}Reblogged</h3>
                             {/* {post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.user_id)}>{isFollowed ? 'Following' : 'Follow'}</button>} */}
                             <span>{post.created_at}</span>
                           </div>
@@ -358,11 +383,11 @@ export default function HomePage() {
                       </div>
                     </div>
                     <div className="post-header">
-                      <img style={{ width: '50px' }} src={post.root_post.user?.profileImage} />
+                      <img onClick={() => handleUserClick(post.root_post.user_id)} style={{ width: '50px' }} src={post.root_post.user?.profileImage} />
                       <div>
                         <div className='post-author-follow-button'>
                           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>
-                            <h3>{post.root_post.user?.username}{' '}</h3>
+                            <h3 onClick={() => handleUserClick(post.root_post.user_id)}>{post.root_post.user?.username}{' '}</h3>
                             <span>{post.root_post.created_at}</span>
                           </div>
                           {post.root_post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.root_post?.user_id)}>
@@ -443,9 +468,9 @@ export default function HomePage() {
                             onClick={() => toggleLike(post.id)}
                           >
                             {isLiked ? (
-                              <GiPawHeart title='Unlike' style={{ color: 'red'}} className='react-icon'/>
+                              <GiPawHeart title='Unlike' style={{ color: 'red' }} className='react-icon' />
                             ) : (
-                              <IoPawOutline title='Like' className='react-icon'/>
+                              <IoPawOutline title='Like' className='react-icon' />
                             )}
                           </span>
 

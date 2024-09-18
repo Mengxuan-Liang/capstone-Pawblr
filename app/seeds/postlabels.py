@@ -16,7 +16,13 @@ def seed_postlabels():
         {'post_id':8, 'label_id':7},
         {'post_id':8, 'label_id':5},
         {'post_id':9, 'label_id':6},
-        {'post_id':9, 'label_id':9},
+        {'post_id':2, 'label_id':7},
+        {'post_id':3, 'label_id':8},
+        {'post_id':4, 'label_id':7},
+        {'post_id':5, 'label_id':8},
+        {'post_id':6, 'label_id':7},
+        {'post_id':7, 'label_id':8},
+        {'post_id':10, 'label_id':8},
     ]
 
     for entry in postlabel_entries:

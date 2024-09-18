@@ -234,7 +234,7 @@ export default function FeedMid({ posts, clickedUser }) {
         message="Confirm Deletion"
       />
       {clickedUser?.id !== userId && <button className='profile-follow-button' onClick={() => handleFollow(clickedUser.id)}>{isFollowed ? 'Following' : 'Follow'}</button>}{' '}
-      { <button className='profile-follow-button' onClick={() => navigate('/message', { state: { clickedUser } })}>Message</button>}
+      {clickedUser?.id !== userId && <button className='profile-follow-button' onClick={() => navigate('/message', { state: { clickedUser } })}>Message</button>}
       <div className="main-content">
 
         <section className="feed mid">

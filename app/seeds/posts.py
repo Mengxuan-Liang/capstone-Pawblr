@@ -3,15 +3,16 @@ from sqlalchemy.sql import text
 
 def seed_posts():
     post1 = Post(
-        text = "Pawsitively perfect day with my favorite furball.",
-        user_id = 1,
-        img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1725234088/capstone/IMG_0759_ru4wty.jpg'
+        # title='some title in post 3',
+        text = "Paws & Tents: My First Camping Adventure",
+        user_id = 5,
+        img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1725663641/capstone/IMG_0773_jegzj3.jpg'
     )
     post2 = Post(
-        # title='some title in post 2',
-        text = "Fetch goals: Always chasing my dreams (and balls).",
-        user_id = 2,
-        img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1725234088/capstone/IMG_0758_bgevs3.jpg'
+        # title='some title in post 3',
+        text = "A Dog’s Day Out",
+        user_id = 6,
+        img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1725663644/capstone/IMG_0770_ahl68m.jpg'
     )
     post3 = Post(
         # title='some title in post 3',
@@ -110,16 +111,21 @@ def seed_posts():
         img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1725663639/capstone/IMG_0764_mx39tb.jpg'
     )
     post19 = Post(
-        # title='some title in post 3',
-        text = "Paws & Tents: My First Camping Adventure",
-        user_id = 5,
-        img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1725663641/capstone/IMG_0773_jegzj3.jpg'
+        text = "Pawsitively perfect day with my favorite furball.",
+        user_id = 1,
+        img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1725234088/capstone/IMG_0759_ru4wty.jpg'
     )
     post20 = Post(
-        # title='some title in post 3',
-        text = "A Dog’s Day Out",
-        user_id = 6,
-        img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1725663644/capstone/IMG_0770_ahl68m.jpg'
+        # title='some title in post 2',
+        text = "Fetch goals: Always chasing my dreams (and balls).",
+        user_id = 2,
+        img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1725234088/capstone/IMG_0758_bgevs3.jpg'
+    )
+    post21 = Post(
+        # title='some title in post 2',
+        text = "A Day in the Life: My Adventures as a Curious Pup",
+        user_id = 10,
+        img='https://res.cloudinary.com/dhukvbcqm/image/upload/v1725663638/capstone/IMG_0768_lqljes.jpg'
     )
     # post21 = Post(
     #     # title='some title in post 3',
@@ -185,7 +191,7 @@ def seed_posts():
         post18,
         post19,
         post20,
-        # post21,
+        post21,
         # post22,
         # post23,
         # post24,

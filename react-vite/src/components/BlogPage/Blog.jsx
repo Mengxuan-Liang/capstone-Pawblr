@@ -18,6 +18,7 @@ import { FaRegShareSquare } from "react-icons/fa";
 import RightColumn from '../RightColumn/RightColumn';
 import { GiPawHeart } from "react-icons/gi";
 import { IoPawOutline } from "react-icons/io5";
+import UserProfileModal from '../Profile/UserProfileModal';
 
 
 export default function Blog() {
@@ -219,7 +220,29 @@ export default function Blog() {
     setShowModal(true); // Show modal
     setModalData({ id, type: 'post' }); // Store ID and type
   };
+  // Clickable user image & username
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [users, setUsers] = useState('')
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch('/api/users/')
+      const resData = await res.json()
+      setUsers(resData)
+      console.log('res all users', resData)
+    }
+    fetchData()
+  }, [])
+  const handleUserClick = (userId) => {
+    const matchedUser = users.users.find(el => el.id === userId)
+    setSelectedUser(matchedUser);
+    setIsModalOpen(true);
+  };
 
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedUser(null);
+  };
   return (
     <div className='page-container'>
       {/* Modal for confirmation */}
@@ -236,7 +259,7 @@ export default function Blog() {
       <div className="main-content">
         <aside className="sidebar">
           {/* <div className="fixed-menu"> */}
-            <SideBar />
+          <SideBar />
           {/* </div> */}
         </aside>
 
@@ -247,14 +270,17 @@ export default function Blog() {
             const isFollowed = followStatus.has(post.user_id);
             return (
               <article className="post" key={post.id}>
+                 {isModalOpen && selectedUser && (
+                  <UserProfileModal user={selectedUser} onClose={closeModal} />
+                )}
                 {!post?.root_post ? (
                   <>
                     <div className="post-header">
-                      <img style={{ width: '50px' }} src={post.user?.profileImage ? post.user.profileImage : 'https://res.cloudinary.com/dhukvbcqm/image/upload/v1724973068/capstone/download_n3qjos.png'} />
+                      <img onClick={() => handleUserClick(post.user_id)} style={{ width: '50px' }} src={post.user?.profileImage ? post.user.profileImage : 'https://res.cloudinary.com/dhukvbcqm/image/upload/v1724973068/capstone/download_n3qjos.png'} />
                       <div>
                         <div className='post-author-follow-button'>
                           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>
-                            <h3>{post.user?.username}{' '}</h3>
+                            <h3 onClick={() => handleUserClick(post.user_id)}>{post.user?.username}{' '}</h3>
                             <span>{post.created_at}</span>
                           </div>
                           {post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.user_id)}>{isFollowed ? 'Following' : 'Follow'}</button>}
@@ -348,17 +374,13 @@ export default function Blog() {
                       </span>
                     </div>
                   </>) :
-
-
-
                   <>
                     <div className="post-header">
-                      <img style={{ width: '50px' }} src={post.user?.profileImage} />
+                      <img onClick={() => handleUserClick(post.user_id)} style={{ width: '50px' }} src={post.user?.profileImage} />
                       <div>
                         <div className='post-author-follow-button' >
                           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>
-
-                            <h3>{post.user?.username}{' '}Reblogged</h3>
+                            <h3 onClick={() => handleUserClick(post.user_id)}>{post.user?.username}{' '}Reblogged</h3>
                             {/* {post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.user_id)}>{isFollowed ? 'Following' : 'Follow'}</button>} */}
                             <span>{post.created_at}</span>
                           </div>
@@ -366,11 +388,11 @@ export default function Blog() {
                       </div>
                     </div>
                     <div className="post-header">
-                      <img style={{ width: '50px' }} src={post.root_post.user?.profileImage} />
+                      <img onClick={() => handleUserClick(post.root_post.user_id)} style={{ width: '50px' }} src={post.root_post.user?.profileImage} />
                       <div>
                         <div className='post-author-follow-button'>
                           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>
-                            <h3>{post.root_post.user?.username}{' '}</h3>
+                            <h3 onClick={() => handleUserClick(post.root_post.user_id)}>{post.root_post.user?.username}{' '}</h3>
                             <span>{post.root_post.created_at}</span>
                           </div>
                           {post.root_post.user_id !== userId && <button className='follow-button' onClick={() => handleFollow(post.root_post?.user_id)}>

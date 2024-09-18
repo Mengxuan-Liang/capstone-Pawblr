@@ -1,26 +1,23 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import { thunkGetPosts } from '../../redux/postReducer';
 import { useNavigate } from 'react-router-dom';
-// import CreateBlogButton from '../CreateBlog/CreateBlogButton';
-// import { thunkGetComments } from '../../redux/commentReducer';
 import '../HomePage/HomePage';
-// import ProfileButton from '../Navigation/ProfileButton';
 import NavBar from '../NavSideBar/NavBar';
 import SideBar from '../NavSideBar/SideBar';
 import RightColumn from '../RightColumn/RightColumn';
+import UserProfileModal from '../Profile/UserProfileModal';
 
 export default function Follow() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userInfo = useSelector(state => state.session.user);
   const userId = userInfo?.id;
-  // const [isloaded, setIsloaded] = useState(false);
-  // const [likedPosts, setLikedPosts] = useState(new Set());
   const [followStatus, setFollowStatus] = useState(new Set());
   const [following, setFollowing] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
     if (!userInfo) {
@@ -84,17 +81,25 @@ export default function Follow() {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
-
+  // Clickable user image & username
+  const handleUserClick = (user) => {
+    setSelectedUser(user);
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedUser(null);
+  };
   return (
     <div className='page-container'>
       <header className="header">
-        <NavBar/>
+        <NavBar />
       </header>
 
       <div className="main-content">
         <aside className="sidebar">
           {/* <div className="fixed-menu"> */}
-            <SideBar/>
+          <SideBar />
           {/* </div> */}
         </aside>
 
@@ -102,16 +107,18 @@ export default function Follow() {
           <div>
             {following?.length > 0 ? (
               <article className='post'>
+                {isModalOpen && selectedUser && (
+                  <UserProfileModal user={selectedUser} onClose={closeModal} />
+                )}
                 <h2>Users You Follow</h2>
                 <ul>
                   {following.map(user => {
                     const isFollowed = followStatus.has(user.id);
-
                     return (
-                      <li key={user.id}>
-                        <img src={user.profileImage} alt={user.username} style={{ width: '50px', borderRadius: '50%' }} />
-                        <p>{user.username}</p>
-                        <button style={{position:'relative',backgroundColor:'rgba(254, 212, 4, 255)',marginLeft:'0px'}}className='follow-button' onClick={() => handleFollow(user.id)}>
+                      <li key={user.id} className='following-page-user-container'>
+                        <img onClick={() => handleUserClick(user)} src={user.profileImage} alt={user.username} style={{ width: '50px', borderRadius: '50%' }} />
+                        <p onClick={() => handleUserClick(user)} >{user.username}</p>
+                        <button style={{ position: 'relative', backgroundColor: 'rgba(254, 212, 4, 255)', marginLeft: '0px' }} className='follow-button' onClick={() => handleFollow(user.id)}>
                           {isFollowed ? 'Following' : 'Follow'}
                         </button>
                         <br></br>

@@ -6,18 +6,9 @@ import './RightColumn.css'
 import UserProfileModal from "../Profile/UserProfileModal";
 
 export default function RightColumn() {
-    // const allPostsArr = useSelector(state => state.post?.post);
-    // console.log(allPostsArr)
-
-    // const postHasTagArr = allPostsArr?.filter(post => post.labels && post.labels.length > 0)
-    // const filteredPosts = postHasTagArr?.map(post => {
-    //     const filteredLabels = post.labels.filter(tag => tag?.name.toLowerCase().startsWith(search.toLowerCase()));
-    //     return filteredLabels.length > 0 ? post : null
-    // }).filter(post => post !== null)
-    // console.log('filtered posts with matched tags', filteredPosts)
 
     const [search, setSearch] = useState('')
-    console.log('search', search)
+    // console.log('search', search)
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
