@@ -12,7 +12,7 @@ import Tagged from '../components/Tagged/Tagged';
 import Profile from '../components/Profile/Profile';
 import About from '../components/HomePage/About';
 import ChatComponent from '../components/Chat';
-import Message from '../components/Message';
+import  { MessageComponent, PrivateChatComponent } from '../components/Message';
 
 export const router = createBrowserRouter([
   {
@@ -64,8 +64,12 @@ export const router = createBrowserRouter([
       },
       {
         path: "/message",
-        element: <Message />,
-      }
+        element: <MessageComponent />,
+      },
+      {
+        path: "/dm",
+        element: <PrivateChatComponent />,
+      },
     ],
   },
 ]);

@@ -10,3 +10,4 @@ from .like import Like
 from .post import Post
 from .postlabel import postlabel
 from .image import Image
+from .message import Message

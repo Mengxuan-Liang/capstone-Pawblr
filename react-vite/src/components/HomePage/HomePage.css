@@ -430,3 +430,24 @@ li {
 .following-page-user-container img, p:hover{
   cursor: pointer;
 }
+.message {
+  color:white;
+}
+
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1000; /* Ensure it appears above other elements */
+}
+
+.messages-container {
+  max-height: 400px; /* Adjust as needed */
+  overflow-y: auto;
+}

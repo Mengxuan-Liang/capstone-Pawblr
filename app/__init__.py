@@ -1,10 +1,10 @@
 import os
-from flask import Flask, request, session, redirect
+from flask import Flask, request, session, redirect,jsonify
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
-from .models import db, User
+from .models import db, User,Message
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.post_routes import post_routes
@@ -14,6 +14,7 @@ from .api.label_routes import label_routes
 from .api.like_routes import like_routes
 from .api.follow_routes import follow_routes
 from .api.reblog_routes import reblog_routes
+from .api.message_routes import message_routes
 from .seeds import seed_commands
 from .config import Config
 from flask_socketio import SocketIO, emit
@@ -49,13 +50,7 @@ def leave_room(data):
     leave_room(room)
     print(f"User left room: {room}")
 
-# This function handles sending a private message
-@socketio.on('private_message')
-def handle_private_message(data):
-    recipient_room = data['recipient_room']
-    message = data['message']
-    username = data['username']
-    emit('private_message', {'message': message, 'username': username}, room=recipient_room)
+
 
 if __name__ == '__main__':
     import eventlet
@@ -80,11 +75,42 @@ app.register_blueprint(label_routes, url_prefix='/api/labels')
 app.register_blueprint(like_routes, url_prefix='/api/likes')
 app.register_blueprint(follow_routes, url_prefix='/api/follow')
 app.register_blueprint(reblog_routes, url_prefix='/api/reblog')
+app.register_blueprint(message_routes, url_prefix='/api/messages')
 db.init_app(app)
 Migrate(app, db)
 
 # Application Security
 CORS(app, resources={r"/*": {"origins": "*"}})
+
+@socketio.on('join_private_room')
+def handle_join_private_room(data):
+    room = data['room']
+    join_room(room)
+    print(f"User joined room: {room}")
+
+@socketio.on('leave_private_room')
+def handle_leave_private_room(data):
+    room = data['room']
+    leave_room(room)
+    print(f"User left room: {room}")
+
+@socketio.on('private_message')
+def handle_private_message(data):
+    print('Received private message:', data)
+    room = data['recipient_room']
+    message_content = data['message']
+    sender = data['username']
+    recipient = data['recipient']
+    
+    # Save the message to the database
+    sender_user = User.query.filter_by(username=sender).first()
+    recipient_user = User.query.filter_by(username=recipient).first()
+    new_message = Message(sender_id=sender_user.id, recipient_id=recipient_user.id, content=message_content, room=room)
+    db.session.add(new_message)
+    db.session.commit()
+    
+    # Emit the message to the room
+    emit('private_message', {'message': message_content, 'username': sender}, room=room)
 
 
 # Since we are deploying with Docker and Flask,
