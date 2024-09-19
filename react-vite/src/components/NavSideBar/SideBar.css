@@ -25,3 +25,34 @@
   justify-content: start;
   padding-left: 3%;
 }
+
+
+
+
+body {
+  background-color: #f4f4f4;
+  color: #333;
+  height: 100vh;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+body.light-theme {
+  background: linear-gradient(to right, #e3c4c4, #c39898);
+}
+
+body.dark-theme {
+  background: linear-gradient(to right, #333, #666);
+}
+
+.theme-toggle {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  transition: transform 0.2s;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+  color: rgba(254, 212, 4, 255);
+}
