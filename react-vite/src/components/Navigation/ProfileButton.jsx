@@ -50,7 +50,7 @@ function ProfileButton() {
         <ul className={"profile-dropdown"} ref={ulRef}>
           {user ? (
             <>
-              <li style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '10px' }}>{user.username}</li>
+              <li style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '10px',color:'gray' }}>{user.username}</li>
               <li style={{ color: 'gray', marginBottom: '10px' }}>{user.email}</li>
               <li>
                 <button onClick={logout}
