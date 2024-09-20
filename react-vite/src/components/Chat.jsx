@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import NavBar from './NavSideBar/NavBar';
 import './ChatMessage.css'
 
-const SOCKET_SERVER_URL = "http://localhost:8000";
+const SOCKET_SERVER_URL = "http://localhost:8000"|| 'https://capstone-dumblr.onrender.com';
 
 const ChatComponent = () => {
   const [users, setUsers] = useState([]);
