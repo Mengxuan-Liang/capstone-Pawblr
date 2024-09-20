@@ -27,7 +27,7 @@ const ChatComponent = () => {
   const currentUser = useSelector(state => state?.session?.user?.username);
 
   useEffect(() => {
-    const newSocket = io(SOCKET_SERVER_URL);
+    const newSocket = io("https://capstone-dumblr.onrender.com");
     setSocket(newSocket);
 
     // Listen for 'chat_message' events from the server

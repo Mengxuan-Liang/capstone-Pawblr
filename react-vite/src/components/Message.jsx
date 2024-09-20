@@ -44,7 +44,7 @@ const MessageComponent = () => {
   useEffect(() => {
     if (!currentUser) return;
 
-    const newSocket = io(SOCKET_SERVER_URL);
+    const newSocket = io("https://capstone-dumblr.onrender.com");
     setSocket(newSocket);
 
     newSocket.on('private_message', (data) => {
