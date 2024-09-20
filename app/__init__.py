@@ -119,7 +119,9 @@ db.init_app(app)
 Migrate(app, db)
 
 # Application Security
-CORS(app, resources={r"/*": {"origins": "*"}})
+# CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": ["https://capstone-dumblr.onrender.com", "http://localhost:5173"]}})
+
 
 
 # Since we are deploying with Docker and Flask,

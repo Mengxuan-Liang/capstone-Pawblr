@@ -7,9 +7,9 @@ import NavBar from './NavSideBar/NavBar';
 import './ChatMessage.css'
 import UserProfileModal from './Profile/UserProfileModal';
 
-const SOCKET_SERVER_URL = process.env.NODE_ENV === 'production'
+const SOCKET_SERVER_URL = import.meta.env.MODE == 'production'
   ? 'https://capstone-dumblr.onrender.com'
-  : process.env.REACT_APP_SOCKET_SERVER_URL || 'http://localhost:8000';
+  :  'http://localhost:8000';
 
 
 const MessageComponent = () => {

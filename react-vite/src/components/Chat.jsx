@@ -4,10 +4,11 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
 import NavBar from './NavSideBar/NavBar';
 import './ChatMessage.css'
+import UserProfileModal from './Profile/UserProfileModal';
 
-const SOCKET_SERVER_URL = process.env.NODE_ENV === 'production'
+const SOCKET_SERVER_URL = import.meta.env.MODE == 'production'
   ? 'https://capstone-dumblr.onrender.com'
-  : process.env.REACT_APP_SOCKET_SERVER_URL || 'http://localhost:8000';
+  : 'http://localhost:8000';
 
 
 const ChatComponent = () => {
@@ -71,7 +72,20 @@ const ChatComponent = () => {
     const user = users?.find(user => user.username === username);
     return user ? user.profileImage : 'https://res.cloudinary.com/dhukvbcqm/image/upload/v1725296015/capstone/Blue_Dog_Coalition_dgsbdq.webp';
   };
-  console.log('current user', currentUser)
+  // console.log('current user', currentUser)
+  // Clickable user image to profile modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const handleUserClick = (username) => {
+    const user = users?.find(user => user.username === username);
+    // console.log('user', user)
+    setSelectedUser(user);
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedUser(null);
+  };
   return (
     <>
       <NavBar />
@@ -110,22 +124,26 @@ const ChatComponent = () => {
           <h3>Messages:</h3>
           <ul>
             {chatMsg.map((msg, index) => (
-              <>
-                <li key={index}>
+              <div key={`${msg.username}-${index}`} >
+                {isModalOpen && msg.sender && (
+                  <UserProfileModal user={selectedUser} onClose={closeModal} />
+                )}
+                <li key={`${msg.username}-${index}`}>
                   <img
-                   style={{ 
-                    width: '45px',  // Ensure the width is a fixed value
-                    height: '45px',  // Ensure the height is equal to the width for a perfect circle
-                    borderRadius: '50%',  // Set border-radius to 50% for round shape
-                    objectFit: 'cover'  // Ensures the image doesn't get distorted
-                }}
+                    onClick={() => handleUserClick(msg.sender)}
+                    style={{
+                      width: '45px',  // Ensure the width is a fixed value
+                      height: '45px',  // Ensure the height is equal to the width for a perfect circle
+                      borderRadius: '50%',  // Set border-radius to 50% for round shape
+                      objectFit: 'cover'  // Ensures the image doesn't get distorted
+                    }}
                     src={getProfileImage(msg.username)}
                     alt={`${msg.sender}'s profile`}
                     className="profile-image"
                   />
                   {msg.username} : {msg.message}
                 </li>
-              </>
+              </div>
             ))}
           </ul>
         </div>
