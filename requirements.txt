@@ -26,5 +26,5 @@ email-validator==1.2.0
 zipp==3.17.0; python_version >= '3.8'
 psycopg2 # If using dev container
 boto3 # If using AWS
-flask-socketio==4.7.5
+flask-socketio
 eventlet
