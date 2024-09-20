@@ -7,7 +7,10 @@ import NavBar from './NavSideBar/NavBar';
 import './ChatMessage.css'
 import UserProfileModal from './Profile/UserProfileModal';
 
-const SOCKET_SERVER_URL = "http://localhost:8000" || 'https://capstone-dumblr.onrender.com';
+const SOCKET_SERVER_URL = process.env.NODE_ENV === 'production'
+  ? 'https://capstone-dumblr.onrender.com'
+  : process.env.REACT_APP_SOCKET_SERVER_URL || 'http://localhost:8000';
+
 
 const PrivateChatComponent = () => {
     const navigate = useNavigate();
