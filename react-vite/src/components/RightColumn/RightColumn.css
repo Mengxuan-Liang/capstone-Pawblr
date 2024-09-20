@@ -15,17 +15,24 @@
 
 /* Default input styling */
 .search-bar input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 10px;
+    width: 300px;
+    border-radius: 25px;
+    border: 2px solid#f9e69d;
     outline: none;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
     width: 80%;
+}
+.search-bar input:focus{
+    border-color: #ffcc00;
+    box-shadow: 0 0 8px #ff8c00;
 }
 
 /* Focused input styling */
 .focused-input {
-    border-color: #4A90E2; /* Change the border color on focus */
+    border-color:#ff8c00; /* Change the border color on focus */
     box-shadow: 0 0 5px rgba(74, 144, 226, 0.5); /* Add a subtle shadow effect */
 }
 

@@ -272,7 +272,7 @@ export default function HomePage() {
                 {!post?.root_post ? (
                   <>
                     <div className="post-header" >
-                      <img onClick={() => handleUserClick(post.user_id)} style={{ width: '50px', borderRadius: '7px' }} src={post.user?.profileImage ? post.user.profileImage : 'https://res.cloudinary.com/dhukvbcqm/image/upload/v1725296015/capstone/images_1_ajhdo2.png'} />
+                      <img onClick={() => handleUserClick(post.user_id)} src={post.user?.profileImage ? post.user.profileImage : 'https://res.cloudinary.com/dhukvbcqm/image/upload/v1725296015/capstone/images_1_ajhdo2.png'} />
                       <div>
                         <div className='post-author-follow-button'>
                           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>
@@ -371,7 +371,7 @@ export default function HomePage() {
 
                   <>
                     <div className="post-header">
-                      <img onClick={() => handleUserClick(post.user_id)} style={{ width: '50px' }} src={post.user?.profileImage} />
+                      <img onClick={() => handleUserClick(post.user_id)} src={post.user?.profileImage} />
                       <div>
                         <div className='post-author-follow-button' >
                           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>
@@ -383,7 +383,7 @@ export default function HomePage() {
                       </div>
                     </div>
                     <div className="post-header">
-                      <img onClick={() => handleUserClick(post.root_post.user_id)} style={{ width: '50px' }} src={post.root_post.user?.profileImage} />
+                      <img onClick={() => handleUserClick(post.root_post.user_id)} src={post.root_post.user?.profileImage} />
                       <div>
                         <div className='post-author-follow-button'>
                           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>

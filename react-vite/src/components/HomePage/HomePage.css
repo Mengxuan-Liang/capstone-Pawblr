@@ -424,7 +424,16 @@ li {
     gap:3px;
    }
 }
-
+.post-header img{
+    /* width: '45px',  // Ensure the width is a fixed value
+    height: '45px',  // Ensure the height is equal to the width for a perfect circle
+    borderRadius: '50%',  // Set border-radius to 50% for round shape
+    objectFit: 'cover'  // Ensures the image doesn't get distorted */
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+}
 .post-header img, .post-author-follow-button h3:hover{
   cursor: pointer;
 }

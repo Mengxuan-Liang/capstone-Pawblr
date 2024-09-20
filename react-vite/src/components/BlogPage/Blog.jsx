@@ -276,7 +276,12 @@ export default function Blog() {
                 {!post?.root_post ? (
                   <>
                     <div className="post-header">
-                      <img onClick={() => handleUserClick(post.user_id)} style={{ width: '50px' }} src={post.user?.profileImage ? post.user.profileImage : 'https://res.cloudinary.com/dhukvbcqm/image/upload/v1724973068/capstone/download_n3qjos.png'} />
+                      <img onClick={() => handleUserClick(post.user_id)}  style={{ 
+        width: '45px',  // Ensure the width is a fixed value
+        height: '45px',  // Ensure the height is equal to the width for a perfect circle
+        borderRadius: '50%',  // Set border-radius to 50% for round shape
+        objectFit: 'cover'  // Ensures the image doesn't get distorted
+    }} src={post.user?.profileImage ? post.user.profileImage : 'https://res.cloudinary.com/dhukvbcqm/image/upload/v1724973068/capstone/download_n3qjos.png'} />
                       <div>
                         <div className='post-author-follow-button'>
                           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>
@@ -376,7 +381,7 @@ export default function Blog() {
                   </>) :
                   <>
                     <div className="post-header">
-                      <img onClick={() => handleUserClick(post.user_id)} style={{ width: '50px' }} src={post.user?.profileImage} />
+                      <img onClick={() => handleUserClick(post.user_id)} src={post.user?.profileImage} />
                       <div>
                         <div className='post-author-follow-button' >
                           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>
@@ -388,7 +393,7 @@ export default function Blog() {
                       </div>
                     </div>
                     <div className="post-header">
-                      <img onClick={() => handleUserClick(post.root_post.user_id)} style={{ width: '50px' }} src={post.root_post.user?.profileImage} />
+                      <img onClick={() => handleUserClick(post.root_post.user_id)} src={post.root_post.user?.profileImage} />
                       <div>
                         <div className='post-author-follow-button'>
                           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>

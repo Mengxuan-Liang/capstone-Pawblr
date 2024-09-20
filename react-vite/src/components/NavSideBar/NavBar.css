@@ -18,7 +18,7 @@
 .navigation a:hover {
     /* background-color: purple; */
     color:  rgb(248, 172, 10);
-    font-size: large;
+    font-size: x-large;
   }
   
 .navigation a.active-tab {
@@ -60,11 +60,11 @@ body {
 }
 
 body.light-theme {
-  background: linear-gradient(to right, #e3c4c4, #c39898);
+  background: linear-gradient(to right, #e4c4c4, #e9d9d9);
 }
 
 body.dark-theme {
-  background: linear-gradient(to right, #333, #666);
+  background: linear-gradient(to right, #333, #4e4e4e);
 }
 
 .theme-toggle {
@@ -73,9 +73,14 @@ body.dark-theme {
   cursor: pointer;
   font-size: 24px;
   transition: transform 0.2s;
+  color: rgba(254, 212, 4, 255);
 }
 
 .theme-toggle:hover {
   transform: scale(1.1);
-  color: rgba(254, 212, 4, 255);
+  cursor: pointer;
+  color:  rgb(248, 172, 10);
+}
+.logo-container-header:hover{
+  cursor: pointer;
 }

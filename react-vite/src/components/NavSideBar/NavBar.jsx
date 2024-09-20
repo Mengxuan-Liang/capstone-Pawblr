@@ -20,7 +20,7 @@ export default function NavBar() {
         <div id="nav-container">
             <div className="logo-container-header">
                 <img src='logo2.png' style={{ width: '6%' }} onClick={() => navigate('/home')} />
-                <img src='logo4.png' style={{ width: '20%' }} />
+                <img src='logo4.png' style={{ width: '20%' }} onClick={() => navigate('/home')} />
             </div>
             <nav className="navigation" style={{ color: "rgba(254, 212, 4, 255)" }}>
                 <NavLink to={'/follow'} className={({ isActive }) => (isActive ? "active-tab" : "")}>Following</NavLink>
