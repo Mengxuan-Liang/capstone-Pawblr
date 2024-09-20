@@ -12,7 +12,8 @@ import Tagged from '../components/Tagged/Tagged';
 import Profile from '../components/Profile/Profile';
 import About from '../components/HomePage/About';
 import ChatComponent from '../components/Chat';
-import  { MessageComponent, PrivateChatComponent } from '../components/Message';
+import  { MessageComponent } from '../components/Message';
+import { PrivateChatComponent } from '../components/PrivateChat';
 
 export const router = createBrowserRouter([
   {

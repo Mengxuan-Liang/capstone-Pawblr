@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import { useSelector } from 'react-redux';
 import {useNavigate} from 'react-router-dom'
+import NavBar from './NavSideBar/NavBar';
 
 const SOCKET_SERVER_URL = "http://localhost:8000";
 
@@ -25,6 +26,7 @@ const ChatComponent = () => {
 
     // Listen for 'chat_message' events from the server
     newSocket.on('chat_message', (data) => {
+      console.log('Received message in chat room:', data);
       setMessages((prevMessages) => {
         const updatedMessages = [...prevMessages, data];
         // Save messages in sessionStorage so they persist after refresh
@@ -47,8 +49,12 @@ const ChatComponent = () => {
       setMessage('');
     }
   };
-
+console.log('chat map', messages)
+const chatMsg = messages?.filter(el => !el.room)
+console.log('chatMas', chatMsg)
   return (
+    <>
+    <NavBar />
     <div style={{ margin: "10px" }}>
       <h1 style={{ color: 'white' }}>Hello {currentUser}</h1>
       <h2 style={{ color: 'white' }}>Welcome to Pawblr Chat Room</h2>
@@ -66,7 +72,7 @@ const ChatComponent = () => {
       <div>
         <h3>Messages:</h3>
         <ul>
-          {messages.map((msg, index) => (
+          {chatMsg.map((msg, index) => (
             <li key={index} style={{ color: 'white' }}>
               {msg.username} : {msg.message}
             </li>
@@ -74,6 +80,7 @@ const ChatComponent = () => {
         </ul>
       </div>
     </div>
+    </>
   );
 };
 

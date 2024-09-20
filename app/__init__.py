@@ -17,7 +17,7 @@ from .api.reblog_routes import reblog_routes
 from .api.message_routes import message_routes
 from .seeds import seed_commands
 from .config import Config
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO, emit,join_room,leave_room
 
 
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
@@ -38,18 +38,56 @@ def handle_message(data):
 
 # This function handles joining a chat room
 @socketio.on('join_room')
-def join_room(data):
+def join_room_chat(data):
     room = data['room']
     join_room(room)
     print(f"User joined room: {room}")
 
 # This function handles leaving a chat room
 @socketio.on('leave_room')
-def leave_room(data):
+def leave_room_chat(data):
+    room = data['room']
+    leave_room(room)
+    print(f"User left room: {room}")
+    
+@socketio.on('join_private_room')
+def handle_join_private_room(data):
+    print(f"****************************Received data: {data}")
+    if not isinstance(data, dict):
+        print("********************Data is not a dictionary")
+        return
+
+    room = data.get('room')
+    if not room:
+        print("**********************Room is missing")
+        return
+
+    join_room(room)
+    print(f"######............#################……………................……………User joined room: {room}")
+
+@socketio.on('leave_private_room')
+def handle_leave_private_room(data):
     room = data['room']
     leave_room(room)
     print(f"User left room: {room}")
 
+@socketio.on('private_message')
+def handle_private_message(data):
+    print('^^^^^^^^^^^^^^^^^^^^^^^^^^Received private message:', data)
+    room = data['recipient_room']
+    message_content = data['message']
+    sender = data['username']
+    recipient = data['recipient']
+    
+    # Save the message to the database
+    sender_user = User.query.filter_by(username=sender).first()
+    recipient_user = User.query.filter_by(username=recipient).first()
+    new_message = Message(sender_id=sender_user.id, recipient_id=recipient_user.id, content=message_content, room=room)
+    db.session.add(new_message)
+    db.session.commit()
+    
+    # Emit the message to the room
+    emit('private_message', {'message': message_content, 'username': sender}, room=room)
 
 
 if __name__ == '__main__':
@@ -81,36 +119,6 @@ Migrate(app, db)
 
 # Application Security
 CORS(app, resources={r"/*": {"origins": "*"}})
-
-@socketio.on('join_private_room')
-def handle_join_private_room(data):
-    room = data['room']
-    join_room(room)
-    print(f"User joined room: {room}")
-
-@socketio.on('leave_private_room')
-def handle_leave_private_room(data):
-    room = data['room']
-    leave_room(room)
-    print(f"User left room: {room}")
-
-@socketio.on('private_message')
-def handle_private_message(data):
-    print('Received private message:', data)
-    room = data['recipient_room']
-    message_content = data['message']
-    sender = data['username']
-    recipient = data['recipient']
-    
-    # Save the message to the database
-    sender_user = User.query.filter_by(username=sender).first()
-    recipient_user = User.query.filter_by(username=recipient).first()
-    new_message = Message(sender_id=sender_user.id, recipient_id=recipient_user.id, content=message_content, room=room)
-    db.session.add(new_message)
-    db.session.commit()
-    
-    # Emit the message to the room
-    emit('private_message', {'message': message_content, 'username': sender}, room=room)
 
 
 # Since we are deploying with Docker and Flask,
