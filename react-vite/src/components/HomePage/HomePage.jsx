@@ -235,7 +235,7 @@ export default function HomePage() {
     fetchData()
   }, [])
   const handleUserClick = (userId) => {
-    const matchedUser = users.users.find(el => el.id === userId)
+    const matchedUser = users?.users?.find(el => el.id === userId)
     setSelectedUser(matchedUser);
     setIsModalOpen(true);
   };

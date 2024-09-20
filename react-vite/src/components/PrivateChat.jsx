@@ -108,14 +108,14 @@ const PrivateChatComponent = () => {
     }, []);
     // Get the profile image URL for each sender
     const getProfileImage = (username) => {
-        const user = users.find(user => user.username === username);
+        const user = users?.find(user => user.username === username);
         return user ? user.profileImage : 'https://res.cloudinary.com/dhukvbcqm/image/upload/v1725296015/capstone/Blue_Dog_Coalition_dgsbdq.webp';
     };
     // Clickable user image to profile modal
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
     const handleUserClick = (username) => {
-        const user = users.find(user => user.username === username);
+        const user = users?.find(user => user.username === username);
         // console.log('user', user)
         setSelectedUser(user);
         setIsModalOpen(true);
