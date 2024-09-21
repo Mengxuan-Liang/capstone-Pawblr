@@ -30,15 +30,35 @@ const MessageComponent = () => {
   }, []);
 
   // Fetch existing messages
+  // useEffect(() => {
+  //   if (currentUser) {
+  //     fetch(`/api/messages/${currentUser}`)
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         setConversations(data.messages);
+  //       });
+  //   }
+  // }, [currentUser]);
   useEffect(() => {
     if (currentUser) {
       fetch(`/api/messages/${currentUser}`)
-        .then((response) => response.json())
+        .then((response) => {
+          // Check if the response is actually JSON
+          if (response.headers.get('content-type')?.includes('application/json')) {
+            return response.json();
+          } else {
+            throw new Error('Expected JSON, but received HTML or another format');
+          }
+        })
         .then((data) => {
           setConversations(data.messages);
+        })
+        .catch((error) => {
+          console.error('Error fetching messages:', error);
         });
     }
   }, [currentUser]);
+  
 
   // Establish socket connection and listen for real-time messages
   useEffect(() => {
