@@ -26,22 +26,32 @@ const PrivateChatComponent = () => {
   const [selectedUser, setSelectedUser] = useState(null);
 
   // Fetch existing messages on component mount
+  // useEffect(() => {
+  //   if (currentUser) {
+  //     fetch(`/api/messages/${currentUser}`)
+  //       .then((response) => {
+  //         // Check if the response is actually JSON
+  //         if (response.headers.get('content-type')?.includes('application/json')) {
+  //           return response.json();
+  //         } else {
+  //           throw new Error('Expected JSON, but received HTML or another format');
+  //         }
+  //       })
+  //       .then((data) => {
+  //         setConversations(data.messages);
+  //       })
+  //       .catch((error) => {
+  //         console.error('Error fetching messages:', error);
+  //       });
+  //   }
+  // }, [currentUser]);
+  // Fetch existing messages
   useEffect(() => {
     if (currentUser) {
       fetch(`/api/messages/${currentUser}`)
-        .then((response) => {
-          // Check if the response is actually JSON
-          if (response.headers.get('content-type')?.includes('application/json')) {
-            return response.json();
-          } else {
-            throw new Error('Expected JSON, but received HTML or another format');
-          }
-        })
+        .then((response) => response.json())
         .then((data) => {
           setConversations(data.messages);
-        })
-        .catch((error) => {
-          console.error('Error fetching messages:', error);
         });
     }
   }, [currentUser]);
