@@ -96,8 +96,8 @@ if __name__ == '__main__':
     import eventlet
     eventlet.monkey_patch()
     # Run the app using eventlet
-    port = int(os.getenv('PORT', 8000))  # Render provides the PORT environment variable
-    socketio.run(app, host='0.0.0.0', port=port, debug=True)
+    PORT = int(os.environ.get('PORT', 8000))  # Render provides the PORT environment variable
+    socketio.run(app, host='0.0.0.0', port=PORT, debug=True)
 
 @login.user_loader
 def load_user(id):
