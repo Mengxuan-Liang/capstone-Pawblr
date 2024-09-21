@@ -21,8 +21,8 @@ from flask_socketio import SocketIO, emit,join_room,leave_room
 
 
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
-# socketio = SocketIO(app, cors_allowed_origins="*")
-socketio = SocketIO(app, cors_allowed_origins="https://capstone-dumblr.onrender.com")
+socketio = SocketIO(app, cors_allowed_origins="*")
+# socketio = SocketIO(app, cors_allowed_origins="https://capstone-dumblr.onrender.com")
 
 # Setup login manager
 login = LoginManager(app)

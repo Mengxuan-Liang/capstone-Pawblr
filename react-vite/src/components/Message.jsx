@@ -43,8 +43,10 @@ const MessageComponent = () => {
   // Establish socket connection and listen for real-time messages
   useEffect(() => {
     if (!currentUser) return;
+    const newSocket = io(SOCKET_SERVER_URL, {
+      transports: ['websocket', 'polling'],
+    });
 
-    const newSocket = io("https://capstone-dumblr.onrender.com");
     setSocket(newSocket);
 
     newSocket.on('private_message', (data) => {

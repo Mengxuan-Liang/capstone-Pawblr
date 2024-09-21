@@ -1,6 +1,5 @@
-from flask import Blueprint, request, jsonify
-from flask_login import current_user
-from app.models import db, User,Message
+from flask import Blueprint, jsonify
+from app.models import User,Message
 
 message_routes = Blueprint('messages', __name__)
 # REST endpoint to fetch messages

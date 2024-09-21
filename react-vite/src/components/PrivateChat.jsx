@@ -41,8 +41,9 @@ const PrivateChatComponent = () => {
   useEffect(() => {
     if (!clickedUser || !currentUser) return;
     
-    // const newSocket = io(SOCKET_SERVER_URL);
-    const newSocket = io("https://capstone-dumblr.onrender.com");
+    const newSocket = io(SOCKET_SERVER_URL, {
+      transports: ['websocket', 'polling'],
+    });
     setSocket(newSocket);
     const chatRoom = [currentUser, clickedUser.username].sort().join('-');
     setRoom(chatRoom);
