@@ -29,7 +29,19 @@ body {
   align-items: center;
   margin-top: 10px;
 }
-
+.main-content {
+  display: flex;
+  margin-top: 70px;
+  width: 60%;
+  text-align: center;
+  /* padding: 0 180px; */
+  /* margin-left: 150px;
+  margin-right: 150px; */
+  justify-content: space-between;
+  /* border: 2px blue solid; */
+  max-height: 1000px; /* 根据你的需求设置最大高度 */
+  overflow: auto; /* 允许内容在box内滚动 */
+}
 .logo {
   font-size: 24px;
   font-weight: bold;
@@ -54,16 +66,6 @@ body {
   flex-direction: column;
   align-items: center;
 }
-.main-content {
-  display: flex;
-  margin-top: 70px;
-  width: 60%;
-  text-align: center;
-  /* padding: 0 180px; */
-  /* margin-left: 150px;
-  margin-right: 150px; */
-  justify-content: space-between;
-}
 .feed {
   width: 55%;
   padding: 20px;
@@ -76,7 +78,10 @@ body {
   border-right: 1px solid #ccc;
   border-radius: 7px;
   min-height: 100vh;
+  /* max-height: 1000vh; */
   /* border: 2px yellow solid; */
+  position: sticky;
+  top: 0;
 }
 
 .sidebar ul {
@@ -296,6 +301,8 @@ body {
   background-color: #f9f9f9;
   margin-top: 20px;
   border-radius: 7px;
+  position: sticky;
+  top: 0;
 }
 
 .right-column h3 {
