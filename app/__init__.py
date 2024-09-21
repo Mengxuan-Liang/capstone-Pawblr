@@ -28,76 +28,6 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 login = LoginManager(app)
 login.login_view = 'auth.unauthorized'
 
-# This function is triggered when the 'message' event is received from the client
-@socketio.on('message')
-def handle_message(data):
-    # print('DATAAAAA@@@',data)
-    msg = data['message']
-    username = data['username']
-    print(f"Message: {msg} from {username}")
-    # Broadcast the message and username to all clients
-    emit('chat_message', {'message': msg, 'username': username}, broadcast=True)
-
-# This function handles joining a chat room
-@socketio.on('join_room')
-def join_room_chat(data):
-    room = data['room']
-    join_room(room)
-    print(f"User joined room: {room}")
-
-# This function handles leaving a chat room
-@socketio.on('leave_room')
-def leave_room_chat(data):
-    room = data['room']
-    leave_room(room)
-    print(f"User left room: {room}")
-    
-@socketio.on('join_private_room')
-def handle_join_private_room(data):
-    print(f"****************************Received data: {data}")
-    if not isinstance(data, dict):
-        print("********************Data is not a dictionary")
-        return
-
-    room = data.get('room')
-    if not room:
-        print("**********************Room is missing")
-        return
-
-    join_room(room)
-    print(f"######............#################……………................……………User joined room: {room}")
-
-@socketio.on('leave_private_room')
-def handle_leave_private_room(data):
-    room = data['room']
-    leave_room(room)
-    print(f"User left room: {room}")
-
-@socketio.on('private_message')
-def handle_private_message(data):
-    print('^^^^^^^^^^^^^^^^^^^^^^^^^^Received private message:', data)
-    room = data['recipient_room']
-    message_content = data['message']
-    sender = data['username']
-    recipient = data['recipient']
-    
-    # Save the message to the database
-    sender_user = User.query.filter_by(username=sender).first()
-    recipient_user = User.query.filter_by(username=recipient).first()
-    new_message = Message(sender_id=sender_user.id, recipient_id=recipient_user.id, content=message_content, room=room)
-    db.session.add(new_message)
-    db.session.commit()
-    
-    # Emit the message to the room
-    emit('private_message', {'message': message_content, 'username': sender}, room=room)
-
-
-if __name__ == '__main__':
-    import eventlet
-    eventlet.monkey_patch()
-    # Run the app using eventlet
-    # PORT = int(os.environ.get('PORT', 8000))  # Render provides the PORT environment variable
-    socketio.run(app, host='0.0.0.0', port=443, debug=True)
 
 @login.user_loader
 def load_user(id):
@@ -180,3 +110,74 @@ def react_root(path):
 @app.errorhandler(404)
 def not_found(e):
     return app.send_static_file('index.html')
+
+# This function is triggered when the 'message' event is received from the client
+@socketio.on('message')
+def handle_message(data):
+    # print('DATAAAAA@@@',data)
+    msg = data['message']
+    username = data['username']
+    print(f"Message: {msg} from {username}")
+    # Broadcast the message and username to all clients
+    emit('chat_message', {'message': msg, 'username': username}, broadcast=True)
+
+# This function handles joining a chat room
+@socketio.on('join_room')
+def join_room_chat(data):
+    room = data['room']
+    join_room(room)
+    print(f"User joined room: {room}")
+
+# This function handles leaving a chat room
+@socketio.on('leave_room')
+def leave_room_chat(data):
+    room = data['room']
+    leave_room(room)
+    print(f"User left room: {room}")
+    
+@socketio.on('join_private_room')
+def handle_join_private_room(data):
+    print(f"****************************Received data: {data}")
+    if not isinstance(data, dict):
+        print("********************Data is not a dictionary")
+        return
+
+    room = data.get('room')
+    if not room:
+        print("**********************Room is missing")
+        return
+
+    join_room(room)
+    print(f"######............#################……………................……………User joined room: {room}")
+
+@socketio.on('leave_private_room')
+def handle_leave_private_room(data):
+    room = data['room']
+    leave_room(room)
+    print(f"User left room: {room}")
+
+@socketio.on('private_message')
+def handle_private_message(data):
+    print('^^^^^^^^^^^^^^^^^^^^^^^^^^Received private message:', data)
+    room = data['recipient_room']
+    message_content = data['message']
+    sender = data['username']
+    recipient = data['recipient']
+    
+    # Save the message to the database
+    sender_user = User.query.filter_by(username=sender).first()
+    recipient_user = User.query.filter_by(username=recipient).first()
+    new_message = Message(sender_id=sender_user.id, recipient_id=recipient_user.id, content=message_content, room=room)
+    db.session.add(new_message)
+    db.session.commit()
+    
+    # Emit the message to the room
+    emit('private_message', {'message': message_content, 'username': sender}, room=room)
+
+
+if __name__ == '__main__':
+    import eventlet
+    eventlet.monkey_patch()
+    # Run the app using eventlet
+    # PORT = int(os.environ.get('PORT', 8000))  # Render provides the PORT environment variable
+    socketio.run(app, host='0.0.0.0', port=443, debug=True)
