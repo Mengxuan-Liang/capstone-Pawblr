@@ -29,10 +29,19 @@ const PrivateChatComponent = () => {
   useEffect(() => {
     if (currentUser) {
       fetch(`/api/messages/${currentUser}`)
-        .then((response) => response.json())
+        .then((response) => {
+          // Check if the response is actually JSON
+          if (response.headers.get('content-type')?.includes('application/json')) {
+            return response.json();
+          } else {
+            throw new Error('Expected JSON, but received HTML or another format');
+          }
+        })
         .then((data) => {
           setConversations(data.messages);
-          setMessages(data.messages); // Set initial messages
+        })
+        .catch((error) => {
+          console.error('Error fetching messages:', error);
         });
     }
   }, [currentUser]);
