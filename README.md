@@ -1,6 +1,6 @@
 # Pawblr
 
-Welcome to Pawblr, the ultimate social hub for dogs and their human companions! Whether you're a dog owner, enthusiast, or just can't resist adorable dog content, Pawblr is the place to share, discover, and celebrate all things canine. Create your own posts, follow other pups, explore trending tags, and connect with a community that loves dogs as much as you do. From funny moments to heartwarming stories, Pawblr is your go-to spot for everything dog-related. Share your dog's adventures, find new furry friends, and join the fun at Pawblr!
+Welcome to Pawblr, the ultimate social hub for dogs, their human companions, and AI! Whether you're a dog owner, enthusiast, or just can't resist adorable dog content, Pawblr is the place to share, discover, and celebrate all things canine. Create your own posts, follow other pups, explore trending tags, chat with AI about dog care, behavior tips, or fun facts, and connect with a community that loves dogs as much as you do. From funny moments to heartwarming stories, Pawblr is your go-to spot for everything dog-related. Share your dog's adventures, find new furry friends, and join the fun at Pawblr!
 
 
 # Live Link
@@ -35,6 +35,10 @@ Hosting
 [Feature List](https://github.com/Mengxuan-Liang/capstone-dumblr/wiki/MVP's-Feature-List)  | [Database Schema](https://github.com/Mengxuan-Liang/capstone-dumblr/wiki/Database-Schema-and-Backend-Routes) | [User Stories](https://github.com/Mengxuan-Liang/capstone-dumblr/wiki/User-Stories)  | [Wireframes](https://github.com/Mengxuan-Liang/capstone-dumblr/wiki/Wireframes)
 
 # Live Site Preview
+
+### Pawblr AI Assistant
+
+![AI assistant page](react-vite/public/ai.png)
 
 ### Pawblr Log in/ Sign up Page
 
