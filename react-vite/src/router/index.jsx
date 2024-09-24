@@ -14,6 +14,7 @@ import About from '../components/HomePage/About';
 import ChatComponent from '../components/Chat';
 import  { MessageComponent } from '../components/Message';
 import { PrivateChatComponent } from '../components/PrivateChat';
+import ChatWithAI from '../components/ChatWithAI';
 
 export const router = createBrowserRouter([
   {
@@ -61,7 +62,8 @@ export const router = createBrowserRouter([
       },
       {
         path: "/chat",
-        element: <ChatComponent />,
+        // element: <ChatComponent />,
+        element: <ChatWithAI />,
       },
       {
         path: "/message",

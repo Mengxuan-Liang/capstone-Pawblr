@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { thunkGetTags } from "../../redux/tagReducer";
 import './RightColumn.css'
 import UserProfileModal from "../Profile/UserProfileModal";
+import ChatWithAI from "../ChatWithAI";
 
 export default function RightColumn() {
 
@@ -92,7 +93,9 @@ export default function RightColumn() {
                     </div>
                 ))}
             </div>
-
+            {/* <div>
+                <ChatWithAI onClick={()=> navigate('/chat')} />
+            </div> */}
         </div>
     )
 }

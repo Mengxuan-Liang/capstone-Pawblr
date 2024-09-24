@@ -34,12 +34,9 @@ export default function HomePage() {
   }, [userInfo, navigate]);
   const user = userInfo?.username;
   const userId = userInfo?.id;
-  // const profileImage = userInfo?.profileImage;
   const commments = useSelector(state => state.comment.comment)
   const [isloaded, setIsloaded] = useState(false)
   const [text, setText] = useState({})
-  // const [text, setText] = useState('')
-  // const [searchTag, setSearchTag] = useState('');
   const [likedPosts, setLikedPosts] = useState(new Set());
   const [followStatus, setFollowStatus] = useState(new Set());
   const [errors, setErrors] = useState({})

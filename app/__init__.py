@@ -15,20 +15,25 @@ from .api.like_routes import like_routes
 from .api.follow_routes import follow_routes
 from .api.reblog_routes import reblog_routes
 from .api.message_routes import message_routes
+from .api.ai_routes import ai_routes
 from .seeds import seed_commands
 from .config import Config
 from flask_socketio import SocketIO, emit,join_room,leave_room
+import http.client
+import json
+
 
 
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
 socketio = SocketIO(app, cors_allowed_origins="*")
 # socketio = SocketIO(app, cors_allowed_origins="https://capstone-dumblr.onrender.com")
+# Application Security
+CORS(app, resources={r"/*": {"origins": "*"}})
+# CORS(app, resources={r"/*": {"origins": ["https://capstone-dumblr.onrender.com", "http://localhost:5173"]}})
 
 # Setup login manager
 login = LoginManager(app)
 login.login_view = 'auth.unauthorized'
-
-
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
@@ -47,13 +52,9 @@ app.register_blueprint(like_routes, url_prefix='/api/likes')
 app.register_blueprint(follow_routes, url_prefix='/api/follow')
 app.register_blueprint(reblog_routes, url_prefix='/api/reblog')
 app.register_blueprint(message_routes, url_prefix='/api/messages')
+app.register_blueprint(ai_routes, url_prefix='/api/ai')
 db.init_app(app)
 Migrate(app, db)
-
-# Application Security
-# CORS(app, resources={r"/*": {"origins": "*"}})
-CORS(app, resources={r"/*": {"origins": ["https://capstone-dumblr.onrender.com", "http://localhost:5173"]}})
-
 
 
 # Since we are deploying with Docker and Flask,
@@ -173,6 +174,49 @@ def handle_private_message(data):
     
     # Emit the message to the room
     emit('private_message', {'message': message_content, 'username': sender}, room=room)
+
+# @app.route('/api/chat', methods=['POST'])
+# def chat():
+#     data = request.json
+#     user_input = data.get("prompt")
+
+#     try:
+#         conn = http.client.HTTPSConnection("api.openai.com")
+#         payload = json.dumps({
+#             "model": "gpt-3.5-turbo",
+#             "messages": [
+#                 {"role": "system", "content": "you are a dog doctor"},
+#                 {"role": "user", "content": user_input}
+#             ]
+#         })
+        
+#         headers = {
+#             'Authorization': f'Bearer {OPENAI_API_KEY}',
+#             'Content-Type': 'application/json'
+#         }
+
+#         conn.request("POST", "/v1/chat/completions", payload, headers)
+#         res = conn.getresponse()
+#         response_data = res.read()
+        
+#         # Log the status and response data for debugging
+#         print(f"Response status: {res.status}, reason: {res.reason}")
+#         result = json.loads(response_data)
+#         print("Full API response:", json.dumps(result, indent=2))  # Log full response
+
+#         # Check if 'choices' is in the response
+#         if 'choices' in result and len(result['choices']) > 0:
+#             ai_response = result['choices'][0]['message']['content']
+#             return jsonify({"response": ai_response})
+#         else:
+#             error_message = result.get("error", {}).get("message", "No error message provided.")
+#             print("Error response:", error_message)  # Log the error message
+#             return jsonify({"error": error_message}), 500
+
+#     except Exception as e:
+#         print(f"Error occurred: {str(e)}")  # Log the error for debugging
+#         return jsonify({"error": str(e)}), 500
+
 
 
 if __name__ == '__main__':
