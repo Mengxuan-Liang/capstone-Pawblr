@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import '../HomePage/HomePage';
+import '../HomePage/HomePage1.css';
 import NavBar from '../NavSideBar/NavBar';
 import SideBar from '../NavSideBar/SideBar';
 import RightColumn from '../RightColumn/RightColumn';
 import UserProfileModal from '../Profile/UserProfileModal';
-
+import './FollowPage.css'
 export default function Follow() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -95,14 +95,12 @@ export default function Follow() {
       <header className="header">
         <NavBar />
       </header>
-
       <div className="main-content">
         <aside className="sidebar">
           {/* <div className="fixed-menu"> */}
           <SideBar />
           {/* </div> */}
         </aside>
-
         <section className="feed">
           <div>
             {following?.length > 0 ? (
@@ -115,9 +113,9 @@ export default function Follow() {
                   {following.map(user => {
                     const isFollowed = followStatus.has(user.id);
                     return (
-                      <li key={user.id} className='following-page-user-container post-header' style={{display:'flex',justifyContent:'center'}}>
-                        <img onClick={() => handleUserClick(user)} src={user.profileImage} alt={user.username}  />
-                        <p onClick={() => handleUserClick(user)} style={{color: 'black'}}>{user.username}</p>
+                      <li key={user.id} className='following-page-user-container post-header' style={{ display: 'flex', justifyContent: 'center' }}>
+                        <img onClick={() => handleUserClick(user)} src={user.profileImage} alt={user.username} />
+                        <p onClick={() => handleUserClick(user)} style={{ color: 'black' }}>{user.username}</p>
                         <button style={{ position: 'relative', backgroundColor: 'rgba(254, 212, 4, 255)', marginLeft: '0px' }} className='follow-button' onClick={() => handleFollow(user.id)}>
                           {isFollowed ? 'Following' : 'Follow'}
                         </button>
@@ -129,11 +127,13 @@ export default function Follow() {
                 </ul>
               </article>
             ) : (
-              <article className='post'>You have not followed any users yet</article>
+              <article className='post' style={{ width: "100%" }}>
+                <div>You have not followed any users yet</div>
+                <img src='https://res.cloudinary.com/dhukvbcqm/image/upload/v1727208185/capstone/57943587a9df0a2928bf78d4a968c434dcafd1675c7c2-YC4ou8_fw658_qyl507.webp' />
+              </article>
             )}
           </div>
         </section>
-
         <aside className="right-column">
           <RightColumn />
         </aside>

@@ -8,3 +8,9 @@
     width: 20%;
     height: 20%;
 }
+.modal-overlay{
+    z-index: 4000;
+}
+.modal-content{
+    z-index: 4001;
+}

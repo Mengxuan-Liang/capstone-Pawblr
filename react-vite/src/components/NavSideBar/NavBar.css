@@ -4,6 +4,8 @@
   align-items: end;
   /* border: 2px wheat solid; */
   width: fit-content;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .navigation {
   /* border: 2px wheat solid; */

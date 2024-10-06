@@ -7,13 +7,25 @@ ai_routes = Blueprint("ai", __name__)
 
 OPENAI_API_KEY = os.getenv("API_KEY")
 
+# 预定义的问答对，可以根据需要添加更多
+predefined_answers = {
+    "什么是Python?": "Python是一种广泛使用的高级编程语言,易于学习和使用。",
+    "如何安装Flask?": "使用pip安装Flask:运行命令 'pip install Flask'。",
+    "what is your name?": "baloo"
+    # 添加更多的问答对
+}
 
 @ai_routes.route("/", methods=["POST"])
 def get_chatai():
     data = request.json
     user_query = data.get("query", "")
-    conn = http.client.HTTPSConnection("api.openai.com")
 
+    # 检查用户的问题是否在预定义答案中
+    if user_query in predefined_answers:
+        answer = predefined_answers[user_query]
+        return jsonify({"answer": answer}), 200
+
+    conn = http.client.HTTPSConnection("api.openai.com")
     headers = {
         "Authorization": f"Bearer {OPENAI_API_KEY}",
         "Content-Type": "application/json",

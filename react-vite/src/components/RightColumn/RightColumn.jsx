@@ -60,6 +60,7 @@ export default function RightColumn() {
     };
     return (
         <div className="search-bar">
+            <img src='https://res.cloudinary.com/dhukvbcqm/image/upload/v1728150847/Screenshot_2024-10-05_at_1.50.25_PM-modified_lnu1zf.png'  className='logo-right-col' style={{ width: '40%' }} onClick={()=>navigate('/home')} />
             {isModalOpen && selectedUser && (
                 <UserProfileModal user={selectedUser} onClose={closeModal} />
             )}

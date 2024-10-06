@@ -22,5 +22,7 @@
     z-index: 1100; /* Make sure it's above the overlay */
   }
 
-  
+  .new-logo:hover{
+    cursor: pointer;
+  }
   

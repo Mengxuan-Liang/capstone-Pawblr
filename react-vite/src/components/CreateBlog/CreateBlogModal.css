@@ -1,11 +1,7 @@
 #container-create-blog-modal {
     padding: 20px;
-    /* border-radius: 7px;
-    border: 2px blue solid; */
 }
 .tag-button:hover {
     cursor: pointer;
-    /* background-color: rgb(248, 172, 10); */
-    /* font-size: medium; */
     color:orange;
 }

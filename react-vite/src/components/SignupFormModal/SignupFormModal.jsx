@@ -5,9 +5,11 @@ import { thunkSignup } from "../../redux/session";
 import { createImage } from "../../redux/imageReducer";
 import './SignupForm.css'
 import "../LoginFormModal/LoginForm.css";
+import { useNavigate } from "react-router-dom";
 
 
 function SignupFormModal() {
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -84,6 +86,7 @@ if(file){
   if (serverResponse) {
     setErrors(serverResponse);
   } else {
+    navigate('/home')
     closeModal();
   }
 }else {
@@ -98,6 +101,7 @@ if(file){
   if (serverResponse) {
     setErrors(serverResponse);
   } else {
+    navigate('/home')
     closeModal();
   }
 }
@@ -155,9 +159,15 @@ if(file){
 
 
   return (
-    <div className="modal-container">
-      <h1>Pawblr</h1>
-      <div>Choose profile image(optional)</div>
+    <div className="modal-container container">
+      <header className="header">
+      <img src='https://res.cloudinary.com/dhukvbcqm/image/upload/v1728150847/Screenshot_2024-10-05_at_1.50.25_PM-modified_lnu1zf.png' className='new-logo' style={{ width: '7%' }} onClick={()=>navigate('/')} />
+      </header>
+      <span></span>
+        <span></span>
+        <span></span>
+        <div id='signinForm'>
+      <div style={{color:"#0f4274", fontSize:"15px"}}>Profile image(optional)</div>
 
       <div className="file-inputs-container" >
         <div><img src={imageURL} style={{ width: "70px" }} className="thumbnails"></img></div>
@@ -171,26 +181,26 @@ if(file){
 
       {/* <p style={{ color: 'grey', fontSize: "15px" }}>Choose your profile image(optional)</p>
       {(imageLoading) && <img style={{ width: '20%' }} src={imageURL}></img>} */}
-      <div >
+      {/* <div >
         <form
-          // onSubmit={handleSubmitImg}
-          // encType="multipart/form-data"
+          onSubmit={handleSubmitImg}
+          encType="multipart/form-data"
         >
-          {/* <input
+          <input
          style={{visibility:'hidden'}}
           type="file"
           accept="image/*"
           onChange={(e) => setImage(e.target.files[0])}
-        /> */}
-          {/* <button type="submit">Confirm Profile Image</button> */}
+        />
+          <button type="submit">Confirm Profile Image</button>
         </form>
 
         {errors?.server && <p>{errors.server}</p>}
-      </div>
+      </div> */}
       <form onSubmit={handleSubmit}
         encType="multipart/form-data"
       >
-        <label>
+        <label style={{color:"#0f4274"}}>
           Email
           <input
             type="text"
@@ -211,7 +221,7 @@ if(file){
           />
         </label>
         {errors.email && <p>{errors.email}</p>}
-        <label>
+        <label style={{color:"#0f4274"}}>
           Username
           <input
             type="text"
@@ -231,7 +241,7 @@ if(file){
           />
         </label>
         {errors.username && <p>{errors.username}</p>}
-        <label>
+        <label style={{color:'#fc8d6c'}}>
           Password
           <input
             type="password"
@@ -251,7 +261,7 @@ if(file){
           />
         </label>
         {errors.password && <p>{errors.password}</p>}
-        <label>
+        <label style={{color:'#fc8d6c'}}>
           Confirm Password
           <input
             type="password"
@@ -271,8 +281,9 @@ if(file){
           />
         </label>
         {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-        <button type="submit">Sign Up</button>
+        <button  className='new-style-button' type="submit" style={{color:'#fc8d6c'}}>Sign Up</button>
       </form>
+      </div>
     </div>
   );
 }

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 // import CreateBlogButton from '../CreateBlog/CreateBlogButton';
 import UpdateBlogButton from '../UpdataBlog/UpdateBlogButton';
 import { thunkGetComments, thunkAddComments, thunkDeleteComment } from '../../redux/commentReducer';
-import '../HomePage/HomePage';
+import '../HomePage/HomePage1.css';
 // import ProfileButton from '../Navigation/ProfileButton';
 import { FaRegComment } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -333,10 +333,8 @@ export default function Like() {
                               />
                             </label>
                             {errors[post.id]?.text && <p style={{ color: 'red' }}>{errors[post.id].text}</p>} {' '}
-                            <br></br>
-                            <br></br>
                             <button onClick={(e) => setText('')}>Clear</button>{' '}
-                            <button onClick={() => toggleComments(post.id)}>Close</button>{' '}
+                            {/* <button onClick={() => toggleComments(post.id)}>Close</button>{' '} */}
                             <button type="submit">Send</button>
                           </form>
                           <br></br>
@@ -344,10 +342,10 @@ export default function Like() {
                             <div className='comment-details-container' key={comment.id}>
                               <span style={{ fontSize: 'larger' }}>{comment.user?.username}</span>{' '}<span style={{ fontSize: 'small' }}>{comment.created_at}</span>
                               <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
-                                <div className='comment-text' key={comment.id}>{comment.text}</div>
+                                <div className='comment-text' key={comment.id} style={{width:'70%'}}>{comment.text}</div>
                                 {/* <button >reply</button> */}
                                 {
-                                  userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>Delete</button>
+                                  userId === comment.user_id && <button onClick={() => handleDelete(comment.id)} style={{height:'fit-content'}}>Delete</button>
                                 }
                               </div>
                             </div>
@@ -444,10 +442,8 @@ export default function Like() {
                               />
                             </label>
                             {errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.text}</p>} {' '}
-                            <br></br>
-                            <br></br>
                             <button onClick={(e) => setText('')}>Clear</button>{' '}
-                            <button onClick={() => toggleComments(post.id)}>Close</button>{' '}
+                            {/* <button onClick={() => toggleComments(post.id)}>Close</button>{' '} */}
                             <button type="submit">Send</button>
                           </form>
                           <br></br>
@@ -455,9 +451,9 @@ export default function Like() {
                             <div className='comment-details-container' key={comment.id}>
                               <span style={{ fontSize: 'larger' }}>{comment.user?.username}</span>{' '}<span style={{ fontSize: 'small' }}>{comment.created_at}</span>
                               <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
-                                <div className='comment-text' key={comment.id}>{comment.text}</div>
+                                <div className='comment-text' key={comment.id} style={{width:'70%'}}>{comment.text}</div>
                                 {
-                                  userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>Delete</button>
+                                  userId === comment.user_id && <button onClick={() => handleDelete(comment.id)} style={{height:"fit-content"}}>Delete</button>
                                 }
                               </div>
                             </div>
@@ -493,7 +489,13 @@ export default function Like() {
 
               </article>
             );
-          }) : <article className='post'>You have not liked any blogs yet</article>}
+          }) :
+          (
+            <article className='post' style={{ width: "100%" }}>
+            <div>You have not liked any blogs yet</div>
+            <img src='https://res.cloudinary.com/dhukvbcqm/image/upload/v1727208185/capstone/57943587a9df0a2928bf78d4a968c434dcafd1675c7c2-YC4ou8_fw658_qyl507.webp' />
+          </article>
+          ) }
         </section>
 
         <aside className="right-column">

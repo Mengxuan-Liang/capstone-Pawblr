@@ -82,7 +82,7 @@ function ChatWithAI() {
                 src="https://res.cloudinary.com/dhukvbcqm/image/upload/v1727196959/capstone/Screenshot_2024-09-24_at_12.55.18_PM_lf9h7r.png"
                 alt="First"
                 style={{
-                  width: '45%',
+                  width: '40%',
                   borderRadius: '50%',
                   position: 'absolute',
                   zIndex: 2,

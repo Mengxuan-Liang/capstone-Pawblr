@@ -4,7 +4,7 @@ import { thunkGetPosts, thunkDeletePost } from '../../redux/postReducer';
 import { useNavigate, useLocation } from 'react-router-dom';
 import UpdateBlogButton from '../UpdataBlog/UpdateBlogButton';
 import { thunkAddComments, thunkDeleteComment, thunkGetComments } from '../../redux/commentReducer';
-import './HomePage.css';
+import './HomePage1.css';
 import { FaRegComment } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { BiSolidLike } from "react-icons/bi";
@@ -256,7 +256,6 @@ export default function HomePage() {
         <aside className="sidebar">
           <SideBar />
         </aside>
-
         <section className="feed">
           {posts?.map(post => {
             const isLiked = likedPosts.has(post.id);
@@ -269,7 +268,7 @@ export default function HomePage() {
                 {!post?.root_post ? (
                   <>
                     <div className="post-header" >
-                      <img onClick={() => handleUserClick(post.user_id)} src={post.user?.profileImage ? post.user.profileImage : 'https://res.cloudinary.com/dhukvbcqm/image/upload/v1725296015/capstone/images_1_ajhdo2.png'} />
+                      <img onClick={() => handleUserClick(post.user_id)} src={post.user?.profileImage ? post.user.profileImage : 'https://res.cloudinary.com/dhukvbcqm/image/upload/v1728150847/Screenshot_2024-10-05_at_1.50.25_PM-modified_lnu1zf.png'} />
                       <div>
                         <div className='post-author-follow-button'>
                           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>
@@ -293,7 +292,7 @@ export default function HomePage() {
                     <br />
                     {
                       post.user_id === userId && <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '15px' }}>
-                        <span ><UpdateBlogButton el={post} /></span>
+                        <span style={{color:"black"}}><UpdateBlogButton el={post} /></span>
                         {/* <span><button onClick={() => handleDeletePost(post.id)}>Delete</button></span> */}
                         <RiDeleteBin6Line className='react-icon' title='Delete' onClick={() => handleDeletePost(post.id)} />
                       </div>
@@ -318,10 +317,9 @@ export default function HomePage() {
                               />
                             </label>
                             {errors[post.id]?.text && <p style={{ color: 'red' }}>{errors[post.id].text}</p>}
-                            <br></br>
-                            <br></br>
+                         {' '}
                             <button onClick={(e) => setText('')}>Clear</button>{' '}
-                            <button onClick={() => toggleComments(post.id)}>Close</button>{' '}
+                            {/* <button onClick={() => toggleComments(post.id)}>Close</button>{' '} */}
                             <button type="submit">Send</button>
                           </form>
                           <br></br>
@@ -329,10 +327,10 @@ export default function HomePage() {
                             <div className='comment-details-container' key={comment.id}>
                               <span style={{ fontSize: 'larger' }}>{comment.user?.username}</span>{' '}<span style={{ fontSize: 'small' }}>{comment.created_at}</span>
                               <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
-                                <div className='comment-text' key={comment.id}>{comment.text}</div>
+                                <div className='comment-text' key={comment.id} style={{width:'70%'}}>{comment.text}</div>
                                 {/* <button >reply</button> */}
                                 {
-                                  userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>Delete</button>
+                                  userId === comment.user_id && <button onClick={() => handleDelete(comment.id)} style={{height:"fit-content"}}>Delete</button>
                                 }
                               </div>
                             </div>
@@ -428,11 +426,9 @@ export default function HomePage() {
                                 placeholder={`Comment as @${user}`}
                                 required
                               />
-                            </label>
-                            <br></br>
-                            <br></br>
+                            </label>{' '}
                             <button onClick={(e) => setText('')}>Clear</button>{' '}
-                            <button onClick={() => toggleComments(post.id)}>Close</button>{' '}
+                            {/* <button onClick={() => toggleComments(post.id)}>Close</button>{' '} */}
                             <button type="submit">Send</button>
                             <div>
                               {errors?.errors?.text && <p style={{ color: 'red' }}>{errors.errors.text}</p>} {' '}
@@ -443,9 +439,9 @@ export default function HomePage() {
                             <div className='comment-details-container' key={comment.id}>
                               <span style={{ fontSize: 'larger' }}>{comment.user?.username}</span>{' '}<span style={{ fontSize: 'small' }}>{comment.created_at}</span>
                               <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
-                                <div key={comment.id}>{comment.text}</div>
+                                <div key={comment.id} style={{width:'70%'}}>{comment.text}</div>
                                 {
-                                  userId === comment.user_id && <button onClick={() => handleDelete(comment.id)}>Delete</button>
+                                  userId === comment.user_id && <button onClick={() => handleDelete(comment.id)} style={{height:"fit-content"}}>Delete</button>
                                 }
                               </div>
                             </div>
@@ -486,7 +482,7 @@ export default function HomePage() {
           <RightColumn />
         </aside>
       </div>
-      <footer className="sign-in-footer" >
+      <footer className="sign-in-footer" style={{marginTop:'100px'}}>
         <span className='footer-about-button' onClick={() => navigate('/about')}>About</span>{' '}
         <span>Terms</span>{' '}
         <span>Privacy</span>{' '}

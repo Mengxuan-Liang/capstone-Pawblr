@@ -15,14 +15,21 @@ import ChatComponent from '../components/Chat';
 import  { MessageComponent } from '../components/Message';
 import { PrivateChatComponent } from '../components/PrivateChat';
 import ChatWithAI from '../components/ChatWithAI';
+import LogSign from '../components/NewLoginSignupPage/LogSign';
+import LoginFormModal from '../components/LoginFormModal';
+import SignupFormModal from '../components/SignupFormModal';
 
 export const router = createBrowserRouter([
   {
     element: <Layout />,
     children: [
+      // {
+      //   path: "/",
+      //   element: <MainPage/>
+      // },
       {
         path: "/",
-        element: <MainPage/>
+        element: <LoginFormModal/>
       },
       {
         path: "/home",
@@ -33,8 +40,8 @@ export const router = createBrowserRouter([
         element: <LoginFormPage />,
       },
       {
-        path: "signup",
-        element: <SignupFormPage />,
+        path: "/signup",
+        element: <SignupFormModal />,
       },
       {
         path: "/blog",

@@ -11,6 +11,7 @@ function ProfileButton() {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const user = useSelector((store) => store.session.user);
+  console.log(user)
   const ulRef = useRef();
 
   const toggleMenu = (e) => {
@@ -44,7 +45,7 @@ function ProfileButton() {
     <>
       {/* <button onClick={toggleMenu}> */}
       {/* <CgUserlane onClick={toggleMenu} style={{fontSize:'50px'}} className="react-icon" title="Profile"/> */}
-      <img src="logo2.png" onClick={toggleMenu} className="react-icon paw" title="Profile"/>
+      <img style={{borderRadius:'50%'}} src={user?.profileImage? user.profileImage:'logo2.png'} onClick={toggleMenu} className="react-icon paw" title="Profile"/>
       {/* </button> */}
       {showMenu && (
         <ul className={"profile-dropdown"} ref={ulRef}>
