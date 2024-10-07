@@ -29,7 +29,7 @@ function ChatWithAI() {
 
     console.log("Response status:", res.status); // 调试用
     const data = await res.json();
-    console.log("Response data:", data); // 调试用
+    console.log("Response data:", data.answer); // 调试用
 
     // Add both the query and response to chat history
     setChatHistory((prevHistory) => [
@@ -37,9 +37,9 @@ function ChatWithAI() {
       { type: "user", content: query },
       {
         type: "bot",
-        content: data.choices
+        content: data
           ? data.choices[0].message.content
-          : "No data received.",
+          : data.answer,
       },
     ]);
 

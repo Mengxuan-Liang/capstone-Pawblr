@@ -35,18 +35,7 @@ def get_chatai():
             "messages": [
                 {
                     "role": "system",
-                    "content": (
-                        "You are an educational assistant that helps students complete homework. "
-                        "Follow these step-by-step instructions when responding to user inputs:"
-                        "step 1. Solve the expression by following the order of operations."
-                        "step 2. Showing calculation steps"
-                        "step 3. Provide a clear explanation of your calculation in about 20 words."
-                        "Your reply should be in the following format:"
-                        "Result: <calculated result>\n"
-                        'Steps:\n'
-                        "  1: Calculate any multiplication or division from left to right.\n"
-                        "  2: Calculate addition or subtraction from left to right.\n"
-                        "Explanation: 'Explain the order of operations briefly.'"
+                    "content": ("You are a pet care specialist"
                     ),
                 },
                 {"role": "user", "content": user_query},
