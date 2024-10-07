@@ -161,7 +161,7 @@ if(file){
   return (
     <div className="modal-container container">
       <header className="header">
-      <img src='https://res.cloudinary.com/dhukvbcqm/image/upload/v1728150847/Screenshot_2024-10-05_at_1.50.25_PM-modified_lnu1zf.png' className='new-logo' style={{ width: '7%' }} onClick={()=>navigate('/')} />
+      <img src='https://res.cloudinary.com/dhukvbcqm/image/upload/v1728150847/Screenshot_2024-10-05_at_1.50.25_PM-modified_lnu1zf.png' className='new-logo' style={{ width: '5%',paddingTop:"5px" }} onClick={()=>navigate('/')} />
       </header>
       <span></span>
         <span></span>

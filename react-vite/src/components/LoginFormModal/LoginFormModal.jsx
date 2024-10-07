@@ -38,7 +38,7 @@ function LoginFormModal() {
   return (
     <div className="modal-container container">
       <header className="header">
-      <img src='https://res.cloudinary.com/dhukvbcqm/image/upload/v1728150847/Screenshot_2024-10-05_at_1.50.25_PM-modified_lnu1zf.png' style={{ width: '7%' }} />
+      <img src='https://res.cloudinary.com/dhukvbcqm/image/upload/v1728150847/Screenshot_2024-10-05_at_1.50.25_PM-modified_lnu1zf.png' style={{ width: '6%',paddingTop:'10px'}} />
       </header>
       <span></span>
         <span></span>

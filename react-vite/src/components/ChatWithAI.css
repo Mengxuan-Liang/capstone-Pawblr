@@ -1,7 +1,31 @@
 /* 整体容器样式 */
+.ai-page-container{
+  z-index: 4000;
+  position: relative;
+  /* display: flex;
+  flex-direction: column;
+  justify-content: flex-start; */
+  /* border: 2px purple solid; */
+}
+.header-ai{
+    /* position: fixed; */
+    top: 0;
+    width: 100%;
+    background-color: transparent;
+    padding: 0 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap:10px;
+}
+.header-ai img{
+  width: 80px;
+}
 .ai-container {
     width: 500px;
-    margin: 100px auto;
+    margin: 0px auto;
     background: #1a1a1a;
     border-radius: 20px;
     box-shadow: 0px 10px 30px rgba(254, 212, 4, 0.2);

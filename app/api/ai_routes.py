@@ -9,8 +9,6 @@ OPENAI_API_KEY = os.getenv("API_KEY")
 
 # 预定义的问答对，可以根据需要添加更多
 predefined_answers = {
-    "什么是Python?": "Python是一种广泛使用的高级编程语言,易于学习和使用。",
-    "如何安装Flask?": "使用pip安装Flask:运行命令 'pip install Flask'。",
     "what is your name?": "baloo"
     # 添加更多的问答对
 }

@@ -52,9 +52,9 @@ function ChatWithAI() {
   };
 
   return (
-    <>
-      <header className="header">
-        <NavBar />
+    <div className="ai-page-container">
+      <header className="header-ai">
+      <img src='https://res.cloudinary.com/dhukvbcqm/image/upload/v1728150847/Screenshot_2024-10-05_at_1.50.25_PM-modified_lnu1zf.png' onClick={()=>navigate('/')} />
       </header>
       <div className="ai-container">
         <h2 onClick={toggleVisibility} style={{ cursor: "pointer" }}>
@@ -128,7 +128,7 @@ function ChatWithAI() {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
 
