@@ -10,13 +10,15 @@ h3 {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-image: url('../../../public/wallpapergif.gif');
+    background-image: url('https://mir-s3-cdn-cf.behance.net/project_modules/fs/7c437491643371.5e3789ca6ce29.gif');
     background-size: 100% 100vh; /* Stretch horizontally, but keep original height */
     background-repeat: no-repeat; /* Prevent repeating */
     background-position: bottom center; /* Keep the image anchored at the top */
     width: 100%;
     margin: 0;
     padding: 0;
+    z-index: 4000;
+    position: relative;
 }
 html,
 body {
@@ -174,7 +176,7 @@ body {
 .arrow {
     position: absolute;
     top: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color:#fc8d6c;
     color: white;
     border: none;
     padding: 10px;
@@ -182,11 +184,23 @@ body {
     z-index: 100;
     border-radius: 80%;
 }
-
+.arrow:hover{
+    background-color: #fb7b54;
+}
 .left-arrow {
     left: 10px;
 }
 
 .right-arrow {
     right: 10px;
+}
+.comp-confirm-button{
+    background: #fc8d6c;
+    border-radius: 7px;
+    border: none;
+    padding: 7px;
+}
+.comp-confirm-button:hover{
+    cursor: pointer;
+    background-color: #fb7b54;
 }

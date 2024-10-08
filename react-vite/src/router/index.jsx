@@ -23,10 +23,10 @@ export const router = createBrowserRouter([
   {
     element: <Layout />,
     children: [
-      // {
-      //   path: "/",
-      //   element: <MainPage/>
-      // },
+      {
+        path: "/companion",
+        element: <MainPage/>
+      },
       {
         path: "/",
         element: <LoginFormModal/>

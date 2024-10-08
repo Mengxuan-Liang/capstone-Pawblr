@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import ModelButton from './ModelButton';
+// import ModelButton from './ModelButton';
 import '../../../public/logo.png'
 import '../../../public/anidog.gif'
 import './MainPage.css'
@@ -19,20 +19,36 @@ export default function MainPage() {
         'https://res.cloudinary.com/dhukvbcqm/image/upload/v1727221044/capstone/openart-image_bI1zzjvi_1727220559715_raw-removebg-preview_g24ley.png'
     ]; // 图片数组
     const imageRef = useRef(null); // 用于滑动图片
+    
+    const [curImg,setCurImg] = useState(images[currentIndex])
+    // console.log('pic idex', curImg)
 
     useEffect(() => {
-        if (user) {
+        if (!user) {
             navigate('/home');
         }
     }, [user, navigate]);
 
     const handlePrev = () => {
-        setCurrentIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
+        setCurrentIndex((prevIndex) => {
+            const newIndex = (prevIndex === 0 ? images.length - 1 : prevIndex - 1);
+            setCurImg(images[newIndex]); // Update curImg based on the new index
+            return newIndex; // Return the new index
+        });
     };
 
     const handleNext = () => {
-        setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
+        setCurrentIndex((prevIndex) => {
+            const newIndex = (prevIndex === images.length - 1 ? 0 : prevIndex + 1);
+            setCurImg(images[newIndex]); // Update curImg based on the new index
+            return newIndex; // Return the new index
+        });
     };
+
+    // Sync curImg with currentIndex when currentIndex changes
+    useEffect(() => {
+        setCurImg(images[currentIndex]);
+    }, [currentIndex, images]);
 
     return (
         <div className="wrapper">
@@ -42,10 +58,10 @@ export default function MainPage() {
                 {/* <h3>Join the Pack or Paw In!</h3> */}
                 <div className="running-dog-container">
                     {/* <img src="anidog.gif" alt="Running Dog" className="running-dog" /> */}
-                    <ModelButton />
+                    {/* <ModelButton /> */}
                 </div>
             </header>
-            <h1 style={{fontSize:"70px", color:'rgba(250, 241, 226, 255)'}}>Choose your companion</h1>
+            <h1 style={{fontSize:"70px", color:'rgba(250, 241, 226, 255)'}}>Choose your AI companion</h1>
             <div className="carousel-container">
                 <button className="arrow left-arrow" onClick={handlePrev}>←</button>
                 <div className="image-slider" ref={imageRef}>
@@ -60,6 +76,7 @@ export default function MainPage() {
                 </div>
                 <button className="arrow right-arrow" onClick={handleNext}>→</button>
             </div>
+                <button className='comp-confirm-button' onClick={()=> navigate('/chat',{state:{currentIndex, curImg}})}>Confirm</button>
 {/* <img src='https://res.cloudinary.com/dhukvbcqm/image/upload/v1727208185/capstone/57943587a9df0a2928bf78d4a968c434dcafd1675c7c2-YC4ou8_fw658_qyl507.webp'/> */}
             <footer className="sign-in-footer">
                 <span className='footer-about-button' onClick={() => navigate('/about')}>About</span>{' '}

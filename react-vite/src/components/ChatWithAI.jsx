@@ -4,9 +4,24 @@ import './ChatWithAI.css'
 import NavBar from "./NavSideBar/NavBar";
 import { useSelector } from 'react-redux';
 import { PiHandWavingFill } from "react-icons/pi";
+import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 
 function ChatWithAI() {
+  const navigate = useNavigate();
+  const location = useLocation()
+  const {currentIndex, curImg} = location.state || {};
+  console.log('current image', curImg)
+  let temp;
+  if(currentIndex == 0){
+    temp = 0.7
+  }else if(currentIndex){
+    temp = currentIndex*0.1
+  }else{
+    temp = 0.7
+  }
+  // console.log('current index', temp)
   const [query, setQuery] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [chatHistory, setChatHistory] = useState([]);
@@ -24,7 +39,7 @@ function ChatWithAI() {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ query: query }),
+      body: JSON.stringify({ query: query, temperature: temp }),
     });
 
     console.log("Response status:", res.status); // 调试用
@@ -56,6 +71,9 @@ function ChatWithAI() {
       <header className="header-ai">
       <img src='https://res.cloudinary.com/dhukvbcqm/image/upload/v1728150847/Screenshot_2024-10-05_at_1.50.25_PM-modified_lnu1zf.png' onClick={()=>navigate('/')} />
       </header>
+      <span className="ai-comp-container">
+      <button className="ai-comp-button" onClick={()=> navigate('/companion')}>Choose your AI companion</button>
+      </span>
       <div className="ai-container">
         <h2 onClick={toggleVisibility} style={{ cursor: "pointer" }}>
           <span>
@@ -67,7 +85,7 @@ function ChatWithAI() {
           <div className="ai-chat">
             <div style={{ position: 'relative', width: '20%' }}>
               <img
-                src="https://res.cloudinary.com/dhukvbcqm/image/upload/v1727196959/capstone/Screenshot_2024-09-24_at_12.50.34_PM_vylmba.png"
+                src={curImg}
                 alt="Second"
                 style={{
                   width: '50%',
@@ -75,18 +93,6 @@ function ChatWithAI() {
                   position: 'absolute',
                   zIndex: 3,
                   left: '0px',
-                  top: '0',
-                }}
-              />
-              <img
-                src="https://res.cloudinary.com/dhukvbcqm/image/upload/v1727196959/capstone/Screenshot_2024-09-24_at_12.55.18_PM_lf9h7r.png"
-                alt="First"
-                style={{
-                  width: '40%',
-                  borderRadius: '50%',
-                  position: 'absolute',
-                  zIndex: 2,
-                  left: '30px',
                   top: '0',
                 }}
               />

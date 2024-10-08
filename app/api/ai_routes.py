@@ -6,22 +6,13 @@ import os
 ai_routes = Blueprint("ai", __name__)
 
 API_KEY = os.environ.get("API_KEY")
-print(f"!!!!!!!!OPENAI_API_KEY: {API_KEY}")
-
-# 预定义的问答对，可以根据需要添加更多
-# predefined_answers = {
-#     "what is your name?": "baloo"
-# }
 
 @ai_routes.route("/", methods=["POST"])
 def get_chatai():
     data = request.json
     user_query = data.get("query", "")
-
-    # 检查用户的问题是否在预定义答案中
-    # if user_query in predefined_answers:
-    #     answer = predefined_answers[user_query]
-    #     return jsonify({"answer": answer}), 200
+    temperature = data.get("temperature", 0.7)
+    # print('!!!!!!temp!!',temperature)
 
     conn = http.client.HTTPSConnection("api.openai.com")
     headers = {
@@ -35,12 +26,19 @@ def get_chatai():
             "messages": [
                 {
                     "role": "system",
-                    "content": ("You are a pet care specialist"
+                    "content": (
+                    " You are a friendly and knowledgeable assistant for Pawblr, a dog-themed social media platform."
+                    " Your goal is to engage users by providing fun, informative, and community-driven content related to dogs."
+                    " Always respond in a warm, friendly tone, and encourage users to share their own experiences."
                     ),
                 },
                 {"role": "user", "content": user_query},
             ],
-            "temperature": 0.2,
+            "temperature": temperature,
+            "top_p": 0.9,
+            "max_tokens": 150, 
+            "presence_penalty": 0.5,
+            "frequency_penalty": 0.5,
         }
     )
 
