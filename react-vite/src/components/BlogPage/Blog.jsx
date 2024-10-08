@@ -281,7 +281,7 @@ export default function Blog() {
         height: '45px',  // Ensure the height is equal to the width for a perfect circle
         borderRadius: '50%',  // Set border-radius to 50% for round shape
         objectFit: 'cover'  // Ensures the image doesn't get distorted
-    }} src={post.user?.profileImage ? post.user.profileImage : 'https://res.cloudinary.com/dhukvbcqm/image/upload/v1724973068/capstone/download_n3qjos.png'} />
+    }} src={post.user?.profileImage ? post.user.profileImage : 'https://res.cloudinary.com/dhukvbcqm/image/upload/v1725296015/capstone/images_1_ajhdo2.png'} />
                       <div>
                         <div className='post-author-follow-button'>
                           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>

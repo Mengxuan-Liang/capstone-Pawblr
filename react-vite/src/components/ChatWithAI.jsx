@@ -6,19 +6,20 @@ import { useSelector } from 'react-redux';
 import { PiHandWavingFill } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import ProfileButton from "./Navigation/ProfileButton";
 
 
 function ChatWithAI() {
   const navigate = useNavigate();
   const location = useLocation()
-  const {currentIndex, curImg} = location.state || {};
-  console.log('current image', curImg)
+  const { currentIndex, curImg } = location.state || {};
+  // console.log('current image', curImg)
   let temp;
-  if(currentIndex == 0){
+  if (currentIndex == 0) {
     temp = 0.7
-  }else if(currentIndex){
-    temp = currentIndex*0.1
-  }else{
+  } else if (currentIndex) {
+    temp = currentIndex * 0.1
+  } else {
     temp = 0.7
   }
   // console.log('current index', temp)
@@ -26,12 +27,15 @@ function ChatWithAI() {
   const [isVisible, setIsVisible] = useState(false);
   const [chatHistory, setChatHistory] = useState([]);
   const [loading, setLoading] = useState(false);
-  const currentUser = useSelector(state => state.session.user.username)
+  const currentUser = useSelector(state => state.session?.user?.username)
+  if(!currentUser){
+    navigate('/')
+  }
   // console.log('CURRENT USER', currentUser)
 
   const handleSubmit = async () => {
     if (!query) return;
-    console.log('query:', query)
+    // console.log('query:', query)
     setLoading(true);
 
     const res = await fetch("/api/ai", {
@@ -68,11 +72,16 @@ function ChatWithAI() {
 
   return (
     <div className="ai-page-container">
+      <header className="header" id='profile-button-top-right'>
+        <div className="profile-button-container">
+          <ProfileButton />
+        </div>
+      </header>
       <header className="header-ai">
-      <img src='https://res.cloudinary.com/dhukvbcqm/image/upload/v1728150847/Screenshot_2024-10-05_at_1.50.25_PM-modified_lnu1zf.png' onClick={()=>navigate('/')} />
+        <img src='https://res.cloudinary.com/dhukvbcqm/image/upload/v1728150847/Screenshot_2024-10-05_at_1.50.25_PM-modified_lnu1zf.png' onClick={() => navigate('/home')} />
       </header>
       <span className="ai-comp-container">
-      <button className="ai-comp-button" onClick={()=> navigate('/companion')}>Choose your AI companion</button>
+        <button className="ai-comp-button" onClick={() => navigate('/companion')}>Choose your AI companion</button>
       </span>
       <div className="ai-container">
         <h2 onClick={toggleVisibility} style={{ cursor: "pointer" }}>
@@ -85,7 +94,7 @@ function ChatWithAI() {
           <div className="ai-chat">
             <div style={{ position: 'relative', width: '20%' }}>
               <img
-                src={curImg}
+                src={curImg ? curImg : 'https://res.cloudinary.com/dhukvbcqm/image/upload/v1728150847/Screenshot_2024-10-05_at_1.50.25_PM-modified_lnu1zf.png'}
                 alt="Second"
                 style={{
                   width: '50%',

@@ -7,6 +7,16 @@
   justify-content: flex-start; */
   /* border: 2px purple solid; */
 }
+#profile-button-top-right {
+  /* position: absolute; */
+  top: 30px;
+  right: 50px;
+  z-index: 4000; 
+  display: flex;
+  justify-content:flex-end;
+  /* border: 2px purple solid; */
+}
+
 .header-ai{
     /* position: fixed; */
     top: 0;
@@ -24,7 +34,7 @@
   width: 80px;
 }
 .ai-comp-button{
-  background: linear-gradient(45deg, rgba(254, 212, 4, 255), rgba(255, 165, 0, 255));
+  background: linear-gradient(45deg, rgba(254, 212, 4, 255), rgba(255, 165, 0, 255), #fc8d6c);
   color: rgba(250, 241, 226, 255);
   padding: 20px;
   margin: 10px auto;
@@ -40,7 +50,7 @@
   border: 2px solid rgba(254, 212, 4, 255);
 }
 .ai-comp-button:hover {
-  background: linear-gradient(45deg, rgba(254, 212, 4, 255), rgba(255, 140, 0, 255));
+  background: linear-gradient(45deg, rgba(254, 212, 4, 255), rgba(255, 140, 0, 255),#fc8d6c);
   transition: background 0.3s ease;
 }
 .ai-container {
@@ -56,7 +66,7 @@
   
   /* 标题栏样式 */
   h2 {
-    background: linear-gradient(45deg, rgba(254, 212, 4, 255), rgba(255, 165, 0, 255));
+    background: linear-gradient(45deg, rgba(254, 212, 4, 255), rgba(255, 165, 0, 255), #fc8d6c);
     color: rgba(250, 241, 226, 255);
     padding: 20px;
     margin: 0;
@@ -75,7 +85,7 @@
   }
   
   h2:hover {
-    background: linear-gradient(45deg, rgba(254, 212, 4, 255), rgba(255, 140, 0, 255));
+    background: linear-gradient(45deg, rgba(254, 212, 4, 255), rgba(255, 140, 0, 255), #fc8d6c);
     transition: background 0.3s ease;
   }
   

@@ -12,9 +12,9 @@ export default function MainPage() {
     const navigate = useNavigate();
 
     const [currentIndex, setCurrentIndex] = useState(0); // 当前图片索引
-    const images = ['https://res.cloudinary.com/dhukvbcqm/image/upload/v1727221049/capstone/Screenshot_2024-09-24_at_12.50.34_PM-removebg-preview_yepkah.png', 
+    const images = ['https://res.cloudinary.com/dhukvbcqm/image/upload/v1727221048/capstone/pixlr-image-generator-54001c61-0555-44cc-bb5b-45395f9a76af-removebg-preview_d0hxoc.png',
+        'https://res.cloudinary.com/dhukvbcqm/image/upload/v1727221049/capstone/Screenshot_2024-09-24_at_12.50.34_PM-removebg-preview_yepkah.png', 
         'https://res.cloudinary.com/dhukvbcqm/image/upload/v1727221048/capstone/Screenshot_2024-09-24_at_7.36.34_PM-removebg-preview_qpe5r9.png', 
-        'https://res.cloudinary.com/dhukvbcqm/image/upload/v1727221048/capstone/pixlr-image-generator-54001c61-0555-44cc-bb5b-45395f9a76af-removebg-preview_d0hxoc.png', 
         'https://res.cloudinary.com/dhukvbcqm/image/upload/v1727221044/capstone/openart-image_KOQC7J4h_1727220658113_raw-removebg-preview_tixfyc.png',
         'https://res.cloudinary.com/dhukvbcqm/image/upload/v1727221044/capstone/openart-image_bI1zzjvi_1727220559715_raw-removebg-preview_g24ley.png'
     ]; // 图片数组
@@ -53,8 +53,8 @@ export default function MainPage() {
     return (
         <div className="wrapper">
             <header className="header">
-                <img src='logo2.png' style={{ width: '3.5%' }} />
-                <img src='logo4.png' style={{ width: '10%' }} />
+                <img src='logo2.png' style={{ width: '3.5%' }} onClick={()=> navigate('/home')}/>
+                <img src='logo4.png' style={{ width: '10%' }} onClick={()=> navigate('/home')}/>
                 {/* <h3>Join the Pack or Paw In!</h3> */}
                 <div className="running-dog-container">
                     {/* <img src="anidog.gif" alt="Running Dog" className="running-dog" /> */}

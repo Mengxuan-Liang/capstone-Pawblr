@@ -284,7 +284,7 @@ export default function Like() {
                 {!post?.root_post ? (
                   <>
                     <div className="post-header">
-                      <img onClick={() => handleUserClick(post.user_id)} src={post.user?.profileImage ? post.user.profileImage : 'https://res.cloudinary.com/dhukvbcqm/image/upload/v1724973068/capstone/download_n3qjos.png'} />
+                      <img onClick={() => handleUserClick(post.user_id)} src={post.user?.profileImage ? post.user.profileImage : 'https://res.cloudinary.com/dhukvbcqm/image/upload/v1725296015/capstone/images_1_ajhdo2.png'} />
                       <div>
                         <div className='post-author-follow-button'>
                           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>

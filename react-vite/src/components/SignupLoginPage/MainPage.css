@@ -40,6 +40,9 @@ body {
     align-items: center;
     gap:10px;
 }
+.header img:hover{
+    cursor: pointer;
+}
 .logo-container {
     width: fit-content;
 }
