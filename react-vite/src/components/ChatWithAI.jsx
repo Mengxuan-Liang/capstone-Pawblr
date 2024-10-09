@@ -46,9 +46,9 @@ function ChatWithAI() {
       body: JSON.stringify({ query: query, temperature: temp }),
     });
 
-    console.log("Response status:", res.status); // 调试用
+    // console.log("Response status:", res.status); 
     const data = await res.json();
-    console.log("Response data:", data); // 调试用
+    // console.log("Response data:", data); 
 
     // Add both the query and response to chat history
     setChatHistory((prevHistory) => [
@@ -97,7 +97,7 @@ function ChatWithAI() {
                 src={curImg ? curImg : 'https://res.cloudinary.com/dhukvbcqm/image/upload/v1728150847/Screenshot_2024-10-05_at_1.50.25_PM-modified_lnu1zf.png'}
                 alt="Second"
                 style={{
-                  width: '50%',
+                  width: '65%',
                   borderRadius: '50%',
                   position: 'absolute',
                   zIndex: 3,

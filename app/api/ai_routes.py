@@ -12,7 +12,6 @@ def get_chatai():
     data = request.json
     user_query = data.get("query", "")
     temperature = data.get("temperature", 0.7)
-    # print('!!!!!!temp!!',temperature)
 
     conn = http.client.HTTPSConnection("api.openai.com")
     headers = {
@@ -36,7 +35,7 @@ def get_chatai():
             ],
             "temperature": temperature,
             "top_p": 0.9,
-            "max_tokens": 150, 
+            "max_tokens": 100, 
             "presence_penalty": 0.5,
             "frequency_penalty": 0.5,
         }
